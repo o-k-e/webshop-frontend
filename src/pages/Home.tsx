@@ -1,9 +1,11 @@
-import ProductList from "../components/ProductList";
+import ProductList from '../components/ProductList';
 
-export default function Home() {
-  return (
-    <div>
-      <ProductList />
-    </div>
-  );
-}
+const Home = () => {
+	return (
+		<div>
+			<ProductList />
+		</div>
+	);
+};
+
+export default Home;
