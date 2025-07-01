@@ -1,20 +1,36 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../types/product";
+import DOMPurify from "dompurify";
+import apiClient from "../services/api-client";
+import ProductListSkeleton from "./ProductListSkeleton";
 
-export default function ProductList() {
+const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/products")
-      .then((res) => res.json())
-      .then((data: Product[]) => setProducts(data))
-      .catch((error) => console.error("Error fetching products:", error));
+    setIsLoading(true);
+
+    apiClient.get<Product[]>("/products")
+      .then(res => {
+        setProducts(res.data)
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setError('Failed to fetch products. Please try again later.');
+        console.log('Error in fetching products:', err.message);
+        setIsLoading(false);
+      })
   }, []);
+
+  if (isLoading) return <ProductListSkeleton />
+  if(error) return <p className="p-6 text-red-600">{error}</p>
 
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Product List</h1>
-
+      {error && <p>{error}</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {products.map((product) => (
           <div
@@ -35,7 +51,7 @@ export default function ProductList() {
 
             <div
               className="text-sm text-gray-700"
-              dangerouslySetInnerHTML={{ __html: product.productDescription }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.productDescription) }}
             />
           </div>
         ))}
@@ -43,3 +59,5 @@ export default function ProductList() {
     </div>
   );
 }
+
+export default ProductList
