@@ -3,6 +3,7 @@ import type { Product } from "../types/product";
 import DOMPurify from "dompurify";
 import apiClient from "../services/api-client";
 import ProductListSkeleton from "./ProductListSkeleton";
+import handleAxiosError from "../utils/handle-axios-error";
 
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -10,18 +11,20 @@ const ProductList = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-
-    apiClient.get<Product[]>("/products")
-      .then(res => {
-        setProducts(res.data)
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await apiClient.get<Product[]>('/products');
+        setProducts(response.data);
+      } catch (error) {
+        const message = handleAxiosError(error);
+        setError(message);
+        console.log('Error fetching products:', message);
+      } finally {
         setIsLoading(false);
-      })
-      .catch((err) => {
-        setError('Failed to fetch products. Please try again later.');
-        console.log('Error in fetching products:', err.message);
-        setIsLoading(false);
-      })
+      }
+    }
+    fetchProducts();
   }, []);
 
   if (isLoading) return <ProductListSkeleton />
@@ -30,7 +33,6 @@ const ProductList = () => {
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Product List</h1>
-      {error && <p>{error}</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {products.map((product) => (
           <div
