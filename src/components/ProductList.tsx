@@ -1,40 +1,18 @@
-import { useEffect, useState } from "react";
-import type { Product } from "../types/product";
 import DOMPurify from "dompurify";
-import apiClient from "../services/api-client";
 import ProductListSkeleton from "./ProductListSkeleton";
-import handleAxiosError from "../utils/handle-axios-error";
+import useProducts from "../hooks/useProducts";
 
 const ProductList = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setIsLoading(true);
-      try {
-        const response = await apiClient.get<Product[]>('/products');
-        setProducts(response.data);
-      } catch (error) {
-        const message = handleAxiosError(error);
-        setError(message);
-        console.log('Error fetching products:', message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchProducts();
-  }, []);
+  const { data: products, error, isLoading } = useProducts();
 
   if (isLoading) return <ProductListSkeleton />
-  if(error) return <p className="p-6 text-red-600">{error}</p>
+  if(error) return <p className="p-6 text-red-600">Failed to fetch products</p>
 
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Product List</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {products.map((product) => (
+        {products?.map((product) => (
           <div
             key={product.id}
             className="border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition"
