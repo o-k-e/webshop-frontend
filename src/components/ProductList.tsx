@@ -5,6 +5,8 @@ import useProducts from "../hooks/useProducts";
 const ProductList = () => {
   const { data: products, error, isLoading } = useProducts();
 
+  const imageAPI = import.meta.env.VITE_IMAGEAPI_URL;
+
   if (isLoading) return <ProductListSkeleton />
   if(error) return <p className="p-6 text-red-600">Failed to fetch products</p>
 
@@ -18,7 +20,7 @@ const ProductList = () => {
             className="border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition"
           >
             <img
-              src={product.images[0]?.url || "/images/no-image.jpeg"}
+              src={imageAPI + product.images[0]?.url}
               alt={product.productName}
               className="w-full h-48 object-cover rounded-lg mb-4"
             />
