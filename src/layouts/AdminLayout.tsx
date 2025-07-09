@@ -1,17 +1,17 @@
-import { Outlet } from "react-router-dom"
-import NavbarAdmin from "../components/navbar/NavbarAdmin"
+import { Outlet } from 'react-router-dom';
+import NavbarAdmin from '../components/navbar/NavbarAdmin';
 
 const AdminLayout = () => {
-  return (
-    <div>
-        <header>
-            <NavbarAdmin />
-        </header>
-        <main>
-            <Outlet />
-        </main>
-    </div>
-  )
-}
+	return (
+		<>
+			<header className="h-60 p-4 text-gold shadow-md bg-ganesha">
+				<NavbarAdmin />
+			</header>
+			<main>
+				<Outlet />
+			</main>
+		</>
+	);
+};
 
-export default AdminLayout
+export default AdminLayout;

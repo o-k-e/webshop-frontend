@@ -3,14 +3,14 @@ import NavbarUser from '../components/navbar/NavbarUser';
 
 const UserLayout = () => {
 	return (
-		<div>
-			<div>
+		<>
+			<header className="h-60 p-4 text-gold shadow-md bg-ganesha">
 				<NavbarUser />
-			</div>
+			</header>
 			<main>
 				<Outlet />
 			</main>
-		</div>
+		</>
 	);
 };
 

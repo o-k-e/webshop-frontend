@@ -1,19 +1,9 @@
 @import "tailwindcss";
 
-@tailwind utilities;
-
-@tailwind utilities;
-
-h1 {
-  @apply text-4xl font-bold mb-4;
-}
-
-h2 {
-  @apply text-3xl font-semibold mb-3;
-}
-
-p {
-  @apply mb-4 leading-relaxed;
+@theme {
+  --ganesha-purple-start: rgb(35,14,95);
+  --ganesha-purple-end: rgb(85,18,95);
+  --ganesha-gold: rgb(240,225,130);
 }
 
 button {
@@ -22,4 +12,20 @@ button {
 
 button:hover {
   @apply bg-blue-600;
+}
+
+.bg-ganesha {
+  background-color: var(--ganesha-purple-start);
+}
+
+.text-gold {
+  color: var(--ganesha-gold);
+}
+
+.navbar-gradient {
+  background-image: linear-gradient(to right, 
+    var(--ganesha-purple-start), 
+    var(--ganesha-purple-end), 
+    var(--ganesha-purple-start)
+  );
 }
