@@ -3,8 +3,7 @@ import { USER_NAV_LINKS } from '../../constants/navLinks.config';
 
 const NavbarUser = () => {
 	return (
-		<nav className="sticky top-0 z-50 flex items-center h-20 w-full px-6 text-gold shadow-md bg-ganesha">
-			{/* Bal oldal: SearchBar + Filter */}
+<nav className="sticky top-0 z-50 flex items-center h-20 w-full px-6 text-gold shadow-lg shadow-[#5e1f1f60] bg-ganesha transition-all duration-300 ease-in-out">			{/* Bal oldal: SearchBar + Filter */}
 			<div className="flex items-center gap-x-4 flex-1">
 				<input
 					type="text"

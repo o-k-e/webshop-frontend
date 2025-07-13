@@ -19,9 +19,9 @@ const Hero = () => {
 					alt="Ganesha logo"
 					className="w-[16rem] h-[16rem] sm:w-[14rem] sm:h-[14rem] mt-6 sm:mt-10 md:mt-4 object-contain"
 				/>
-				<h1 className="text-1xl sm:text-2xl md:text-3xl text-gold font-bold drop-shadow-lg leading-tight">
+				{/* <h1 className="text-1xl sm:text-2xl md:text-3xl text-gold font-bold drop-shadow-lg leading-tight">
 					Ganesha Shop
-				</h1>
+				</h1> */}
 				<p className="text-base sm:text-lg md:text-xl text-gold max-w-xs sm:max-w-sm drop-shadow-md">
 					Unique handcrafted malas,<br /> and beautiful Indian textiles.
 				</p>
