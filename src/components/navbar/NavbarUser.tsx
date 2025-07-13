@@ -1,28 +1,16 @@
 import NavLinks from './NavLinks';
-import ganeshaLogo from '../../assets/ganesha-logo-removebg.png';
 import { USER_NAV_LINKS } from '../../constants/navLinks.config';
 
 const NavbarUser = () => {
 	return (
-		<nav className="flex items-center h-full w-full">
-			{/* Bal oldal: Webshop felirat */}
-			<div className="basis-1/4 pl-10">
-				<div className="text-2xl font-semibold text-gold leading-tight text-left">
-					Ganesha
-				</div>
+		<nav className="sticky top-0 z-50 flex items-center h-20 w-full px-6 text-gold shadow-md bg-ganesha">
+			{/* Bal oldal – majd ide jön search/filter */}
+			<div className="flex-1">
+				{/* ide majd jön: <SearchBar />, <Filters /> */}
 			</div>
 
-			{/* Közép: Ganesha logó */}
-			<div className="basis-1/2 flex justify-center">
-				<img
-					src={ganeshaLogo}
-					alt="Ganesha logo"
-					className="w-48 h-48 object-contain"
-				/>
-			</div>
-
-			{/* Jobb oldal: navlinkek */}
-			<div className="basis-1/4 pr-10 flex justify-end">
+			{/* Jobb oldal – linkek */}
+			<div className="flex justify-end gap-x-6">
 				<NavLinks links={USER_NAV_LINKS} isLoggedIn={false} />
 			</div>
 		</nav>
