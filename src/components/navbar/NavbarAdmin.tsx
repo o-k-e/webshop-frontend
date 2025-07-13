@@ -1,5 +1,5 @@
 import NavLinks from './NavLinks';
-import ganeshaLogo from '../../assets/ganesha-logo.png';
+import ganeshaLogo from '../../assets/ganesha-logo-removebg.png';
 import { ADMIN_NAV_LINKS } from '../../constants/navLinks.config';
 
 const NavbarAdmin = () => {
