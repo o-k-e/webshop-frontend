@@ -2,19 +2,36 @@
 
 @theme {
   --ganesha-purple: rgb(35,14,95);
+  --ganesha-bordeaux: rgb(149, 54, 51);
   --ganesha-gold: rgb(240,225,130);
+  --ganesha-bg: rgb(207, 107, 89);
 }
 
 button {
-  @apply bg-blue-500 text-white px-4 py-2 rounded;
+  background-color: #953733;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
 }
 
 button:hover {
-  @apply bg-blue-600;
+  border: 1px solid white;
+  background-color: #953733;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid #953733;
+  box-shadow: 0 0 0 1px #953733;
 }
 
 .bg-ganesha {
-  background-color: var(--ganesha-purple);
+  background-color: var(--ganesha-bg);
+}
+
+.bg-ganesha-overlay {
+  background-color: var(--ganesha-bordeaux);
+  opacity: 0.7;
 }
 
 .text-gold {
