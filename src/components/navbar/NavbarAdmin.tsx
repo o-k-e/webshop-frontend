@@ -4,7 +4,7 @@ import { ADMIN_NAV_LINKS } from '../../constants/navLinks.config';
 
 const NavbarAdmin = () => {
 	return (
-		<div className="flex items-center h-full w-full">
+		<nav className="flex items-center h-full w-full">
 			{/* Bal oldal: Ganesha Admin felirat */}
 			<div className="basis-1/4 pl-10">
 				<div className="text-2xl font-semibold text-gold leading-tight text-right whitespace-nowrap">
@@ -25,7 +25,7 @@ const NavbarAdmin = () => {
 			<div className="basis-1/4 pr-10 flex justify-end">
 				<NavLinks links={ADMIN_NAV_LINKS} isLoggedIn={true} userRole="admin" />
 			</div>
-		</div>
+		</nav>
 	);
 };
 
