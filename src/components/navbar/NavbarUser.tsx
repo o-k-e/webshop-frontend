@@ -1,10 +1,10 @@
 import NavLinks from './NavLinks';
-import ganeshaLogo from '../../assets/ganesha-logo.png';
+import ganeshaLogo from '../../assets/ganesha-logo-removebg.png';
 import { USER_NAV_LINKS } from '../../constants/navLinks.config';
 
 const NavbarUser = () => {
 	return (
-		<div className="flex items-center h-full w-full">
+		<nav className="flex items-center h-full w-full">
 			{/* Bal oldal: Webshop felirat */}
 			<div className="basis-1/4 pl-10">
 				<div className="text-2xl font-semibold text-gold leading-tight text-left">
@@ -25,7 +25,7 @@ const NavbarUser = () => {
 			<div className="basis-1/4 pr-10 flex justify-end">
 				<NavLinks links={USER_NAV_LINKS} isLoggedIn={false} />
 			</div>
-		</div>
+		</nav>
 	);
 };
 
