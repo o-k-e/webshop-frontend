@@ -8,11 +8,18 @@
 }
 
 button {
-  @apply bg-blue-500 text-white px-4 py-2 rounded;
+  @apply bg-[#953733] text-white px-4 py-2 rounded;
 }
 
 button:hover {
-  @apply bg-blue-600;
+  border: 1px solid white;
+  background-color: #953733;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid #953733;
+  box-shadow: 0 0 0 1px #953733;
 }
 
 .bg-ganesha {

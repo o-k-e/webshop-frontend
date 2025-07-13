@@ -7,8 +7,8 @@ const UserLayout = () => {
 		<>
 			<header>
 				<Hero />
-				<NavbarUser />
 			</header>
+			<NavbarUser />
 			<main>
 				<Outlet />
 			</main>
