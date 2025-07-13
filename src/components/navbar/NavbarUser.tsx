@@ -7,7 +7,7 @@ const NavbarUser = () => {
 		<div className="flex items-center h-full w-full">
 			{/* Bal oldal: Webshop felirat */}
 			<div className="basis-1/4 pl-10">
-				<div className="text-2xl font-semibold text-gold leading-tight text-right">
+				<div className="text-2xl font-semibold text-gold leading-tight text-left">
 					Ganesha
 				</div>
 			</div>
