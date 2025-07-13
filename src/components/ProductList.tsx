@@ -1,6 +1,7 @@
 import DOMPurify from 'dompurify';
 import ProductListSkeleton from './ProductListSkeleton';
 import useProducts from '../hooks/useProducts';
+import handleAxiosError from '../utils/handle-axios-error';
 
 const ProductList = () => {
 	const { data: products, error, isLoading } = useProducts();
@@ -9,7 +10,7 @@ const ProductList = () => {
 
 	if (isLoading) return <ProductListSkeleton />;
 	if (error)
-		return <p className="p-6 text-red-600">Failed to fetch products</p>;
+		return <p className="p-6 text-red-600">{handleAxiosError(error)}</p>;
 
 	return (
 		<div className="p-6">
