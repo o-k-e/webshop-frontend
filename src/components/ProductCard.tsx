@@ -15,7 +15,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 					<img
 						src={imageAPI + product.images[0]?.url}
 						alt={product.productName}
-						className="w-full h-full object-cover object-center"
+						className="w-full h-full object-contain object-center"
 					/>
 				</div>
 				<h2 className="text-xl font-semibold mb-2">{product.productName}</h2>
