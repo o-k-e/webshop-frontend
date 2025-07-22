@@ -1,5 +1,8 @@
 import type { Product } from '../types/product';
-import DOMPurify from 'dompurify';
+// import DOMPurify from 'dompurify';
+import { truncate } from '../utils/truncate';
+import { stripHtml } from '../utils/stripHtml';
+import { Link } from 'react-router-dom';
 
 interface ProductCardProps {
 	product: Product;
@@ -11,26 +14,40 @@ const ProductCard = ({ product }: ProductCardProps) => {
 	return (
 		<>
 			<div className="border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition">
-				<div className="w-full aspect-[4/3] overflow-hidden rounded-lg mb-4">
-					<img
-						src={imageAPI + product.images[0]?.url}
-						alt={product.productName}
-						className="w-full h-full object-contain object-center"
-					/>
-				</div>
-				<h2 className="text-xl font-semibold mb-2">{product.productName}</h2>
+				<Link to={`/products/${product.id}`}>
+					<div className="w-full aspect-[4/3] overflow-hidden rounded-lg mb-4">
+						<img
+							src={imageAPI + product.images[0]?.url}
+							alt={product.productName}
+							className="w-full h-full object-contain object-center"
+						/>
+					</div>
+				</Link>
+				<Link to={`/products/${product.id}`}>
+					<h2 className="text-xl font-semibold mb-2">{product.productName}</h2>
+				</Link>
 				<p className="text-lg font-bold mb-2">{product.price} Ft</p>
 
 				<div className="text-sm text-gray-500 mb-2">
-					{product.categories.map((cat) => cat.categoryName).join(', ')}
+					{/* {product.categories.map((cat) => cat.categoryName).join(', ')} */}
 				</div>
 
 				<div
-					className="text-sm text-gray-700"
-					dangerouslySetInnerHTML={{
-						__html: DOMPurify.sanitize(product.productDescription),
-					}}
-				/>
+					className="text-sm text-gray-700 mb-2"
+					// dangerouslySetInnerHTML={{
+					// 	__html: DOMPurify.sanitize(product.productDescription),
+					// }}
+				>
+					{product.productDescription
+						? truncate(stripHtml(product.productDescription), 160)
+						: ''}
+				</div>
+				<Link
+					to={`/products/${product.id}`}
+					className="inline-block px-2 py-1 rounded border-1 text-[#230e5f] font-medium hover:text-[#cf6b59] transition"
+				>
+					Details
+				</Link>
 			</div>
 		</>
 	);
