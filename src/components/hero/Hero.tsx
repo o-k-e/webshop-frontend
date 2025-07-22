@@ -12,8 +12,8 @@ const Hero = () => {
 					alt="Ganesha logo"
 					className="w-[80%] sm:w-[20rem] h-auto object-contain"
 				/>
-				<h2 className="text-base sm:text-lg md:text-xl text-gold max-w-xs sm:max-w-sm drop-shadow-md">
-					Yoga 
+				<h2 className="text-base sm:text-lg md:text-xl lg:text-3xl text-gold max-w-xs sm:max-w-sm drop-shadow-md">
+					Yoga Essentials
                     <br />&
 					<br /> Holistic Goods
 				</h2>
