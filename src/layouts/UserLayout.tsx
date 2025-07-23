@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import NavbarUser from '../components/navbar/NavbarUser';
-import Hero from '../components/hero/Hero';
+// import Hero from '../components/hero/Hero';
+import HeroCarousel from '../components/hero/HeroCarousel';
 
 const UserLayout = () => {
 	const location = useLocation();
@@ -8,7 +9,7 @@ const UserLayout = () => {
 
 	return (
 		<>
-			<header>{isHome && <Hero />}</header>
+			<header>{isHome && <HeroCarousel />}</header>
 			<NavbarUser />
 			<main>
 				<Outlet />
