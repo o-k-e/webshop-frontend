@@ -23,7 +23,7 @@ const ProductDetails = () => {
 		imageAPI + product?.images[0]?.url
 	);
 
-  useEffect(() => {
+	useEffect(() => {
 		if (product && product.images?.[0]) {
 			setSelectedImageUrl(imageAPI + product.images[0].url);
 		}
@@ -35,30 +35,31 @@ const ProductDetails = () => {
 
 	return (
 		<section className="max-w-6xl mx-auto px-4 py-10">
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-				{/* Bal oszlop: képek */}
-				<div>
-					<img
-						src={selectedImageUrl}
-						alt={product.productName}
-						className="w-full h-auto object-contain rounded-xl shadow-md mb-4"
-					/>
+			<div className="flex flex-col md:grid md:grid-cols-2 gap-10">
+				{/* Bal oszlop: fő kép + thumbnail képek */}
+				<div className="flex flex-col items-center md:items-start">
+					<div className="w-full max-w-sm md:max-w-full">
+						<img
+							src={selectedImageUrl}
+							alt={product.productName}
+							className="w-full h-auto object-contain rounded-xl shadow-md mb-4"
+						/>
 
-					{/* Kis képek alul */}
-					<div className="flex gap-4">
-						{product.images.map((img) => (
-							<img
-								key={img.id}
-								src={imageAPI + img.url}
-								alt={`Product image ${img.id + 1}`}
-								className={`w-20 h-20 object-cover rounded-lg cursor-pointer border transition ${
-									selectedImageUrl === imageAPI + img.url
-										? 'border-[#cf6b59]'
-										: 'border-gray-300 hover:border-[#cf6b59]'
-								}`}
-								onClick={() => setSelectedImageUrl(imageAPI + img.url)}
-							/>
-						))}
+						<div className="flex gap-4 flex-wrap justify-start">
+							{product.images.map((img) => (
+								<img
+									key={img.id}
+									src={imageAPI + img.url}
+									alt={`Product image ${img.id + 1}`}
+									className={`w-20 h-20 object-cover rounded-lg cursor-pointer border transition ${
+										selectedImageUrl === imageAPI + img.url
+											? 'border-[#cf6b59]'
+											: 'border-gray-300 hover:border-[#cf6b59]'
+									}`}
+									onClick={() => setSelectedImageUrl(imageAPI + img.url)}
+								/>
+							))}
+						</div>
 					</div>
 				</div>
 
