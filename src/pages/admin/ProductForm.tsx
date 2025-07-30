@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useCategories from '../../hooks/useCategories';
+import CategorySelector from './components/CategorySelector';
 
 // Zod séma
 const newProductSchema = z.object({
@@ -14,7 +15,7 @@ const newProductSchema = z.object({
 		.min(1, 'Please upload at least one image'),
 });
 
-type NewProductFormData = z.infer<typeof newProductSchema>;
+export type NewProductFormData = z.infer<typeof newProductSchema>;
 
 const ProductForm = () => {
 	const { data: categories, isLoading } = useCategories();
@@ -37,7 +38,7 @@ const ProductForm = () => {
 	});
 
 	const onSubmit = (data: NewProductFormData) => {
-		console.log(data); // később API hívás lesz
+		console.log(data); // később API hívás lesz (Cloudinary)
 	};
 
 	return (
@@ -73,7 +74,10 @@ const ProductForm = () => {
 				)}
 			</div>
 
-			{/* További mezők: categories, images később */}
+			{/* categories */}
+            {categories && (
+                    <CategorySelector categories={categories} register={register} errors={errors}/>)}
+
 			<button
 				type="submit"
 				className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90"
