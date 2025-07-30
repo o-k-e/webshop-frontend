@@ -1,23 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import apiClient from '../services/api-client';
-import type { Product } from '../types/product';
-import DOMPurify from 'dompurify';
 import { useEffect, useState } from 'react';
+import useProduct from '../hooks/useProduct';
 
 const ProductDetails = () => {
 	const imageAPI = import.meta.env.VITE_IMAGEAPI_URL;
+
 	const { id } = useParams();
 
 	const {
 		data: product,
 		isLoading,
 		error,
-	} = useQuery<Product>({
-		queryKey: ['product', id],
-		queryFn: () => apiClient.get(`/products/${id}`).then((res) => res.data),
-		enabled: !!id,
-	});
+	} = useProduct(id);
 
 	const [selectedImageUrl, setSelectedImageUrl] = useState(
 		imageAPI + product?.images[0]?.url
