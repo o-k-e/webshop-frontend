@@ -3,8 +3,9 @@ import UserLayout from "../layouts/UserLayout";
 import Home from "../pages/Home";
 import ProductDetails from "../pages/ProductDetails";
 import AdminLayout from "../layouts/AdminLayout";
-import AdminDashboard from "../pages/AdminDashboard";
-import { AdminProducts } from "../pages/AdminProducts";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import { AdminProducts } from "../pages/admin/AdminProducts";
+import ProductForm from "../pages/admin/ProductForm";
 
 const router = createBrowserRouter([
   {
@@ -21,8 +22,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminDashboard /> },
       { path: "products", element: <AdminProducts /> },
-      { path: "products/:id", element: <ProductDetails /> }
-
+      { path: "products/:id", element: <ProductDetails /> },
+      { path: "products/create-product", element: <ProductForm />}
     ],
   },
 ]);
