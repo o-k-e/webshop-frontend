@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import apiClient from '../../services/api-client';
 import useCategories from '../../hooks/useCategories';
 
 // Zod séma
