@@ -2,13 +2,13 @@ import type { Category } from "../../../types/product"
 import type { NewProductFormData } from "../ProductForm";
 import { type FieldErrors, type UseFormRegister } from "react-hook-form";
 
-type Props = {
+type CategorySelectorProps = {
     categories: Category[];
     register: UseFormRegister<NewProductFormData>;
     errors: FieldErrors<NewProductFormData>;
 }
 
-const CategorySelector = ({ categories, register, errors }: Props) => {
+const CategorySelector = ({ categories, register, errors }: CategorySelectorProps) => {
     return (
         <div>
             <label className="block font-medium mb-2">Category</label>
