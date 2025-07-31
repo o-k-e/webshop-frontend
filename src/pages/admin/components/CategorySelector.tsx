@@ -2,7 +2,7 @@ import type { Category } from "../../../types/product"
 import type { NewProductFormData } from "../ProductForm";
 import { type FieldErrors, type UseFormRegister } from "react-hook-form";
 
-type CategorySelectorProps = {
+interface CategorySelectorProps {
     categories: Category[];
     register: UseFormRegister<NewProductFormData>;
     errors: FieldErrors<NewProductFormData>;
