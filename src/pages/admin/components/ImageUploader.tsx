@@ -5,7 +5,7 @@ import {
 } from 'react-hook-form';
 import type { NewProductFormData } from '../ProductForm';
 import { useState, type ChangeEvent } from 'react';
-import apiClient from '../../../services/api-client';
+import fileUploaderClient from '../../../services/file-uploader-client';
 
 interface ImageUploaderProps {
 	setValue: UseFormSetValue<NewProductFormData>;
@@ -38,7 +38,7 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 			if (!base64) return;
 
 			try {
-				const response = await apiClient.post('/upload-image', {
+				const response = await fileUploaderClient.post('/upload-image', {
 					filename: selectedFile.name,
 					base64: base64,
 				});
