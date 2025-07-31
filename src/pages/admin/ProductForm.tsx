@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useCategories from '../../hooks/useCategories';
 import CategorySelector from './components/CategorySelector';
+import ImageUploader from './components/ImageUploader';
 
 // Zod séma
 const newProductSchema = z.object({
@@ -10,9 +11,7 @@ const newProductSchema = z.object({
 	productDescription: z.string().min(1, 'Description is required'),
 	price: z.number().positive('Price must be greater than 0'),
 	categories: z.array(z.string()).nonempty('Select at least one category'),
-	images: z
-		.array(z.instanceof(File))
-		.min(1, 'Please upload at least one image'),
+	images: z.array(z.string()).min(1, 'Please upload at least one image'),
 });
 
 export type NewProductFormData = z.infer<typeof newProductSchema>;
@@ -75,8 +74,17 @@ const ProductForm = () => {
 			</div>
 
 			{/* categories */}
-            {categories && (
-                    <CategorySelector categories={categories} register={register} errors={errors}/>)}
+			{isLoading && <p>Loading categories...</p>}
+			{categories && (
+				<CategorySelector
+					categories={categories}
+					register={register}
+					errors={errors}
+				/>
+			)}
+
+			{/* image uploader */}
+			<ImageUploader setValue={setValue} errors={errors} watch={watch} />
 
 			<button
 				type="submit"
