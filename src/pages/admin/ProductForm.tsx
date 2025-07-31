@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useCategories from '../../hooks/useCategories';
 import CategorySelector from './components/CategorySelector';
 import ImageUploader from './components/ImageUploader';
+import apiClient from '../../services/api-client';
 
 // Zod séma
 const newProductSchema = z.object({
@@ -36,9 +37,33 @@ const ProductForm = () => {
 		},
 	});
 
-	const onSubmit = (data: NewProductFormData) => {
-		console.log(data); // később API hívás lesz (Cloudinary)
-	};
+	const onSubmit = async (data: NewProductFormData) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('No token found');
+                return;
+            }
+    
+            const payload = {
+                productName: data.productName,
+                description: data.productDescription,
+                price: data.price,
+                categoryId: parseInt(data.categories[0]),
+                imageFileName: data.images[0],
+            };
+    
+            const response = await apiClient.post('/products', payload, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            console.log('Product created:', response.data);
+        } catch (error) {
+            console.error('Error saving product:', error);
+        }
+    };
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
