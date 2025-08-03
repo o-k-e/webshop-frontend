@@ -18,7 +18,7 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [isUploading, setIsUploading] = useState(false);
 
-	const uploadedImage = watch('images')?.[0];
+	const uploadedImage = watch('imageFileNames')?.[0];
 
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
@@ -43,7 +43,7 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 					base64: base64,
 				});
 				const uploadedFilename = response.data.filename;
-				setValue('images', [uploadedFilename]); // backend nev kerül a formState-be
+				setValue('imageFileNames', [uploadedFilename]);
 				setPreviewUrl(import.meta.env.VITE_IMAGEAPI_URL + uploadedFilename);
 				console.log('Upload response:', response);
 			} catch (error) {
@@ -85,8 +85,8 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 				{isUploading ? 'Uploading...' : 'Upload'}
 			</button>
 
-			{errors.images && (
-				<p className="text-red-500 text-sm mt-1">{errors.images.message}</p>
+			{errors.imageFileNames && (
+				<p className="text-red-500 text-sm mt-1">{errors.imageFileNames.message}</p>
 			)}
 		</div>
 	);
