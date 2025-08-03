@@ -14,77 +14,96 @@ interface ImageUploaderProps {
 }
 
 const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
-	const [selectedFile, setSelectedFile] = useState<File | null>(null);
-	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+	const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 	const [isUploading, setIsUploading] = useState(false);
 
-	const uploadedImage = watch('imageFileNames')?.[0];
+	const uploadedImages = watch('imageFileNames') || [];
 
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
-		if (file) {
-			setSelectedFile(file);
-			setPreviewUrl(URL.createObjectURL(file)); // előnézet feltöltés előtt
+		const files = e.target.files;
+		if (files) {
+			const fileArray = Array.from(files);
+			setSelectedFiles(fileArray);
+			setPreviewUrls(fileArray.map(file => URL.createObjectURL(file))); // előnézet feltöltés előtt
 		}
 	};
 
 	const handleUpload = async () => {
-		if (!selectedFile) return;
+		if (selectedFiles.length === 0) return;
 		setIsUploading(true);
 
-		const reader = new FileReader();
-		reader.onloadend = async () => {
-			const base64 = reader.result?.toString().split(',')[1];
-			if (!base64) return;
+		const uploadedFilenames: string[] = [];
+
+		for (const file of selectedFiles) {
+			const reader = new FileReader();
+
+			const fileBase64 = await new Promise<string | null>((resolve) => {
+				reader.onloadend = () => {
+					const base64 = reader.result?.toString().split(',')[1] || null;
+					resolve(base64);
+				};
+				reader.readAsDataURL(file);
+			});
+
+			if (!fileBase64) continue;
 
 			try {
 				const response = await fileUploaderClient.post('/upload-image', {
-					filename: selectedFile.name,
-					base64: base64,
+					filename: file.name,
+					base64: fileBase64,
 				});
-				const uploadedFilename = response.data.filename;
-				setValue('imageFileNames', [uploadedFilename]);
-				setPreviewUrl(import.meta.env.VITE_IMAGEAPI_URL + uploadedFilename);
-				console.log('Upload response:', response);
+				uploadedFilenames.push(response.data.filename);
 			} catch (error) {
-				console.error('Image upload failed:', error);
-			} finally {
-				setIsUploading(false);
+				console.error('Upload failed for', file.name, error);
 			}
-		};
-		reader.readAsDataURL(selectedFile);
+		}
+
+		if (uploadedFilenames.length > 0) {
+			setValue('imageFileNames', [...uploadedImages, ...uploadedFilenames]);
+		}
+
+		setIsUploading(false);
 	};
 
 	return (
 		<div>
 			<label htmlFor="imageUpload" className="block font-medium mb-2">
-				Upload Image
+				Upload Images
 			</label>
 			<input
 				id="imageUpload"
 				type="file"
 				accept="image/*"
+				multiple
 				onChange={handleFileChange}
 				className="input"
 			/>
 
-			{previewUrl && (
-				<img
-					src={previewUrl}
-					alt="Preview"
-					className="mt-4 max-w-xs rounded shadow"
-				/>
+			{/* Preview all selected images */}
+			{previewUrls.length > 0 && (
+				<div className="flex gap-2 mt-4 flex-wrap">
+					{previewUrls.map((url, index) => (
+						<img
+							key={index}
+							src={url}
+							alt={`Preview ${index}`}
+							className="max-w-[120px] rounded shadow"
+						/>
+					))}
+				</div>
 			)}
 
 			<button
 				type="button"
 				onClick={handleUpload}
-				disabled={!selectedFile || isUploading}
+				disabled={selectedFiles.length === 0 || isUploading}
 				className="mt-2 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90 disabled:opacity-50"
 			>
 				{isUploading ? 'Uploading...' : 'Upload'}
 			</button>
 
+			{/* Validation error */}
 			{errors.imageFileNames && (
 				<p className="text-red-500 text-sm mt-1">{errors.imageFileNames.message}</p>
 			)}
