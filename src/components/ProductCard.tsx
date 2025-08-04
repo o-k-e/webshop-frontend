@@ -27,7 +27,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 					<h2 className="text-xl font-semibold mb-2">{product.productName}</h2>
 				</Link>
 				<p className="text-lg font-bold mb-2">{product.price} Ft</p>
-				<div className="prose prose-sm text-gray-700 max-w-none mb-2"
+				<div className="prose prose-base text-gray-700 max-w-none mb-2"
 				dangerouslySetInnerHTML={{ __html: shortDescription }} />
 				<Link
 					to={`/products/${product.id}`}

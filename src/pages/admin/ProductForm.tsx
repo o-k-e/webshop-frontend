@@ -28,6 +28,7 @@ const ProductForm = () => {
 		formState: { errors, isSubmitting },
 		setValue,
 		watch,
+		reset,
 	} = useForm<NewProductFormData>({
 		resolver: zodResolver(newProductSchema),
 		defaultValues: {
@@ -63,6 +64,7 @@ const ProductForm = () => {
 			});
 
 			console.log('Product created:', response.data);
+			reset();
 		} catch (error) {
 			console.error('Error saving product:', error);
 		}
@@ -118,7 +120,7 @@ const ProductForm = () => {
 			)}
 
 			{/* Image uploader */}
-			<ImageUploader setValue={setValue} errors={errors} watch={watch} />
+			<ImageUploader setValue={setValue} errors={errors} watch={watch} onReset={() => {}}/>
 
 			{/* Submit */}
 			<button

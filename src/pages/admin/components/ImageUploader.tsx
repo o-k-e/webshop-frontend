@@ -4,7 +4,12 @@ import {
 	type UseFormWatch,
 } from 'react-hook-form';
 import type { NewProductFormData } from '../ProductForm';
-import { useRef, useState, type ChangeEvent, type DragEvent } from 'react';
+import {
+	useRef,
+	useState,
+	type ChangeEvent,
+	type DragEvent,
+} from 'react';
 import fileUploaderClient from '../../../services/file-uploader-client';
 
 interface ImageUploaderProps {
@@ -87,7 +92,9 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 				onClick={() => fileInputRef.current?.click()}
 				className="w-full border-2 border-dashed border-[#fdc57b] bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-yellow-50 transition"
 			>
-				<p className="text-gray-500">Drag & drop images here, or click to select</p>
+				<p className="text-gray-500">
+					Drag & drop images here, or click to select
+				</p>
 				<input
 					type="file"
 					multiple
@@ -101,7 +108,12 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 			{previewUrls.length > 0 && (
 				<div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
 					{previewUrls.map((url, i) => (
-						<img key={i} src={url} alt={`Preview ${i}`} className="rounded shadow-md max-h-40 object-cover" />
+						<img
+							key={i}
+							src={url}
+							alt={`Preview ${i}`}
+							className="rounded shadow-md max-h-40 object-cover"
+						/>
 					))}
 				</div>
 			)}
@@ -116,7 +128,9 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 			</button>
 
 			{errors.imageFileNames && (
-				<p className="text-red-500 text-sm mt-1">{errors.imageFileNames.message}</p>
+				<p className="text-red-500 text-sm mt-1">
+					{errors.imageFileNames.message}
+				</p>
 			)}
 		</div>
 	);

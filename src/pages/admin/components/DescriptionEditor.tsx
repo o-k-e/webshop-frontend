@@ -8,7 +8,7 @@ interface DescriptionEditorProps {
 
 const DescriptionEditor = ({ value, onChange }: DescriptionEditorProps) => {
 	const editor = useEditor({
-		extensions: [StarterKit], // ne configure-öljük le semmit
+		extensions: [StarterKit],
 		content: value || '<p></p>',
 		onUpdate: ({ editor }) => {
 			onChange(editor.getHTML());
