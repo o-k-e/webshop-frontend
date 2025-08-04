@@ -1,26 +1,26 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import DescriptionEditor from './components/DescriptionEditor';
 import useCategories from '../../hooks/useCategories';
 import CategorySelector from './components/CategorySelector';
 import ImageUploader from './components/ImageUploader';
 import apiClient from '../../services/api-client';
-import DescriptionEditor from './components/DescriptionEditor';
 
 const newProductSchema = z.object({
 	productName: z.string().min(1, 'Product name is required'),
 	description: z.string().min(1, 'Description is required'),
 	price: z.number().positive('Price must be greater than 0'),
 	categoryIds: z.array(z.string()).nonempty('Select at least one category'),
-	imageFileNames: z
-		.array(z.string())
-		.min(1, 'Please upload at least one image'),
+	imageFileNames: z.array(z.string()).min(1, 'Please upload at least one image'),
 });
 
 export type NewProductFormData = z.infer<typeof newProductSchema>;
 
 const ProductForm = () => {
 	const { data: categories, isLoading } = useCategories();
+	const [productSaved, setProductSaved] = useState(false);
 
 	const {
 		register,
@@ -42,7 +42,6 @@ const ProductForm = () => {
 
 	const onSubmit = async (data: NewProductFormData) => {
 		try {
-			console.log('HTML:', data.description);
 			const token = localStorage.getItem('token');
 			if (!token) {
 				console.error('No token found');
@@ -57,14 +56,17 @@ const ProductForm = () => {
 				imageFileNames: data.imageFileNames,
 			};
 
-			const response = await apiClient.post('/products', payload, {
+			await apiClient.post('/products', payload, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			});
 
-			console.log('Product created:', response.data);
 			reset();
+			setProductSaved(true);
+
+			// Automatikusan eltünteti az üzenetet 3 mp múlva
+			setTimeout(() => setProductSaved(false), 3000);
 		} catch (error) {
 			console.error('Error saving product:', error);
 		}
@@ -75,12 +77,16 @@ const ProductForm = () => {
 			onSubmit={handleSubmit(onSubmit)}
 			className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8 space-y-6"
 		>
-			{/* Product name */}
+			{/* Product Name */}
 			<div>
 				<label className="block font-medium mb-2">Product Name</label>
-				<input type="text" {...register('productName')} className="input" />
+				<input
+					type="text"
+					{...register('productName')}
+					className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
+				/>
 				{errors.productName && (
-					<p className="text-red-500 text-sm">{errors.productName.message}</p>
+					<p className="text-red-500 text-sm mt-1">{errors.productName.message}</p>
 				)}
 			</div>
 
@@ -90,9 +96,7 @@ const ProductForm = () => {
 				onChange={(val) => setValue('description', val)}
 			/>
 			{errors.description && (
-				<p className="text-red-500 text-sm mt-1">
-					{errors.description.message}
-				</p>
+				<p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
 			)}
 
 			{/* Price */}
@@ -102,10 +106,10 @@ const ProductForm = () => {
 					type="number"
 					step="0.01"
 					{...register('price', { valueAsNumber: true })}
-					className="input"
+					className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
 				/>
 				{errors.price && (
-					<p className="text-red-500 text-sm">{errors.price.message}</p>
+					<p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
 				)}
 			</div>
 
@@ -120,12 +124,17 @@ const ProductForm = () => {
 			)}
 
 			{/* Image uploader */}
-			<ImageUploader setValue={setValue} errors={errors} watch={watch}/>
+			<ImageUploader setValue={setValue} errors={errors} watch={watch} />
+
+			{/* Save confirmation */}
+			{productSaved && (
+				<p className="text-green-600 font-medium text-sm">✔ Product saved successfully!</p>
+			)}
 
 			{/* Submit */}
 			<button
 				type="submit"
-				className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90"
+				className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90 disabled:opacity-50"
 				disabled={isSubmitting}
 			>
 				Save Product
