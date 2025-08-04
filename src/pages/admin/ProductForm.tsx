@@ -5,8 +5,8 @@ import useCategories from '../../hooks/useCategories';
 import CategorySelector from './components/CategorySelector';
 import ImageUploader from './components/ImageUploader';
 import apiClient from '../../services/api-client';
+import DescriptionEditor from './components/DescriptionEditor';
 
-// Zod séma
 const newProductSchema = z.object({
 	productName: z.string().min(1, 'Product name is required'),
 	description: z.string().min(1, 'Description is required'),
@@ -41,6 +41,7 @@ const ProductForm = () => {
 
 	const onSubmit = async (data: NewProductFormData) => {
 		try {
+			console.log('HTML:', data.description);
 			const token = localStorage.getItem('token');
 			if (!token) {
 				console.error('No token found');
@@ -61,9 +62,6 @@ const ProductForm = () => {
 				},
 			});
 
-			console.log('Form data:', data);
-			console.log('Payload:', payload);
-
 			console.log('Product created:', response.data);
 		} catch (error) {
 			console.error('Error saving product:', error);
@@ -71,25 +69,33 @@ const ProductForm = () => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pt-10 pl-10">
+		<form
+			onSubmit={handleSubmit(onSubmit)}
+			className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8 space-y-6"
+		>
+			{/* Product name */}
 			<div>
-				<label className="block font-medium">Product Name</label>
+				<label className="block font-medium mb-2">Product Name</label>
 				<input type="text" {...register('productName')} className="input" />
 				{errors.productName && (
 					<p className="text-red-500 text-sm">{errors.productName.message}</p>
 				)}
 			</div>
 
-			<div>
-				<label className="block font-medium">Description</label>
-				<textarea {...register('description')} className="input h-32" />
-				{errors.description && (
-					<p className="text-red-500 text-sm">{errors.description.message}</p>
-				)}
-			</div>
+			{/* Description */}
+			<DescriptionEditor
+				value={watch('description')}
+				onChange={(val) => setValue('description', val)}
+			/>
+			{errors.description && (
+				<p className="text-red-500 text-sm mt-1">
+					{errors.description.message}
+				</p>
+			)}
 
+			{/* Price */}
 			<div>
-				<label className="block font-medium">Price (Ft)</label>
+				<label className="block font-medium mb-2">Price (Ft)</label>
 				<input
 					type="number"
 					step="0.01"
@@ -101,7 +107,7 @@ const ProductForm = () => {
 				)}
 			</div>
 
-			{/* categories */}
+			{/* Categories */}
 			{isLoading && <p>Loading categories...</p>}
 			{categories && (
 				<CategorySelector
@@ -111,9 +117,10 @@ const ProductForm = () => {
 				/>
 			)}
 
-			{/* image uploader */}
+			{/* Image uploader */}
 			<ImageUploader setValue={setValue} errors={errors} watch={watch} />
 
+			{/* Submit */}
 			<button
 				type="submit"
 				className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90"
