@@ -42,3 +42,7 @@ input:focus {
 .text-gold {
   color: var(--ganesha-gold);
 }
+
+.ProseMirror:focus {
+	outline: none;
+}
