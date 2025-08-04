@@ -120,7 +120,7 @@ const ProductForm = () => {
 			)}
 
 			{/* Image uploader */}
-			<ImageUploader setValue={setValue} errors={errors} watch={watch} onReset={() => {}}/>
+			<ImageUploader setValue={setValue} errors={errors} watch={watch}/>
 
 			{/* Submit */}
 			<button
