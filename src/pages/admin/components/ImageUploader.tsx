@@ -4,7 +4,7 @@ import {
 	type UseFormWatch,
 } from 'react-hook-form';
 import type { NewProductFormData } from '../ProductForm';
-import { useState, type ChangeEvent } from 'react';
+import { useRef, useState, type ChangeEvent, type DragEvent } from 'react';
 import fileUploaderClient from '../../../services/file-uploader-client';
 
 interface ImageUploaderProps {
@@ -19,13 +19,24 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 	const [isUploading, setIsUploading] = useState(false);
 
 	const uploadedImages = watch('imageFileNames') || [];
+	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
 		if (files) {
 			const fileArray = Array.from(files);
 			setSelectedFiles(fileArray);
-			setPreviewUrls(fileArray.map(file => URL.createObjectURL(file))); // előnézet feltöltés előtt
+			setPreviewUrls(fileArray.map((file) => URL.createObjectURL(file)));
+		}
+	};
+
+	const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+		e.preventDefault();
+		const files = e.dataTransfer.files;
+		if (files) {
+			const fileArray = Array.from(files);
+			setSelectedFiles(fileArray);
+			setPreviewUrls(fileArray.map((file) => URL.createObjectURL(file)));
 		}
 	};
 
@@ -67,29 +78,30 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 	};
 
 	return (
-		<div>
-			<label htmlFor="imageUpload" className="block font-medium mb-2">
-				Upload Images
-			</label>
-			<input
-				id="imageUpload"
-				type="file"
-				accept="image/*"
-				multiple
-				onChange={handleFileChange}
-				className="input"
-			/>
+		<div className="space-y-2">
+			<label className="block font-medium mb-2">Images</label>
 
-			{/* Preview all selected images */}
+			<div
+				onDrop={handleDrop}
+				onDragOver={(e) => e.preventDefault()}
+				onClick={() => fileInputRef.current?.click()}
+				className="w-full border-2 border-dashed border-[#fdc57b] bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-yellow-50 transition"
+			>
+				<p className="text-gray-500">Drag & drop images here, or click to select</p>
+				<input
+					type="file"
+					multiple
+					accept="image/*"
+					onChange={handleFileChange}
+					ref={fileInputRef}
+					className="hidden"
+				/>
+			</div>
+
 			{previewUrls.length > 0 && (
-				<div className="flex gap-2 mt-4 flex-wrap">
-					{previewUrls.map((url, index) => (
-						<img
-							key={index}
-							src={url}
-							alt={`Preview ${index}`}
-							className="max-w-[120px] rounded shadow"
-						/>
+				<div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+					{previewUrls.map((url, i) => (
+						<img key={i} src={url} alt={`Preview ${i}`} className="rounded shadow-md max-h-40 object-cover" />
 					))}
 				</div>
 			)}
@@ -98,12 +110,11 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 				type="button"
 				onClick={handleUpload}
 				disabled={selectedFiles.length === 0 || isUploading}
-				className="mt-2 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90 disabled:opacity-50"
+				className="mt-4 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90 disabled:opacity-50"
 			>
 				{isUploading ? 'Uploading...' : 'Upload'}
 			</button>
 
-			{/* Validation error */}
 			{errors.imageFileNames && (
 				<p className="text-red-500 text-sm mt-1">{errors.imageFileNames.message}</p>
 			)}

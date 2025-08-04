@@ -24,9 +24,8 @@ const CategorySelector = ({
 	return (
 		<>
 			<div className="space-y-2">
-				<label className="block font-medium mb-2">Categories</label>
-
-				<Card>
+				<label className="text-base font-semibold mb-2 block">Categories</label>
+				<Card className="border border-[#fdc57b] rounded-xl max-h-64 overflow-y-auto">
 					<List>
 						{categories.map((category) => (
 							<ListItem key={category.id} className="p-0">
@@ -37,7 +36,7 @@ const CategorySelector = ({
 									<ListItemPrefix className="mr-3">
 										<Checkbox
 											id={`category-${category.id}`}
-											type='checkbox'
+											type="checkbox"
 											value={category.id.toString()}
 											{...register('categoryIds')}
 											ripple={false}
