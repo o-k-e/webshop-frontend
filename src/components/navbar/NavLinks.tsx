@@ -29,6 +29,7 @@ const NavLinks = ({
 				<li key={link.to}>
 					<NavLink
 						to={link.to}
+						end={true}
 						className={({ isActive }) =>
 							`text-white px-2 py-1 transition duration-300 ease-in-out
 						${

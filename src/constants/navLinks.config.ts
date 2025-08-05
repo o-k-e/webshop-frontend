@@ -15,9 +15,9 @@ export type NavLinkItem = {
   
   export const ADMIN_NAV_LINKS: NavLinkItem[] = [
     { to: '/admin', label: 'Dashboard', requireAuth: true, roles: ['admin'] },
+    { to: '/admin/products/create-product', label: 'New Product', requireAuth: true, roles: ['admin']},
     { to: '/admin/products', label: 'Manage Products', requireAuth: true, roles: ['admin'] },
     { to: '/admin/users', label: 'Manage Users', requireAuth: true, roles: ['admin'] },
-    { to: '/admin/products/create-product', label: 'New Product', requireAuth: true, roles: ['admin']},
     { to: '/logout', label: 'Logout', requireAuth: true },
     { to: '/login', label: 'Login', guestOnly: true },
   ];

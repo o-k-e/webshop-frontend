@@ -75,7 +75,7 @@ const ProductForm = () => {
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8 space-y-6"
+			className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8 mt-10 space-y-6"
 		>
 			{/* Product Name */}
 			<div>
