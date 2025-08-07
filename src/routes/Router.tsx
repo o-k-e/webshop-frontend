@@ -6,6 +6,10 @@ import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import { AdminProducts } from "../pages/admin/AdminProducts";
 import ProductForm from "../pages/admin/ProductForm";
+import { AuthProvider } from "../context/AuthContext";
+import RequireAuth from "./RequireAuth";
+import Unauthorized from "../pages/Unauthorized";
+import Login from "../pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +22,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <AdminLayout />,
+    element: (
+      <RequireAuth allowedRoles={['admin']}>
+        <AdminLayout />
+      </RequireAuth>
+    ),
     children: [
       { index: true, element: <AdminDashboard /> },
       { path: "products", element: <AdminProducts /> },
@@ -26,8 +34,16 @@ const router = createBrowserRouter([
       { path: "products/create-product", element: <ProductForm />}
     ],
   },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />,
+  },
 ]);
 
 export const Router = () => {
-  return <RouterProvider router={router} />;
+  return <AuthProvider><RouterProvider router={router} /></AuthProvider>;
 };
