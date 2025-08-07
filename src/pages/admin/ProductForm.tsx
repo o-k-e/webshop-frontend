@@ -75,15 +75,15 @@ const ProductForm = () => {
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8 mt-10 space-y-6"
+			className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8 mt-10 mb-10 space-y-6"
 		>
 			{/* Product Name */}
 			<div>
-				<label className="block font-medium mb-2">Product Name</label>
+				<label className="block font-medium mb-2 ">Product Name</label>
 				<input
 					type="text"
 					{...register('productName')}
-					className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
+					className="w-full border border-[#fdc57b] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
 				/>
 				{errors.productName && (
 					<p className="text-red-500 text-sm mt-1">{errors.productName.message}</p>
@@ -106,7 +106,7 @@ const ProductForm = () => {
 					type="number"
 					step="0.01"
 					{...register('price', { valueAsNumber: true })}
-					className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
+					className="w-full border border-[#fdc57b] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
 				/>
 				{errors.price && (
 					<p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
