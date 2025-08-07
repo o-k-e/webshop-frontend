@@ -13,7 +13,9 @@ const newProductSchema = z.object({
 	description: z.string().min(1, 'Description is required'),
 	price: z.number().positive('Price must be greater than 0'),
 	categoryIds: z.array(z.string()).nonempty('Select at least one category'),
-	imageFileNames: z.array(z.string()).min(1, 'Please upload at least one image'),
+	imageFileNames: z
+		.array(z.string())
+		.min(1, 'Please upload at least one image'),
 });
 
 export type NewProductFormData = z.infer<typeof newProductSchema>;
@@ -73,73 +75,81 @@ const ProductForm = () => {
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8 mt-10 mb-10 space-y-6"
-		>
-			{/* Product Name */}
-			<div>
-				<label className="block font-medium mb-2 ">Product Name</label>
-				<input
-					type="text"
-					{...register('productName')}
-					className="w-full border border-[#fdc57b] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
-				/>
-				{errors.productName && (
-					<p className="text-red-500 text-sm mt-1">{errors.productName.message}</p>
-				)}
-			</div>
-
-			{/* Description */}
-			<DescriptionEditor
-				value={watch('description')}
-				onChange={(val) => setValue('description', val)}
-			/>
-			{errors.description && (
-				<p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
-			)}
-
-			{/* Price */}
-			<div>
-				<label className="block font-medium mb-2">Price (Ft)</label>
-				<input
-					type="number"
-					step="0.01"
-					{...register('price', { valueAsNumber: true })}
-					className="w-full border border-[#fdc57b] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
-				/>
-				{errors.price && (
-					<p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
-				)}
-			</div>
-
-			{/* Categories */}
-			{isLoading && <p>Loading categories...</p>}
-			{categories && (
-				<CategorySelector
-					categories={categories}
-					register={register}
-					errors={errors}
-				/>
-			)}
-
-			{/* Image uploader */}
-			<ImageUploader setValue={setValue} errors={errors} watch={watch} />
-
-			{/* Save confirmation */}
-			{productSaved && (
-				<p className="text-green-600 font-medium text-sm">✔ Product saved successfully!</p>
-			)}
-
-			{/* Submit */}
-			<button
-				type="submit"
-				className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90 disabled:opacity-50"
-				disabled={isSubmitting}
+		<div className="bg-[#fff4eb] min-h-screen py-10 overflow-hidden">
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8 space-y-6"
 			>
-				Save Product
-			</button>
-		</form>
+				{/* Product Name */}
+				<div>
+					<label className="block font-medium mb-2 ">Product Name</label>
+					<input
+						type="text"
+						{...register('productName')}
+						className="w-full border border-[#fdc57b] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
+					/>
+					{errors.productName && (
+						<p className="text-red-500 text-sm mt-1">
+							{errors.productName.message}
+						</p>
+					)}
+				</div>
+
+				{/* Description */}
+				<DescriptionEditor
+					value={watch('description')}
+					onChange={(val) => setValue('description', val)}
+				/>
+				{errors.description && (
+					<p className="text-red-500 text-sm mt-1">
+						{errors.description.message}
+					</p>
+				)}
+
+				{/* Price */}
+				<div>
+					<label className="block font-medium mb-2">Price (Ft)</label>
+					<input
+						type="number"
+						step="0.01"
+						{...register('price', { valueAsNumber: true })}
+						className="w-full border border-[#fdc57b] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
+					/>
+					{errors.price && (
+						<p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
+					)}
+				</div>
+
+				{/* Categories */}
+				{isLoading && <p>Loading categories...</p>}
+				{categories && (
+					<CategorySelector
+						categories={categories}
+						register={register}
+						errors={errors}
+					/>
+				)}
+
+				{/* Image uploader */}
+				<ImageUploader setValue={setValue} errors={errors} watch={watch} />
+
+				{/* Save confirmation */}
+				{productSaved && (
+					<p className="text-green-600 font-medium text-sm">
+						✔ Product saved successfully!
+					</p>
+				)}
+
+				{/* Submit */}
+				<button
+					type="submit"
+					className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90 disabled:opacity-50"
+					disabled={isSubmitting}
+				>
+					Save Product
+				</button>
+			</form>
+		</div>
 	);
 };
 
