@@ -1,5 +1,4 @@
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef } from 'react';
 
 interface DescriptionEditorProps {
 	value: string;
@@ -7,7 +6,6 @@ interface DescriptionEditorProps {
 }
 
 const DescriptionEditor = ({ value, onChange }: DescriptionEditorProps) => {
-	const editorRef = useRef<any>(null);
 
 	return (
 		<div className="space-y-2">
