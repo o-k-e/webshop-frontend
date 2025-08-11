@@ -1,6 +1,6 @@
 import { createContext, useEffect, type ReactNode } from 'react';
-import apiClient from '../services/api-client';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import apiClient from '../../services/api-client';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 // 🔐 Felhasználó típusa
 type User = {

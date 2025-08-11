@@ -6,9 +6,9 @@ import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import { AdminProducts } from "../pages/admin/AdminProducts";
 import ProductForm from "../pages/admin/ProductForm";
-import { AuthProvider } from "../context/AuthContext";
-import RequireAuth from "./RequireAuth";
-import Unauthorized from "../pages/Unauthorized";
+import { AuthProvider } from "../auth/contexts/AuthContext";
+import RequireAuth from "../auth/routes/RequireAuth";
+import Unauthorized from "../auth/pages/Unauthorized";
 import Login from "../pages/Login";
 
 const router = createBrowserRouter([
