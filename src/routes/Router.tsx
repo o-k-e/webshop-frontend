@@ -6,7 +6,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import { AdminProducts } from "../pages/admin/AdminProducts";
 import ProductForm from "../pages/admin/ProductForm";
-import { AuthProvider } from "../auth/contexts/AuthContext";
+import { AuthProvider } from "../auth/providers/AuthProvider";
 import RequireAuth from "../auth/routes/RequireAuth";
 import Unauthorized from "../auth/pages/Unauthorized";
 import Login from "../pages/Login";

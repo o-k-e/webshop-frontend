@@ -7,9 +7,11 @@ import loginImg from '../assets/login-textiles.png';
 const Login = () => {
 	const { login } = useAuth();
 	const navigate = useNavigate();
+
 	const [formData, setFormData] = useState({ username: '', password: '' });
 	const [error, setError] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
+	const [submitting, setSubmitting] = useState(false);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,14 +19,16 @@ const Login = () => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		setError('');
+		setSubmitting(true);
 		try {
-			await login(formData.username, formData.password);
-			navigate('/');
-		} catch (err: unknown) {
-			setError(err instanceof Error ? err.message : 'Login failed');
+		  const role = await login(formData.username, formData.password); // 'admin' | 'user'
+		  navigate(role === 'admin' ? '/admin' : '/');                    // <-- ide a feltétel
+		} catch {
+		  setError('Login failed');
+		} finally {
+		  setSubmitting(false);
 		}
-	};
+	  };
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-[#fff4eb] px-4 sm:px-6 md:px-8 py-20">
@@ -118,11 +122,39 @@ const Login = () => {
 							{error && <p className="text-red-500 text-sm">{error}</p>}
 
 							<button
-								type="submit"
-								className="w-full bg-[#953733] text-white font-medium py-3 rounded-md transition-colors duration-200 hover:bg-[#953733]/90 shadow focus:outline-none"
-							>
-								Sign in
-							</button>
+  type="submit"
+  disabled={submitting}
+  className={`w-full bg-[#953733] text-white font-medium py-3 rounded-md transition-colors duration-200 shadow focus:outline-none flex items-center justify-center
+    ${submitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#953733]/90'}`}
+>
+  {submitting ? (
+    <>
+      <svg
+        className="animate-spin h-5 w-5 mr-2 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        ></circle>
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+        ></path>
+      </svg>
+      Signing in...
+    </>
+  ) : (
+    'Sign in'
+  )}
+</button>
 						</form>
 
 						<p className="text-center text-sm mt-6">
