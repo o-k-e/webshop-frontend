@@ -10,6 +10,7 @@ import { AuthProvider } from "../auth/providers/AuthProvider";
 import RequireAuth from "../auth/routes/RequireAuth";
 import Unauthorized from "../auth/pages/Unauthorized";
 import Login from "../pages/Login";
+import Logout from "../pages/Logout";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: (
-      <RequireAuth allowedRoles={['admin']}>
+      <RequireAuth allowedRole={'admin'}>
         <AdminLayout />
       </RequireAuth>
     ),
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
   },
   {
     path: "/unauthorized",
