@@ -4,7 +4,7 @@ import type { NavLinkItem } from '../../constants/navLinks.config';
 type Props = {
 	links: NavLinkItem[];
 	isLoggedIn?: boolean;
-	userRole?: 'user' | 'admin';
+	userRole?: 'user' | 'admin' | null;
 	className?: string;
 };
 
@@ -14,12 +14,10 @@ const NavLinks = ({
 	userRole,
 	className = '',
 }: Props) => {
-	// AUTH SZŰRÉS – később bővíthető
 	const filteredLinks = links.filter((link) => {
 		if (link.requireAuth && !isLoggedIn) return false;
 		if (link.guestOnly && isLoggedIn) return false;
-		if (link.roles && (!userRole || !link.roles.includes(userRole)))
-			return false;
+		if (link.role && userRole !== link.role) return false;
 		return true;
 	});
 
