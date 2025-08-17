@@ -37,7 +37,7 @@ const Topbar = () => {
 	});
 
 	return (
-		<nav className="w-full bg-white shadow-sm px-6 py-3 flex items-center justify-between">
+		<nav className="w-full bg-gray-50 shadow-sm px-6 py-3 flex items-center justify-between">
 			{/* Bal oldal: Search */}
 			<SearchBar />
 
