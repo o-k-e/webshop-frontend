@@ -1,59 +1,47 @@
-// FILE: src/components/navbar/SearchBar.tsx
-
 import { FiSearch } from 'react-icons/fi';
 import { useState } from 'react';
-import apiClient from '../../services/api-client';
+import { useNavigate } from 'react-router-dom';
+import { useProductQueryStore } from '../../stores/productQueryStore';
 
-// [CHANGED] onSearchResults opcionális lett
-interface SearchBarProps {
-  onSearchResults?: (results: any[]) => void;
-}
+const SearchBar = () => {
+  const navigate = useNavigate();
+  const resetStore = useProductQueryStore((s) => s.reset);
+  const [input, setInput] = useState('');
 
-const SearchBar = ({ onSearchResults }: SearchBarProps) => {
-  const [query, setQuery] = useState('');
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = input.trim();
 
-  const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-
-    //ha nincs prop átadva, csak térjünk vissza — később Zustandot fogunk használni
-    if (!onSearchResults) return;
-
-    if (value.trim().length < 2) {
-      onSearchResults([]); //rövid lekérdezésre ürítjük az eredményt
+    if (!q) {
+      // üres keresés → vissza Home + store reset + input ürítés
+      resetStore();
+      setInput('');
+      navigate('/', { replace: true });
       return;
     }
 
-    try {
-      const response = await apiClient.get('/products/search', {
-        params: { query: value },
-      });
-      onSearchResults(response.data);
-    } catch (error) {
-      console.error('Search error:', error);
-      onSearchResults([]); //hiba esetén ürítsük
-    }
+    // nem üres → dedikált kereső oldal
+    navigate(`/search?q=${encodeURIComponent(q)}`);
   };
 
   return (
-    <div className="flex items-center gap-2 flex-1 max-w-md">
+    <form onSubmit={handleSubmit} className="flex items-center gap-2 flex-1 max-w-md">
       <FiSearch size={20} />
       <input
         type="text"
         placeholder="Search products..."
-        value={query}
-        onChange={handleSearch}
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
         className="
           w-28 sm:w-full
           px-2 sm:px-3
           py-1 sm:py-1.5
           text-xs sm:text-sm
-          bg-white
           border border-gray-300 rounded-md
           focus:outline-none focus:ring-2 focus:ring-[#fdc57b]
         "
       />
-    </div>
+    </form>
   );
 };
 
