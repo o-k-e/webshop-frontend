@@ -1,28 +1,27 @@
-import NavLinks from './NavLinks';
-import { USER_NAV_LINKS } from '../../constants/navLinks.config';
-import { useAuth } from '../../auth/hooks/useAuth';
-
 const NavbarUser = () => {
-	const { isAuthenticated, user } = useAuth();
 	return (
-<nav className="sticky top-0 z-50 flex items-center h-20 w-full px-6 text-gold shadow-lg shadow-[#5e1f1f60] bg-ganesha transition-all duration-300 ease-in-out">			{/* Bal oldal: SearchBar + Filter */}
-			<div className="flex items-center gap-x-4 flex-1">
-				<input
-					type="text"
-					placeholder="Search products..."
-					className="px-3 py-2 rounded-md bg-white text-black placeholder:text-gray-400 text-sm w-full max-w-[240px]"
-				/>
-				<button className="px-4 py-2 rounded-md text-white text-sm hover:bg-[#7e2e29] transition">
-					Browse by Category
-				</button>
-			</div>
-
-			{/* Jobb oldal: navigációs linkek */}
-			<div className="flex justify-end gap-x-6">
-				<NavLinks links={USER_NAV_LINKS} isLoggedIn={isAuthenticated} userRole={user?.role}/>
-			</div>
-		</nav>
+	  <nav className="w-full h-14 bg-ganesha text-white shadow-sm px-4 flex items-center justify-center">
+		<div className="flex items-center gap-2 sm:gap-5 md:gap-20 flex-wrap justify-center">
+		  {/* helyfoglaló gombok – később kategóriákkal töltjük fel Zustandból */}
+		  <div className="px-3 py-1.5 text-sm rounded  hover:bg-white/10 transition">
+			All
+		  </div>
+		  <div className="px-3 py-1.5 text-sm rounded  hover:bg-white/10 transition">
+			Incense
+		  </div>
+		  <div className="px-3 py-1.5 text-sm rounded  hover:bg-white/10 transition">
+			Yoga
+		  </div>
+		  <div className="px-3 py-1.5 text-sm rounded  hover:bg-white/10 transition">
+			Clothes
+		  </div>
+		  <div className="px-3 py-1.5 text-sm rounded  hover:bg-white/10 transition">
+			Ayurveda
+		  </div>
+		  {/* később: ezeket dinamikusan rendereljük a store-ból */}
+		</div>
+	  </nav>
 	);
-};
-
-export default NavbarUser;
+  };
+  
+  export default NavbarUser;

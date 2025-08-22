@@ -11,6 +11,7 @@ import RequireAuth from "../auth/routes/RequireAuth";
 import Unauthorized from "../auth/pages/Unauthorized";
 import Login from "../pages/Login";
 import Logout from "../pages/Logout";
+import SearchResultsPage from "../pages/SearchResultsPage";
 
 const router = createBrowserRouter([
   {
@@ -18,13 +19,14 @@ const router = createBrowserRouter([
     element: <UserLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'products/:id', element: <ProductDetails /> }
+      { path: "search", element: <SearchResultsPage /> },
+      { path: "products/:id", element: <ProductDetails /> },
     ],
   },
   {
     path: "/admin",
     element: (
-      <RequireAuth allowedRole={'admin'}>
+      <RequireAuth allowedRole={"admin"}>
         <AdminLayout />
       </RequireAuth>
     ),
@@ -32,23 +34,16 @@ const router = createBrowserRouter([
       { index: true, element: <AdminDashboard /> },
       { path: "products", element: <AdminProducts /> },
       { path: "products/:id", element: <ProductDetails /> },
-      { path: "products/create-product", element: <ProductForm />}
+      { path: "products/create-product", element: <ProductForm /> },
     ],
   },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/logout",
-    element: <Logout />,
-  },
-  {
-    path: "/unauthorized",
-    element: <Unauthorized />,
-  },
+  { path: "/login", element: <Login /> },
+  { path: "/logout", element: <Logout /> },
+  { path: "/unauthorized", element: <Unauthorized /> },
 ]);
 
-export const Router = () => {
-  return <AuthProvider><RouterProvider router={router} /></AuthProvider>;
-};
+export const Router = () => (
+  <AuthProvider>
+    <RouterProvider router={router} />
+  </AuthProvider>
+);

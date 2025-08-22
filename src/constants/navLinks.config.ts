@@ -7,7 +7,7 @@ export type NavLinkItem = {
   };
   
   export const USER_NAV_LINKS: NavLinkItem[] = [
-    { to: '/', label: 'All Products' },
+    { to: '/', label: 'Home' },
     { to: '/cart', label: 'Cart' },
     { to: '/profile', label: 'My Profile', requireAuth: true },
     { to: '/logout', label: 'Logout', requireAuth: true },
