@@ -2,24 +2,36 @@ import ProductListSkeleton from './ProductListSkeleton';
 import useProducts from '../hooks/useProducts';
 import handleAxiosError from '../utils/handle-axios-error';
 import ProductCard from './ProductCard';
+import SortSelect from './filters/SortSelect'; // ← ÚJ IMPORT
 
 const ProductList = () => {
-	const { data: products, error, isLoading } = useProducts();
+  const { data, error, isLoading } = useProducts();
 
-	if (isLoading) return <ProductListSkeleton />;
-	if (error)
-		return <p className="p-6 text-red-600">{handleAxiosError(error)}</p>;
+  if (isLoading) return <ProductListSkeleton />;
+  if (error) return <p className="p-6 text-red-600">{handleAxiosError(error)}</p>;
 
-	return (
-		<div className="p-6 mt-20">
-			{/* <h1 className="text-3xl font-bold mb-6">Product List</h1> */}
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
-				{products?.map((product) => (
-					<ProductCard key={product.id} product={product} />
-				))}
-			</div>
-		</div>
-	);
+  const items = data?.content ?? [];
+  const page = (data?.page ?? 0) + 1;
+  const totalPages = data?.totalPages ?? 1;
+  const total = data?.totalElements ?? 0;
+
+  return (
+    <div className="p-6 mt-20">
+      {/* ↙︎ kis fejlécrész: balra infó, jobbra Sort */}
+      <div className="mb-4 flex items-center justify-between">
+        <p className="text-sm text-gray-500">
+          Page {page} of {totalPages} — Total {total} products
+        </p>
+        <SortSelect /> {/* ← ITT JELENIK MEG A SORT */}
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+        {items.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default ProductList;
