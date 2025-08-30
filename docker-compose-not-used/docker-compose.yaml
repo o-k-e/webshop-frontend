@@ -1,0 +1,16 @@
+services:
+  
+  frontend:
+    build:
+      context: ./
+    container_name: ganesha_frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    # networks:
+    #   - solarwatch_net
+
+# networks:
+#   solarwatch_net:
+#     driver: bridge
