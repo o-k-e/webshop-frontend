@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-// 💡 Login form validation schema
 const loginSchema = z.object({
   username: z.string().min(1, 'Username is required'),
   password: z
