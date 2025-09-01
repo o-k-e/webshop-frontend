@@ -45,7 +45,4 @@ export const heroImages = [
     // smallGaneshas,
     // goldenTray,
     // ganeshaShopStrilky,
-
-
-
 ];
