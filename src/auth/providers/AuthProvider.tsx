@@ -46,6 +46,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     removeUser();
   };
 
+  // 401 hibák globális kezelése → logout + redirect
+  useEffect(() => {
+    const id = apiClient.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response?.status === 401) {
+          console.warn('Token lejárt vagy érvénytelen – automatikus kijelentkeztetés');
+          logout();
+          window.location.href = '/login';
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => apiClient.interceptors.response.eject(id);
+  }, [logout]);
+
   return (
     <AuthContext.Provider
       value={{
