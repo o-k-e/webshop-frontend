@@ -20,16 +20,16 @@ const ensureArray = (data: unknown): Product[] => {
 };
 
 const SearchResultsPage = () => {
-  const [sp] = useSearchParams();
-  const q = (sp.get('q') ?? '').trim();
+  const [searchParams] = useSearchParams();
+  const queryText = (searchParams.get('query') ?? '').trim();
 
   // üres query → azonnal vissza a főoldalra
-  if (!q) return <Navigate to="/" replace />;
+  if (!queryText) return <Navigate to="/" replace />;
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['search', q],
-    queryFn: () => fetchSearch(q),
-    enabled: q.length > 0,
+    queryKey: ['search', queryText],
+    queryFn: () => fetchSearch(queryText),
+    enabled: queryText.length > 0,
   });
 
   if (isLoading) return <ProductListSkeleton />;
@@ -41,7 +41,7 @@ const SearchResultsPage = () => {
     <div className="p-6 mt-20">
       <div className="mb-4">
         <h1 className="text-xl font-semibold">
-          Results for “{q}”
+          Results for “{queryText}”
           <span className="ml-2 text-sm text-gray-500">({items.length})</span>
         </h1>
       </div>
