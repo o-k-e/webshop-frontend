@@ -12,18 +12,6 @@
   background-color: #953733cc;
 }
 
-button {
-  background-color: #953733;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-}
-
-button:hover {
-  border: 1px solid white;
-  background-color: #953733;
-}
-
 input:focus {
   outline: none;
   border: 2px solid #953733;

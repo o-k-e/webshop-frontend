@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProductQueryStore } from '../../stores/productQueryStore';
 import apiClient from '../../services/api-client';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -62,22 +63,37 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="relative w-full max-w-md">
-      <input
-        type="text"
-        placeholder="Search products..."
-        className="w-full p-2 border rounded"
-        value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
-        onKeyDown={handleKeyDown}
-        onFocus={() => {
-          if (suggestions.length > 0) setIsDropdownVisible(true);
-        }}
-        onBlur={() => {
-          // kis késleltetés, hogy a kattintás működjön
-          setTimeout(() => setIsDropdownVisible(false), 100);
-        }}
-      />
+    <div className="relative w-full max-w-md pr-4">
+      <div className="relative w-full max-w-md">
+  <input
+    type="text"
+    placeholder="Search products..."
+    className="w-full p-2 border rounded pr-10"
+    value={searchTerm}
+    onChange={e => setSearchTerm(e.target.value)}
+    onKeyDown={handleKeyDown}
+    onFocus={() => {
+      if (suggestions.length > 0) setIsDropdownVisible(true);
+    }}
+    onBlur={() => {
+      setTimeout(() => setIsDropdownVisible(false), 100);
+    }}
+  />
+
+  {/* Törlés ikon (csak ha van beírva valami) */}
+  {searchTerm.length > 0 && (
+    <button
+      onClick={() => {
+        setSearchTerm('');
+        setSearch(''); // Zustand store reset
+        // Esetleg navigate('/') ha szeretnéd visszairányítani
+      }}
+      className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#953733]"
+    >
+      <XMarkIcon className="h-5 w-5" />
+    </button>
+  )}
+</div>
 
       {isDropdownVisible && suggestions.length > 0 && (
         <ul className="absolute z-10 bg-white border w-full shadow-md rounded mt-1 max-h-60 overflow-y-auto">
