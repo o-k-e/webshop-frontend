@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useCategories from '../../hooks/useCategories';
-import { useProductQueryStore } from '../../stores/productQueryStore';
+import { useProductQueryStore } from '../../stores/useProductQueryStore';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const NavbarUser = () => {
@@ -40,7 +40,7 @@ const NavbarUser = () => {
 		<nav className="bg-ganesha w-full px-4 py-2 relative">
 			{/* Mobil hamburger */}
 			<div className="flex justify-between items-center md:hidden">
-				<span className="text-white font-semibold text-lg">Kategóriák</span>
+				<span className="text-white font-semibold text-lg">Categories</span>
 				<button
 					onClick={() => setMenuOpen((prev) => !prev)}
 					className="text-white focus:outline-none"

@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useProductQueryStore } from '../../stores/productQueryStore';
+import { useProductQueryStore } from '../../stores/useProductQueryStore';
 import apiClient from '../../services/api-client';
 import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 const SearchBar = () => {
-	const [searchTerm, setSearchTerm] = useState('');
+	const [searchInput, setSearchInput] = useState('');
 	const [suggestions, setSuggestions] = useState<string[]>([]);
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 	const timeoutRef = useRef<number | null>(null);
@@ -15,7 +15,7 @@ const SearchBar = () => {
 
 	// Debounce API call
 	useEffect(() => {
-		if (searchTerm.trim().length < 2) {
+		if (searchInput.trim().length < 2) {
 			setSuggestions([]);
 			setIsDropdownVisible(false);
 			return;
@@ -26,7 +26,7 @@ const SearchBar = () => {
 		timeoutRef.current = window.setTimeout(() => {
 			apiClient
 				.get<string[]>('/products/suggestions', {
-					params: { query: searchTerm.trim() },
+					params: { query: searchInput.trim() },
 				})
 				.then((response) => {
 					setSuggestions(response.data);
@@ -41,25 +41,25 @@ const SearchBar = () => {
 		return () => {
 			if (timeoutRef.current) clearTimeout(timeoutRef.current);
 		};
-	}, [searchTerm]);
+	}, [searchInput]);
 
-  // Zustand search reset figyelése
-const search = useProductQueryStore((state) => state.search);
+	// Zustand search reset figyelése
+	const search = useProductQueryStore((state) => state.search);
 
-useEffect(() => {
-	if (search === '') {
-		setSearchTerm('');
-	}
-}, [search]);
+	useEffect(() => {
+		if (search === '') {
+			setSearchInput('');
+		}
+	}, [search]);
 
 	const handleSearch = () => {
-		setSearch(searchTerm);
+		setSearch(searchInput);
 		navigate('/search');
 		setIsDropdownVisible(false);
 	};
 
 	const handleSelectSuggestion = (suggestion: string) => {
-		setSearchTerm(suggestion);
+		setSearchInput(suggestion);
 		setIsDropdownVisible(false);
 		setSearch(suggestion);
 		navigate('/search');
@@ -72,7 +72,7 @@ useEffect(() => {
 	};
 
 	return (
-		<div className="relative w-full max-w-md">
+		<div className="relative w-full max-w-md pr-4">
 			{/* Input + ikonok container */}
 			<div className="relative w-full">
 				{/* 🔍 Ikon – bal oldalon */}
@@ -83,8 +83,8 @@ useEffect(() => {
 					type="text"
 					placeholder="Search products..."
 					className="w-full p-2 pl-9 pr-10 border rounded"
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
+					value={searchInput}
+					onChange={(e) => setSearchInput(e.target.value)}
 					onKeyDown={handleKeyDown}
 					onFocus={() => {
 						if (suggestions.length > 0) setIsDropdownVisible(true);
@@ -95,10 +95,10 @@ useEffect(() => {
 				/>
 
 				{/* Törlés ikon – jobb oldalon */}
-				{searchTerm.length > 0 && (
+				{searchInput.length > 0 && (
 					<button
 						onClick={() => {
-							setSearchTerm('');
+							setSearchInput('');
 							setSearch('');
 						}}
 						className="absolute right-2 top-1/2 -translate-y-1/2 text-[#953733] hover:text-[#953733]"

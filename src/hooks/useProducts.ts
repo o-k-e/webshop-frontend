@@ -1,7 +1,7 @@
 // src/hooks/useProducts.ts
 import { useQuery } from '@tanstack/react-query';
 import apiClient from '../services/api-client';
-import { useProductQueryStore } from '../stores/productQueryStore';
+import { useProductQueryStore } from '../stores/useProductQueryStore';
 import type { PaginatedProducts } from '../types/pagination';
 
 const useProducts = () => {
