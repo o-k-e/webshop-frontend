@@ -1,47 +1,98 @@
-import { FiSearch } from 'react-icons/fi';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProductQueryStore } from '../../stores/productQueryStore';
+import apiClient from '../../services/api-client';
 
 const SearchBar = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
+  
   const navigate = useNavigate();
-  const resetStore = useProductQueryStore((s) => s.reset);
-  const [input, setInput] = useState('');
+  const setSearch = useProductQueryStore(state => state.setSearch);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const q = input.trim();
-
-    if (!q) {
-      // üres keresés → vissza Home + store reset + input ürítés
-      resetStore();
-      setInput('');
-      navigate('/', { replace: true });
+  // Debounce-olt lekérdezés: 300ms
+  useEffect(() => {
+    if (searchTerm.trim().length < 2) {
+      setSuggestions([]);
+      setIsDropdownVisible(false);
       return;
     }
 
-    // nem üres → dedikált kereső oldal
-    navigate(`/search?q=${encodeURIComponent(q)}`);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    timeoutRef.current = setTimeout(() => {
+      apiClient
+        .get<string[]>('/products/suggestions', {
+          params: { query: searchTerm.trim() },
+        })
+        .then(response => {
+          setSuggestions(response.data);
+          setIsDropdownVisible(true);
+        })
+        .catch(() => {
+          setSuggestions([]);
+          setIsDropdownVisible(false);
+        });
+    }, 300);
+
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [searchTerm]);
+
+  const handleSearch = () => {
+    setSearch(searchTerm);
+    navigate('/search');
+    setIsDropdownVisible(false);
+  };
+
+  const handleSelectSuggestion = (suggestion: string) => {
+    setSearchTerm(suggestion);
+    setIsDropdownVisible(false);
+    setSearch(suggestion);
+    navigate('/search');
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-2 flex-1 max-w-md">
-      <FiSearch size={20} />
+    <div className="relative w-full max-w-md">
       <input
         type="text"
         placeholder="Search products..."
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        className="
-          w-28 sm:w-full
-          px-2 sm:px-3
-          py-1 sm:py-1.5
-          text-xs sm:text-sm
-          border border-gray-300 rounded-md
-          focus:outline-none focus:ring-2 focus:ring-[#fdc57b]
-        "
+        className="w-full p-2 border rounded"
+        value={searchTerm}
+        onChange={e => setSearchTerm(e.target.value)}
+        onKeyDown={handleKeyDown}
+        onFocus={() => {
+          if (suggestions.length > 0) setIsDropdownVisible(true);
+        }}
+        onBlur={() => {
+          // kis késleltetés, hogy a kattintás működjön
+          setTimeout(() => setIsDropdownVisible(false), 100);
+        }}
       />
-    </form>
+
+      {isDropdownVisible && suggestions.length > 0 && (
+        <ul className="absolute z-10 bg-white border w-full shadow-md rounded mt-1 max-h-60 overflow-y-auto">
+          {suggestions.map((s, idx) => (
+            <li
+              key={idx}
+              className="p-2 hover:bg-gray-100 cursor-pointer"
+              onMouseDown={() => handleSelectSuggestion(s)}
+            >
+              {s}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 
