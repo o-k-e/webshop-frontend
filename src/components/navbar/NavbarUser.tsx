@@ -1,27 +1,38 @@
+import { useNavigate } from 'react-router-dom';
+import useCategories from '../../hooks/useCategories';
+import { useProductQueryStore } from '../../stores/productQueryStore';
+
 const NavbarUser = () => {
-	return (
-	  <nav className="w-full h-14 bg-ganesha text-white shadow-sm px-4 flex items-center justify-center">
-		<div className="flex items-center gap-2 sm:gap-5 md:gap-20 flex-wrap justify-center">
-		  {/* helyfoglaló gombok – később kategóriákkal töltjük fel Zustandból */}
-		  <div className="px-3 py-1.5 text-sm rounded  hover:bg-white/10 transition">
-			All
-		  </div>
-		  <div className="px-3 py-1.5 text-sm rounded  hover:bg-white/10 transition">
-			Incense
-		  </div>
-		  <div className="px-3 py-1.5 text-sm rounded  hover:bg-white/10 transition">
-			Yoga
-		  </div>
-		  <div className="px-3 py-1.5 text-sm rounded  hover:bg-white/10 transition">
-			Clothes
-		  </div>
-		  <div className="px-3 py-1.5 text-sm rounded  hover:bg-white/10 transition">
-			Ayurveda
-		  </div>
-		  {/* később: ezeket dinamikusan rendereljük a store-ból */}
-		</div>
-	  </nav>
-	);
+  const navigate = useNavigate();
+  const { data: categories = [] } = useCategories();
+  const setCategory = useProductQueryStore(state => state.setCategory);
+  const reset = useProductQueryStore(state => state.reset);
+  const activeCategoryId = useProductQueryStore(state => state.categoryId);
+
+  const handleCategoryClick = (categoryId: number) => {
+    reset(); // reset minden szűrőt és keresést
+    setCategory(categoryId); // új kategória beállítása
+    navigate('/search');
   };
-  
-  export default NavbarUser;
+
+  return (
+    <nav className="bg-ganesha py-2 px-4 flex justify-center flex-wrap gap-6 items-center">
+      {categories.map(category => (
+        <button
+          key={category.id}
+          onClick={() => handleCategoryClick(category.id)}
+          className={`
+            text-white px-3 py-1 rounded
+            border 
+            ${activeCategoryId === category.id ? 'border-white' : 'border-transparent'}
+            hover:border-white transition-colors duration-200
+          `}
+        >
+          {category.categoryName}
+        </button>
+      ))}
+    </nav>
+  );
+};
+
+export default NavbarUser;
