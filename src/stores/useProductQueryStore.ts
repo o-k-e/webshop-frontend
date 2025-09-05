@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import type { Sort } from '../types/sort';
 
 type ProductQueryState = {
-  search: string;          // a tényleges keresőkifejezés (debounce után)
-  searchInput: string;     // az input mező aktuális értéke (azonnal frissül)
+  searchInput: string;     // input field aktuális értéke (azonnal frissül)
+  search: string;          // tényleges keresőkifejezés (debounce után)
   categoryId: number | null;
   page: number;
   size: number;
@@ -20,8 +20,8 @@ type ProductQueryState = {
 };
 
 export const useProductQueryStore = create<ProductQueryState>((set) => ({
-  search: '',
   searchInput: '',
+  search: '',
   categoryId: null,
   page: 0,
   size: 20,

@@ -54,7 +54,7 @@ const SearchBar = () => {
 
 	const handleSearch = () => {
 		setSearch(searchInput);
-		navigate('/search');
+		navigate(`/search?query=${encodeURIComponent(searchInput.trim())}`);
 		setIsDropdownVisible(false);
 	};
 
@@ -62,7 +62,7 @@ const SearchBar = () => {
 		setSearchInput(suggestion);
 		setIsDropdownVisible(false);
 		setSearch(suggestion);
-		navigate('/search');
+		navigate(`/search?query=${encodeURIComponent(searchInput.trim())}`);
 	};
 
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -78,7 +78,7 @@ const SearchBar = () => {
 				{/* 🔍 Ikon – bal oldalon */}
 				<MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none" />
 
-				{/* Input mező */}
+				{/* Input field */}
 				<input
 					type="text"
 					placeholder="Search products..."
@@ -108,7 +108,7 @@ const SearchBar = () => {
 				)}
 			</div>
 
-			{/* Lenyíló javaslatok – az input alatt, ugyanakkora szélességben */}
+			{/* Drop-down suggestions – az input alatt, ugyanakkora szélességben */}
 			{isDropdownVisible && suggestions.length > 0 && (
 				<ul className="absolute z-10 bg-white border w-full shadow-md rounded mt-1 max-h-60 overflow-y-auto">
 					{suggestions.map((s, idx) => (

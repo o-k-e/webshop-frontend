@@ -6,11 +6,11 @@ const NavbarAdmin = () => {
     return (
         <nav className="flex items-center h-full w-full">
             {/* Bal oldal: Ganesha Admin felirat */}
-            {/* <div className="basis-1/4 pl-10">
+            <div className="basis-1/4 pl-10">
                 <div className="text-2xl font-semibold text-gold leading-tight text-right whitespace-nowrap">
                     Ganesha Admin
                 </div>
-            </div> */}
+            </div>
 
             {/* Közép: Ganesha logó */}
             <div className="basis-1/4 flex justify-center">

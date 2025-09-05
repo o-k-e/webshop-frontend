@@ -23,15 +23,13 @@ const SearchResultsPage = () => {
   const [searchParams] = useSearchParams();
   const queryText = (searchParams.get('query') ?? '').trim();
 
-  // üres query → azonnal vissza a főoldalra
-  if (!queryText) return <Navigate to="/" replace />;
-
   const { data, isLoading, error } = useQuery({
     queryKey: ['search', queryText],
     queryFn: () => fetchSearch(queryText),
     enabled: queryText.length > 0,
   });
-
+  
+  if (queryText.length === 0) return <Navigate to="/" replace />
   if (isLoading) return <ProductListSkeleton />;
   if (error) return <p className="p-6 text-red-600">{handleAxiosError(error)}</p>;
 
