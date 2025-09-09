@@ -1,5 +1,6 @@
 import { useSearchParams, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useProductQueryStore } from '../stores/useProductQueryStore';
 import apiClient from '../services/api-client';
 import type { Product } from '../types/product';
 import ProductCard from '../components/ProductCard';
@@ -20,8 +21,7 @@ const ensureArray = (data: unknown): Product[] => {
 };
 
 const SearchResultsPage = () => {
-  const [searchParams] = useSearchParams();
-  const queryText = (searchParams.get('query') ?? '').trim();
+  const queryText = useProductQueryStore((state) => state.search).trim();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['search', queryText],

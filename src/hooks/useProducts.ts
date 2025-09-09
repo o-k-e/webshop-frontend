@@ -2,7 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import apiClient from '../services/api-client';
 import { useProductQueryStore } from '../stores/useProductQueryStore';
-import type { PaginatedProducts } from '../types/pagination';
+import type { PaginatedProducts } from '../types/paginated-products';
 
 const useProducts = () => {
   // fontos: ne adjunk vissza új objektumot minden rendernél

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useProductQueryStore } from '../../stores/useProductQueryStore';
 import apiClient from '../../services/api-client';
 import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
@@ -11,7 +11,11 @@ const SearchBar = () => {
 	const timeoutRef = useRef<number | null>(null);
 
 	const navigate = useNavigate();
+	const location = useLocation();
 	const setSearch = useProductQueryStore((state) => state.setSearch);
+
+	// Zustand search reset figyelése
+	const search = useProductQueryStore((state) => state.search);
 
 	// Debounce API call
 	useEffect(() => {
@@ -43,8 +47,22 @@ const SearchBar = () => {
 		};
 	}, [searchInput]);
 
-	// Zustand search reset figyelése
-	const search = useProductQueryStore((state) => state.search);
+	useEffect(() => {
+		const delayRedirect = setTimeout(() => {
+			if (searchInput.trim().length >= 2 && location.pathname !== '/search') {
+				navigate('/search');
+			}
+		}, 200); // kis késleltetés a debounce miatt
+
+		return () => clearTimeout(delayRedirect);
+	}, [searchInput]);
+
+	useEffect(() => {
+		if (searchInput.trim().length >= 2) {
+			navigate(`/search?query=${encodeURIComponent(searchInput.trim())}`, { replace: true });
+			setSearch(searchInput);
+		}
+	}, [searchInput]);
 
 	useEffect(() => {
 		if (search === '') {
@@ -60,9 +78,9 @@ const SearchBar = () => {
 
 	const handleSelectSuggestion = (suggestion: string) => {
 		setSearchInput(suggestion);
-		setIsDropdownVisible(false);
 		setSearch(suggestion);
-		navigate(`/search?query=${encodeURIComponent(searchInput.trim())}`);
+		setIsDropdownVisible(false);
+		navigate(`/search?query=${encodeURIComponent(suggestion.trim())}`);
 	};
 
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
