@@ -1,4 +1,4 @@
-import { useSearchParams, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useProductQueryStore } from '../stores/useProductQueryStore';
 import apiClient from '../services/api-client';
