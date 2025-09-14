@@ -4,30 +4,37 @@ import { useAdminProductQueryStore } from '../../stores/useAdminProductQueryStor
 import useAdminProducts from '../../hooks/useAdminProducts';
 import AdminSearchBar from '../../components/navbar/AdminSearchBar';
 import AdminTable from '../../components/AdminTable';
+import { Link } from 'react-router-dom';
 
 const AdminProducts = () => {
-  const location = useLocation();
-  const setSearch = useAdminProductQueryStore((s) => s.setSearch);
+	const location = useLocation();
+	const setSearch = useAdminProductQueryStore((s) => s.setSearch);
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const query = params.get('query') || '';
-    setSearch(query);
-  }, [location.search]);
+	useEffect(() => {
+		const params = new URLSearchParams(location.search);
+		const query = params.get('query') || '';
+		setSearch(query);
+	}, [location.search]);
 
-  const { data, isLoading, error } = useAdminProducts();
+	const { data, isLoading, error } = useAdminProducts();
 
-  return (
-    <div className="p-6">
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
-        <AdminSearchBar />
-      </div>
+	return (
+		<div className="p-6">
+			<div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+				<AdminSearchBar />
+				<Link
+					to="/admin/products/create-product"
+					className="bg-[#953733cc] text-white px-4 py-2 rounded hover:bg-[#953633f1]"
+				>
+					+ Add Product
+				</Link>
+			</div>
 
-      {isLoading && <p>Loading products...</p>}
-      {error && <p className="text-red-600">Error loading products.</p>}
-      {data && <AdminTable products={data.content} />}
-    </div>
-  );
+			{isLoading && <p>Loading products...</p>}
+			{error && <p className="text-red-600">Error loading products.</p>}
+			{data && <AdminTable products={data.content} />}
+		</div>
+	);
 };
 
 export default AdminProducts;
