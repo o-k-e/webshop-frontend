@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 import ProductDetails from "../pages/ProductDetails";
 import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/admin/AdminDashboard";
-import { AdminProducts } from "../pages/admin/AdminProducts";
+import AdminProducts from "../pages/admin/AdminProducts";
 import ProductForm from "../pages/admin/ProductForm";
 import { AuthProvider } from "../auth/providers/AuthProvider";
 import RequireAuth from "../auth/routes/RequireAuth";
