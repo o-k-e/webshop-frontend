@@ -1,106 +1,133 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import apiClient from '../../services/api-client';
-import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useAdminProductQueryStore } from '../../stores/useAdminProductQueryStore';
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const AdminSearchBar = () => {
-	const [searchInput, setSearchInput] = useState('');
-	const [suggestions, setSuggestions] = useState<string[]>([]);
-	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-	const timeoutRef = useRef<number | null>(null);
+  const [searchInput, setSearchInput] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
 
-	const setSearch = useAdminProductQueryStore((state) => state.setSearch);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-	// Debounce API call
-	useEffect(() => {
-		if (searchInput.trim().length < 2) {
-			setSuggestions([]);
-			setIsDropdownVisible(false);
-			return;
-		}
+  const search = useAdminProductQueryStore((s) => s.search);
+  const setSearch = useAdminProductQueryStore((s) => s.setSearch);
 
-		if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  // ⏱️ Debounce logic for suggestion fetching
+  useEffect(() => {
+    if (searchInput.trim().length < 2) {
+      setSuggestions([]);
+      setIsDropdownVisible(false);
+      return;
+    }
 
-		timeoutRef.current = window.setTimeout(() => {
-			apiClient
-				.get<string[]>('/products/suggestions', {
-					params: { query: searchInput.trim() },
-				})
-				.then((response) => {
-					setSuggestions(response.data);
-					setIsDropdownVisible(true);
-				})
-				.catch(() => {
-					setSuggestions([]);
-					setIsDropdownVisible(false);
-				});
-		}, 300);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
-		return () => {
-			if (timeoutRef.current) clearTimeout(timeoutRef.current);
-		};
-	}, [searchInput]);
+    timeoutRef.current = window.setTimeout(() => {
+      apiClient
+        .get<string[]>('/products/suggestions', {
+          params: { query: searchInput.trim() },
+        })
+        .then((res) => {
+          setSuggestions(res.data);
+          setIsDropdownVisible(true);
+        })
+        .catch(() => {
+          setSuggestions([]);
+          setIsDropdownVisible(false);
+        });
+    }, 300);
 
-	// Frissítjük a search query-t a store-ban
-	useEffect(() => {
-		if (searchInput.trim().length >= 2) {
-			setSearch(searchInput.trim());
-		} else {
-			setSearch('');
-		}
-	}, [searchInput]);
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [searchInput]);
 
-	const handleSelectSuggestion = (suggestion: string) => {
-		setSearchInput(suggestion);
-		setSearch(suggestion);
-		setIsDropdownVisible(false);
-	};
+  // Navigálás a search oldalra és query param frissítése
+  useEffect(() => {
+    const trimmed = searchInput.trim();
+    if (trimmed.length >= 2) {
+      const encoded = encodeURIComponent(trimmed);
+      if (location.pathname !== '/admin/products/search') {
+        navigate(`/admin/products/search?query=${encoded}`);
+      } else {
+        navigate(`/admin/products/search?query=${encoded}`, { replace: true });
+      }
+      setSearch(trimmed);
+    }
+  }, [searchInput]);
 
-	return (
-		<div className="relative w-full max-w-md pr-4">
-			<div className="relative w-full">
-				<MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-				<input
-					type="text"
-					placeholder="Search products..."
-					className="w-full p-2 pl-9 pr-10 border rounded"
-					value={searchInput}
-					onChange={(e) => setSearchInput(e.target.value)}
-					onFocus={() => {
-						if (suggestions.length > 0) setIsDropdownVisible(true);
-					}}
-					onBlur={() => {
-						setTimeout(() => setIsDropdownVisible(false), 100);
-					}}
-				/>
-				{searchInput.length > 0 && (
-					<button
-						onClick={() => {
-							setSearchInput('');
-							setSearch('');
-						}}
-						className="absolute right-2 top-1/2 -translate-y-1/2 text-[#953733] hover:text-[#953733]"
-					>
-						<XMarkIcon className="h-5 w-5" />
-					</button>
-				)}
-			</div>
+  // URL-ből olvassa be a kezdeti értéket
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const q = params.get('query') || '';
+    setSearch(q);
+    setSearchInput(q);
+  }, [location.search]);
 
-			{isDropdownVisible && suggestions.length > 0 && (
-				<ul className="absolute z-10 bg-white border w-full shadow-md rounded mt-1 max-h-60 overflow-y-auto">
-					{suggestions.map((s, idx) => (
-						<li
-							key={idx}
-							className="p-2 hover:bg-gray-100 cursor-pointer"
-							onMouseDown={() => handleSelectSuggestion(s)}
-						>
-							{s}
-						</li>
-					))}
-				</ul>
-			)}
-		</div>
-	);
+  const handleSelectSuggestion = (suggestion: string) => {
+    setSearchInput(suggestion);
+    setSearch(suggestion);
+    setIsDropdownVisible(false);
+  };
+
+  return (
+    <div className="relative w-full max-w-md">
+      <div className="relative">
+        <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-2 top-1/2 -translate-y-1/2" />
+        <input
+          type="text"
+          className="w-full p-2 pl-9 pr-10 border rounded"
+          placeholder="Search products..."
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          onFocus={() => {
+            if (suggestions.length > 0) setIsDropdownVisible(true);
+          }}
+          onBlur={() => {
+            setTimeout(() => setIsDropdownVisible(false), 100);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              const encoded = encodeURIComponent(searchInput.trim());
+              navigate(`/admin/products/search?query=${encoded}`);
+              setSearch(searchInput.trim());
+              setIsDropdownVisible(false);
+            }
+          }}
+        />
+        {searchInput.length > 0 && (
+          <button
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-[#953733]"
+            onClick={() => {
+              setSearch('');
+              setSearchInput('');
+              navigate('/admin/products');
+            }}
+          >
+            <XMarkIcon className="h-5 w-5" />
+          </button>
+        )}
+      </div>
+
+      {isDropdownVisible && suggestions.length > 0 && (
+        <ul className="absolute z-10 w-full border bg-white rounded shadow max-h-60 overflow-y-auto mt-1">
+          {suggestions.map((s, i) => (
+            <li
+              key={i}
+              className="p-2 hover:bg-gray-100 cursor-pointer"
+              onMouseDown={() => handleSelectSuggestion(s)}
+            >
+              {s}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 };
 
 export default AdminSearchBar;
