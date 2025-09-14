@@ -75,7 +75,7 @@ const AdminSearchBar = () => {
   };
 
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full max-w-md pb-5">
       <div className="relative">
         <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-2 top-1/2 -translate-y-1/2" />
         <input
