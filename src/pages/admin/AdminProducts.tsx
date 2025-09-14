@@ -47,7 +47,7 @@ const AdminProducts = () => {
 								</td>
 								<td className="p-2 border">{product.productName}</td>
 								<td className="p-2 border text-right">
-									${product.price.toFixed(2)}
+									{product.price.toFixed(0)} Ft
 								</td>
 								<td className="p-2 border">
 									{product.categories.map((cat) => cat.categoryName).join(', ')}
