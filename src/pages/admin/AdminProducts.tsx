@@ -1,25 +1,85 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import apiClient from '../../services/api-client';
 import { useAdminProductQueryStore } from '../../stores/useAdminProductQueryStore';
-import useAdminProducts from '../../hooks/useAdminProducts';
-import AdminSearchBar from '../../components/navbar/AdminSearchBar';
-import AdminTable from '../../components/AdminTable';
+import AdminSearchBar from './components/AdminSearchBar';
+import AdminTable from './components/AdminTable';
+import handleAxiosError from '../../utils/handle-axios-error';
 import { Link } from 'react-router-dom';
+import type { Product } from '../../types/product';
+import useAdminProducts from '../../hooks/useAdminProducts';
+import Pagination from '../../components/Pagination';
+
+const fetchAdminSearch = async (q: string): Promise<unknown> => {
+	const res = await apiClient.get('/products/search', {
+		params: { query: q || undefined },
+	});
+	return res.data;
+};
+
+const ensureArray = (data: unknown): Product[] => {
+	if (Array.isArray(data)) return data as Product[];
+	if (
+		data &&
+		typeof data === 'object' &&
+		Array.isArray((data as any).content)
+	) {
+		return (data as any).content as Product[];
+	}
+	return [];
+};
 
 const AdminProducts = () => {
-	const location = useLocation();
-	const setSearch = useAdminProductQueryStore((s) => s.setSearch);
+	const search = useAdminProductQueryStore((state) => state.search).trim();
+	const searchInput = useAdminProductQueryStore((s) => s.searchInput);
+	const page = useAdminProductQueryStore((s) => s.page);
+	const reset = useAdminProductQueryStore((s) => s.reset);
+	const navigate = useNavigate();
 
 	useEffect(() => {
-		const params = new URLSearchParams(location.search);
-		const query = params.get('query') || '';
-		setSearch(query);
-	}, [location.search]);
+		const isAtDefault = searchInput === '' && page === 0;
+		if (!isAtDefault) {
+			reset(); // 👉 reseteli a store-t, ha szükséges
+		}
+	}, []);
 
-	const { data, isLoading, error } = useAdminProducts();
+	// Ha van keresési szöveg, ezt használjuk
+	const {
+		data: searchData,
+		error: searchError,
+		isLoading: isSearchLoading,
+	} = useQuery({
+		queryKey: ['admin-search', search],
+		queryFn: () => fetchAdminSearch(search),
+		enabled: search.length > 0,
+	});
+
+	// Ha nincs keresési szöveg, akkor sima paginated lekérés
+	const {
+		data: allProductsData,
+		isLoading: isAllLoading,
+		error: allError,
+	} = useAdminProducts();
+
+	// Töröljük az URL-ből a ?query=... részt ha törölték a keresést
+	useEffect(() => {
+		if (search.length === 0) {
+			navigate('/admin/products', { replace: true });
+		}
+	}, [search, navigate]);
+
+	const products =
+		search.length > 0
+			? ensureArray(searchData)
+			: allProductsData?.content || [];
+
+	const isLoading = search.length > 0 ? isSearchLoading : isAllLoading;
+	const error = search.length > 0 ? searchError : allError;
 
 	return (
 		<div className="p-6">
+			{/* Felső sáv: kereső + új termék */}
 			<div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-4">
 				<AdminSearchBar />
 				<Link
@@ -30,9 +90,27 @@ const AdminProducts = () => {
 				</Link>
 			</div>
 
+			{/* Hibakezelés és töltőállapot */}
 			{isLoading && <p>Loading products...</p>}
-			{error && <p className="text-red-600">Error loading products.</p>}
-			{data && <AdminTable products={data.content} />}
+			{error && <p className="text-red-600">{handleAxiosError(error)}</p>}
+
+			{/* Eredmények */}
+			{products.length > 0 && (
+				<>
+					{search.length > 0 && (
+						<h2 className="text-xl font-semibold mb-4">
+							Results for <span className="italic font-medium">“{search}”</span>
+							<span className="italic ml-2 text-sm text-gray-500">
+								({products.length})
+							</span>
+						</h2>
+					)}
+					<AdminTable products={products} />
+				</>
+			)}
+			{!isLoading && products.length === 0 && (
+				<p className="text-gray-500">No products found.</p>
+			)}
 		</div>
 	);
 };
