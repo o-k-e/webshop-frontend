@@ -12,7 +12,6 @@ import Unauthorized from "../auth/pages/Unauthorized";
 import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import SearchResultsPage from "../pages/SearchResultsPage";
-import AdminSearchResultsPage from "../pages/admin/AdminSearchResultPage";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +34,6 @@ const router = createBrowserRouter([
       { index: true, element: <AdminDashboard /> },
       { path: "products", element: <AdminProducts /> },
       { path: "products/create-product", element: <ProductForm /> },
-      { path: "products/search", element: <AdminSearchResultsPage /> },
     ],
   },
   { path: "/login", element: <Login /> },
