@@ -25,7 +25,7 @@ export const useProductQueryStore = create<ProductQueryState>((set) => ({
   categoryId: null,
   page: 0,
   size: 20,
-  sort: { field: 'id', direction: 'asc' },
+  sort: { field: 'id', direction: 'desc' },
 
   // csak az input mezőt frissíti (nem indít keresést)
   setSearchInput: (value) =>
@@ -61,6 +61,6 @@ export const useProductQueryStore = create<ProductQueryState>((set) => ({
       categoryId: null,
       page: 0,
       size: 20,
-      sort: { field: 'id', direction: 'asc' },
+      sort: { field: 'id', direction: 'desc' },
     })),
 }));
