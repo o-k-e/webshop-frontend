@@ -1,46 +1,56 @@
-import { useSearchParams, Link } from 'react-router-dom';
-import { useEffect } from 'react';
-import useAdminProducts from '../../hooks/useAdminProducts';
-import AdminSearchBar from '../../components/navbar/AdminSearchBar';
-import AdminTable from '../../components/AdminTable';
+import { Navigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import apiClient from '../../services/api-client';
 import { useAdminProductQueryStore } from '../../stores/useAdminProductQueryStore';
+import type { Product } from '../../types/product';
+import AdminTable from '../../components/AdminTable';
+import handleAxiosError from '../../utils/handle-axios-error';
+import AdminSearchBar from '../../components/navbar/AdminSearchBar';
+
+const fetchAdminSearch = async (q: string): Promise<unknown> => {
+  const res = await apiClient.get('/products/search', {
+    params: { query: q || undefined },
+  });
+  return res.data;
+};
+
+const ensureArray = (data: unknown): Product[] => {
+  if (Array.isArray(data)) return data as Product[];
+  if (
+    data &&
+    typeof data === 'object' &&
+    Array.isArray((data as any).content)
+  ) {
+    return (data as any).content as Product[];
+  }
+  return [];
+};
 
 const AdminSearchResultsPage = () => {
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get('query') || '';
+  const queryText = useAdminProductQueryStore((state) => state.search).trim() || '';
 
-  const setSearch = useAdminProductQueryStore((s) => s.setSearch);
+  // Csak akkor fetch-elünk, ha query van
+  const { data, error } = useQuery({
+    queryKey: ['admin-search', queryText],
+    queryFn: () => fetchAdminSearch(queryText),
+    enabled: queryText.length > 0,
+  });
 
-  // Beállítjuk a Zustand store-t a query param alapján
-  useEffect(() => {
-    setSearch(query.trim());
-  }, [query]);
+  if (queryText.length === 0) return <Navigate to="/admin/products" replace />;
+//   if (isLoading) return <ProductListSkeleton />;
+  if (error) return <p className="p-6 text-red-600">{handleAxiosError(error)}</p>;
 
-  const { data, isLoading, error } = useAdminProducts();
+  const products = ensureArray(data);
 
   return (
-    <div className="p-6">
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 pb-5">
-          <AdminSearchBar />
-        </div>
-        <Link
-          to="/admin/products/create-product"
-          className="bg-[#953733] text-white px-4 py-2 rounded hover:bg-[#7b2b29]"
-        >
-          + Add Product
-        </Link>
-      </div>
-
-      <h2 className="text-xl font-semibold pb-4">
-        Search results for: <span className="text-gold italic">"{query}"</span>
+    <section className="p-6">
+        <AdminSearchBar />
+      <h2 className="text-xl font-semibold">
+        Search results for:{' '}
+        <span className="text-[#953733]">&quot;{queryText}&quot;</span>
       </h2>
-
-      {isLoading && <p>Loading products...</p>}
-      {error && <p>Error loading products.</p>}
-
-      <AdminTable products={data?.content ?? []} />
-    </div>
+      <AdminTable products={products} />
+    </section>
   );
 };
 

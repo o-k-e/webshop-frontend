@@ -4,22 +4,24 @@ import { useAdminProductQueryStore } from '../stores/useAdminProductQueryStore';
 import type { PaginatedProducts } from '../types/paginated-products';
 
 const useAdminProducts = () => {
-  const page = useAdminProductQueryStore((s) => s.page);
-  const size = useAdminProductQueryStore((s) => s.size);
-  const sort = useAdminProductQueryStore((s) => s.sort);
-  const search = useAdminProductQueryStore((s) => s.search);
+
+  const search = useAdminProductQueryStore(s => s.search);
   const categoryId = useAdminProductQueryStore((s) => s.categoryId);
+  const page = useAdminProductQueryStore((s) => s.page);
+  const size = useAdminProductQueryStore(s => s.size);
+  const sortField = useAdminProductQueryStore(s => s.sort.field);
+  const sortDir   = useAdminProductQueryStore(s => s.sort.direction);
 
   return useQuery<PaginatedProducts>({
-    queryKey: ['admin-products', page, size, sort, search, categoryId],
+    queryKey: ['admin-products', search, categoryId, page, size, sortField, sortDir],
     queryFn: async () => {
       const res = await apiClient.get('/products/search', {
         params: {
-          page,
-          size,
-          sort: `${sort.field},${sort.direction}`,
-          query: search || undefined,
-          categoryId: categoryId ?? undefined,
+            query: search || undefined,
+            categoryId: categoryId ?? undefined,
+            page,
+            size,
+            sort: `${sortField},${sortDir}`,
         },
       });
       return res.data as PaginatedProducts;

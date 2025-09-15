@@ -20,7 +20,7 @@ const AdminProducts = () => {
 
 	return (
 		<div className="p-6">
-			<div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+			<div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-4">
 				<AdminSearchBar />
 				<Link
 					to="/admin/products/create-product"

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { Sort } from '../types/sort';
 
 type AdminProductQueryState = {
+  searchInput: string;
   search: string;
   categoryId: number | null;
   page: number;
@@ -9,6 +10,7 @@ type AdminProductQueryState = {
   sort: Sort;
 
   // Actions
+  setSearchInput: (value: string) => void;
   setSearch: (value: string) => void;
   setCategory: (id: number | null) => void;
   setPage: (page: number) => void;
@@ -18,11 +20,17 @@ type AdminProductQueryState = {
 };
 
 export const useAdminProductQueryStore = create<AdminProductQueryState>((set) => ({
+  searchInput: '',
   search: '',
   categoryId: null,
   page: 0,
-  size: 10,
+  size: 20,
   sort: { field: 'id', direction: 'desc' },
+
+  setSearchInput: (value) =>
+  set(() => ({
+    searchInput: value,
+  })),
 
   setSearch: (value) =>
     set(() => ({
@@ -47,6 +55,7 @@ export const useAdminProductQueryStore = create<AdminProductQueryState>((set) =>
   reset: () =>
     set(() => ({
       search: '',
+      searchInput: '',
       categoryId: null,
       page: 0,
       size: 10,
