@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import type { Product } from '../../types/product';
 import useAdminProducts from '../../hooks/useAdminProducts';
 import Pagination from '../../components/Pagination';
+import AdminSortSelect from '../../components/filters/AdminSortSelect';
 
 const fetchAdminSearch = async (q: string): Promise<unknown> => {
 	const res = await apiClient.get('/products/search', {
@@ -35,7 +36,7 @@ const AdminProducts = () => {
 	const searchInput = useAdminProductQueryStore((s) => s.searchInput);
 	const page = useAdminProductQueryStore((s) => s.page);
 	const reset = useAdminProductQueryStore((s) => s.reset);
-  const setPage = useAdminProductQueryStore((s) => s.setPage);
+	const setPage = useAdminProductQueryStore((s) => s.setPage);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -88,10 +89,9 @@ const AdminProducts = () => {
 			? (searchData as any)?.totalPages || 1
 			: allProductsData?.totalPages || 1;
 
-
-      console.log('Current page:', currentPage);
-      console.log('Total pages:', totalPages);
-      console.log('All products data:', allProductsData);
+	console.log('Current page:', currentPage);
+	console.log('Total pages:', totalPages);
+	console.log('All products data:', allProductsData);
 
 	return (
 		<div className="p-6">
@@ -121,6 +121,17 @@ const AdminProducts = () => {
 							</span>
 						</h2>
 					)}
+					{/* ↙︎ kis fejlécrész: balra infó, jobbra sort*/}
+					<div className="mb-4 flex items-center justify-between">
+						<p className="text-sm text-gray-500">
+							Page {currentPage + 1} of {totalPages} — Total{' '}
+							{(search.length > 0
+								? (searchData as any)?.totalElements
+								: allProductsData?.totalElements) ?? 0}{' '}
+							products{' '}
+						</p>
+						<AdminSortSelect />
+					</div>
 					<AdminTable products={products} />
 
 					{/* Pagination ha több oldal van */}
