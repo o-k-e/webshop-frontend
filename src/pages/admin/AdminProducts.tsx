@@ -96,7 +96,7 @@ const AdminProducts = () => {
 				<AdminSearchBar />
 				<Link
 					to="/admin/products/create-product"
-					className="bg-[#953733cc] text-white px-4 py-2 rounded hover:bg-[#953633f1]"
+					className="bg-[#953733cc] text-[#f6dbc3] px-4 py-2 rounded hover:bg-[#953633f1]"
 				>
 					+ Add Product
 				</Link>

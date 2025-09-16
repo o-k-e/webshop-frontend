@@ -1,5 +1,5 @@
 import NavLinks from './NavLinks';
-import ganeshaLogo from '../../assets/ganesha-logo-removebg.png';
+import ganeshaLogo from '../../assets/ganesha-logo-beige.png';
 import { ADMIN_NAV_LINKS } from '../../constants/navLinks.config';
 
 const NavbarAdmin = () => {
@@ -7,8 +7,8 @@ const NavbarAdmin = () => {
         <nav className="flex items-center h-full w-full">
             {/* Bal oldal: Ganesha Admin felirat */}
             <div className="basis-1/4 pl-10">
-                <div className="text-2xl font-semibold text-gold leading-tight text-right whitespace-nowrap">
-                    Ganesha Admin
+                <div className="text-2xl font-semibold leading-tight text-right whitespace-nowrap">
+                    Ganesha Shop - Admin
                 </div>
             </div>
 

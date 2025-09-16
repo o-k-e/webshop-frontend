@@ -46,9 +46,12 @@ const HeroCarousel = () => {
           alt="Ganesha logo"
           className="w-[80%] sm:w-[20rem] h-auto object-contain"
         />
-        <h2 className="text-base sm:text-lg md:text-xl lg:text-3xl text-gold max-w-xs sm:max-w-sm drop-shadow-md">
+        <h2 className="text-base sm:text-lg md:text-xl lg:text-3xl text-gold max-w-xs sm:max-w-sm drop-shadow-lg">
+        {/* Ganesha Shop */}
+          <br />
           Yoga Essentials
-          <br />&<br /> Holistic Goods
+          <br />&
+          <br />Holistic Goods
         </h2>
       </div>
     </section>
