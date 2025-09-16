@@ -29,11 +29,11 @@ const NavLinks = ({
 						to={link.to}
 						end={true}
 						className={({ isActive }) =>
-							`text-white px-2 py-1 transition duration-300 ease-in-out
+							`text-[#f6dbc3] px-2 py-1 transition duration-300 ease-in-out
 						${
 							isActive
-								? 'border border-white shadow-md rounded'
-								: 'hover:border hover:border-white rounded'
+								? 'border border-[#f6dbc3] bg-[#953633f1] shadow-md rounded drop-shadow-lg'
+								: 'hover:border hover:border-[#f6dbc3] hover:bg-[#953633f1] rounded drop-shadow-lg'
 						}`
 						}
 					>

@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import type { Sort } from '../types/sort';
 
-type ProductQueryState = {
-  searchInput: string;     // input field aktuális értéke (azonnal frissül)
-  search: string;          // tényleges keresőkifejezés (debounce után)
+type AdminProductQueryState = {
+  searchInput: string;
+  search: string;
   categoryId: number | null;
   page: number;
   size: number;
@@ -19,7 +19,7 @@ type ProductQueryState = {
   reset: () => void;
 };
 
-export const useProductQueryStore = create<ProductQueryState>((set) => ({
+export const useAdminProductQueryStore = create<AdminProductQueryState>((set) => ({
   searchInput: '',
   search: '',
   categoryId: null,
@@ -27,13 +27,11 @@ export const useProductQueryStore = create<ProductQueryState>((set) => ({
   size: 20,
   sort: { field: 'id', direction: 'desc' },
 
-  // csak az input mezőt frissíti (nem indít keresést)
   setSearchInput: (value) =>
-    set(() => ({
-      searchInput: value,
-    })),
+  set(() => ({
+    searchInput: value,
+  })),
 
-  // a tényleges keresőkifejezést állítja be (és visszaugrik az első oldalra)
   setSearch: (value) =>
     set(() => ({
       search: value,
@@ -60,7 +58,7 @@ export const useProductQueryStore = create<ProductQueryState>((set) => ({
       searchInput: '',
       categoryId: null,
       page: 0,
-      size: 20,
+      size: 10,
       sort: { field: 'id', direction: 'desc' },
     })),
 }));

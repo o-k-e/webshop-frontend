@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 import ProductDetails from "../pages/ProductDetails";
 import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/admin/AdminDashboard";
-import { AdminProducts } from "../pages/admin/AdminProducts";
+import AdminProducts from "../pages/admin/AdminProducts";
 import ProductForm from "../pages/admin/ProductForm";
 import { AuthProvider } from "../auth/providers/AuthProvider";
 import RequireAuth from "../auth/routes/RequireAuth";
@@ -12,6 +12,7 @@ import Unauthorized from "../auth/pages/Unauthorized";
 import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import SearchResultsPage from "../pages/SearchResultsPage";
+import ProductUpdateForm from "../pages/admin/ProductUpdateForm";
 
 const router = createBrowserRouter([
   {
@@ -33,8 +34,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminDashboard /> },
       { path: "products", element: <AdminProducts /> },
-      { path: "products/:id", element: <ProductDetails /> },
       { path: "products/create-product", element: <ProductForm /> },
+      { path: "products/edit/:id", element: <ProductUpdateForm /> },
     ],
   },
   { path: "/login", element: <Login /> },

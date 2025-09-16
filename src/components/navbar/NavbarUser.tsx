@@ -79,7 +79,7 @@ const NavbarUser = () => {
 			)}
 
 			{/* Asztali nézet: fix, középre igazított gombok */}
-			<div className="hidden md:flex justify-center flex-wrap gap-4 items-center mt-2 md:mt-0">
+			<div className="hidden md:flex justify-center flex-wrap gap-6 items-center mt-2 md:mt-0 font-semibold">
 				{categories.map((category) => (
 					<button
 						key={category.id}

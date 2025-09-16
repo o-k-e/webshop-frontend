@@ -39,8 +39,8 @@ const SearchResultsPage = () => {
     <div className="p-6 mt-20">
       <div className="mb-4">
         <h1 className="text-xl font-semibold">
-          Results for “{queryText}”
-          <span className="ml-2 text-sm text-gray-500">({items.length})</span>
+          Results for <span className='italic font-medium'>“{queryText}”</span> 
+          <span className="italic ml-2 text-sm text-gray-500">({items.length})</span>
         </h1>
       </div>
 

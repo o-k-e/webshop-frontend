@@ -4,7 +4,7 @@ export type PaginatedProducts = {
   content: Product[];
   totalElements: number;
   totalPages: number;
-  page: number;
-  size: number;
+  pageNumber: number;
+  pageSize: number;
   last: boolean;
 };
