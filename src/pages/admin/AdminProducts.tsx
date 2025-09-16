@@ -89,10 +89,6 @@ const AdminProducts = () => {
 			? (searchData as any)?.totalPages || 1
 			: allProductsData?.totalPages || 1;
 
-	console.log('Current page:', currentPage);
-	console.log('Total pages:', totalPages);
-	console.log('All products data:', allProductsData);
-
 	return (
 		<div className="p-6">
 			{/* Felső sáv: kereső + új termék */}
@@ -124,11 +120,10 @@ const AdminProducts = () => {
 					{/* ↙︎ kis fejlécrész: balra infó, jobbra sort*/}
 					<div className="mb-4 flex items-center justify-between">
 						<p className="text-sm text-gray-500">
-							Page {currentPage + 1} of {totalPages} — Total{' '}
+							Page {currentPage + 1} of {totalPages} — Products {products.length} of{' '}
 							{(search.length > 0
 								? (searchData as any)?.totalElements
-								: allProductsData?.totalElements) ?? 0}{' '}
-							products{' '}
+								: allProductsData?.totalElements) ?? 0}
 						</p>
 						<AdminSortSelect />
 					</div>
