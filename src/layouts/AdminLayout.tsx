@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import NavbarAdmin from '../components/navbar/NavbarAdmin';
+import BackToTopButton from '../components/BackToTopButton';
 
 const AdminLayout = () => {
     return (
@@ -10,6 +11,7 @@ const AdminLayout = () => {
             <main>
                 <Outlet />
             </main>
+            <BackToTopButton />
         </>
     );
 };
