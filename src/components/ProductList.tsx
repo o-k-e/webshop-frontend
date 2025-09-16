@@ -3,24 +3,28 @@ import useProducts from '../hooks/useProducts';
 import handleAxiosError from '../utils/handle-axios-error';
 import ProductCard from './ProductCard';
 import SortSelect from './filters/SortSelect';
+import Pagination from './Pagination';
+import { useProductQueryStore } from '../stores/useProductQueryStore';
 
 const ProductList = () => {
   const { data, error, isLoading } = useProducts();
+
+  const page = useProductQueryStore((s) => s.page); // 0-alapú
+  const setPage = useProductQueryStore((s) => s.setPage);
 
   if (isLoading) return <ProductListSkeleton />;
   if (error) return <p className="p-6 text-red-600">{handleAxiosError(error)}</p>;
 
   const items = data?.content ?? [];
-  const page = (data?.pageNumber ?? 0) + 1;
   const totalPages = data?.totalPages ?? 1;
   const total = data?.totalElements ?? 0;
 
   return (
     <div className="p-6 mt-5">
-      {/* ↙︎ kis fejlécrész: balra infó, jobbra Sort */}
+      {/* ↙ kis fejlécrész: balra infó, jobbra Sort */}
       <div className="mb-4 flex items-center justify-between">
         <p className="text-sm text-gray-500">
-          Page {page} of {totalPages} — Total {total} products
+          Page {page + 1} of {totalPages} — Total {total} products
         </p>
         <SortSelect />
       </div>
@@ -30,6 +34,17 @@ const ProductList = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+
+      {/* Pagination ha több oldal van */}
+      {totalPages > 1 && (
+        <div className="mt-6 flex justify-center">
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            setPage={setPage}
+          />
+        </div>
+      )}
     </div>
   );
 };
