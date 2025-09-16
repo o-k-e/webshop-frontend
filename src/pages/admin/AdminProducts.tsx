@@ -35,6 +35,7 @@ const AdminProducts = () => {
 	const searchInput = useAdminProductQueryStore((s) => s.searchInput);
 	const page = useAdminProductQueryStore((s) => s.page);
 	const reset = useAdminProductQueryStore((s) => s.reset);
+  const setPage = useAdminProductQueryStore((s) => s.setPage);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -77,6 +78,21 @@ const AdminProducts = () => {
 	const isLoading = search.length > 0 ? isSearchLoading : isAllLoading;
 	const error = search.length > 0 ? searchError : allError;
 
+	const currentPage =
+		search.length > 0
+			? (searchData as any)?.number || 0
+			: allProductsData?.pageNumber || 0;
+
+	const totalPages =
+		search.length > 0
+			? (searchData as any)?.totalPages || 1
+			: allProductsData?.totalPages || 1;
+
+
+      console.log('Current page:', currentPage);
+      console.log('Total pages:', totalPages);
+      console.log('All products data:', allProductsData);
+
 	return (
 		<div className="p-6">
 			{/* Felső sáv: kereső + új termék */}
@@ -106,6 +122,15 @@ const AdminProducts = () => {
 						</h2>
 					)}
 					<AdminTable products={products} />
+
+					{/* Pagination ha több oldal van */}
+					{totalPages > 1 && (
+						<Pagination
+							currentPage={currentPage}
+							totalPages={totalPages}
+							setPage={setPage}
+						/>
+					)}
 				</>
 			)}
 			{!isLoading && products.length === 0 && (

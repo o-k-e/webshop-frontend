@@ -11,7 +11,7 @@ const ProductList = () => {
   if (error) return <p className="p-6 text-red-600">{handleAxiosError(error)}</p>;
 
   const items = data?.content ?? [];
-  const page = (data?.page ?? 0) + 1;
+  const page = (data?.pageNumber ?? 0) + 1;
   const totalPages = data?.totalPages ?? 1;
   const total = data?.totalElements ?? 0;
 
