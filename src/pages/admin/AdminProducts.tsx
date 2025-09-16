@@ -120,10 +120,11 @@ const AdminProducts = () => {
 					{/* ↙︎ kis fejlécrész: balra infó, jobbra sort*/}
 					<div className="mb-4 flex items-center justify-between">
 						<p className="text-sm text-gray-500">
-							Page {currentPage + 1} of {totalPages} — Products {products.length} of{' '}
+							Page {currentPage + 1} of {totalPages} — Total {' '}
 							{(search.length > 0
 								? (searchData as any)?.totalElements
 								: allProductsData?.totalElements) ?? 0}
+                {' '}products
 						</p>
 						<AdminSortSelect />
 					</div>
