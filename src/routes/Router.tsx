@@ -12,6 +12,7 @@ import Unauthorized from "../auth/pages/Unauthorized";
 import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import SearchResultsPage from "../pages/SearchResultsPage";
+import ProductUpdateForm from "../pages/admin/ProductUpdateForm";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
       { index: true, element: <AdminDashboard /> },
       { path: "products", element: <AdminProducts /> },
       { path: "products/create-product", element: <ProductForm /> },
+      { path: "products/edit/:id", element: <ProductUpdateForm /> },
     ],
   },
   { path: "/login", element: <Login /> },
