@@ -16,7 +16,7 @@ const AdminTable = ({ products }: AdminTableProps) => {
 	return (
 		<div className="overflow-x-auto">
 			<table className="min-w-full border border-gray-200 text-sm">
-				<thead className="bg-gray-100">
+				<thead className="bg-[#fff6f6]">
 					<tr>
 						<th className="p-2 border">Image</th>
 						<th className="p-2 border text-left">Product Name</th>
@@ -27,7 +27,7 @@ const AdminTable = ({ products }: AdminTableProps) => {
 				</thead>
 				<tbody>
 					{products.map((product) => (
-						<tr key={product.id} className="hover:bg-gray-50">
+						<tr key={product.id} className="hover:bg-[#fff6f6]">
 							<td className="p-2 border text-center">
 								<img
 									alt={product.productName}
