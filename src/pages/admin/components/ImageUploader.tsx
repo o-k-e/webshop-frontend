@@ -11,6 +11,7 @@ import {
 	type DragEvent,
 } from 'react';
 import fileUploaderClient from '../../../services/file-uploader-client';
+import { toast } from 'react-hot-toast';
 
 interface ImageUploaderProps {
 	setValue: UseFormSetValue<NewProductFormData>;
@@ -50,6 +51,7 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 		setIsUploading(true);
 
 		const uploadedFilenames: string[] = [];
+		const failedFilenames: string[] = [];
 
 		for (const file of selectedFiles) {
 			const reader = new FileReader();
@@ -62,7 +64,10 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 				reader.readAsDataURL(file);
 			});
 
-			if (!fileBase64) continue;
+			if (!fileBase64) {
+				failedFilenames.push(file.name);
+				continue;
+			}
 
 			try {
 				const response = await fileUploaderClient.post('/upload-image', {
@@ -72,11 +77,17 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 				uploadedFilenames.push(response.data.filename);
 			} catch (error) {
 				console.error('Upload failed for', file.name, error);
+				failedFilenames.push(file.name);
 			}
 		}
 
 		if (uploadedFilenames.length > 0) {
 			setValue('imageFileNames', [...uploadedImages, ...uploadedFilenames]);
+			toast.success(`${uploadedFilenames.length} images uploaded successfully`)
+		}
+
+		if (failedFilenames.length > 0) {
+			toast.error(`Failed to upload ${failedFilenames.length} images`);
 		}
 
 		setIsUploading(false);
