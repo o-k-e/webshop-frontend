@@ -3,20 +3,26 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import DescriptionEditor from './components/DescriptionEditor';
-import CategorySelector from './components/CategorySelector';
-import ImageUploader from './components/ImageUploader';
+import CategorySelectorUpdate from './components/CategorySelectorUpdate';
 import useCategories from '../../hooks/useCategories';
 import apiClient from '../../services/api-client';
 import ImageUploaderUpdate from './components/ImageUploaderUpdate';
 
 const updateProductSchema = z.object({
+	productId: z.number(),
 	productName: z.string().min(1, 'Product name is required'),
 	description: z.string().min(1, 'Description is required'),
 	price: z.number().positive('Price must be greater than 0'),
 	categoryIds: z.array(z.string()).nonempty('Select at least one category'),
-	imageFileNames: z
-		.array(z.string())
+	images: z
+		.array(
+			z.object({
+				id: z.number(),
+				url: z.string(),
+			})
+		)
 		.min(1, 'Please upload at least one image'),
 });
 
@@ -28,7 +34,6 @@ const ProductUpdateForm = () => {
 	const { data: categories, isLoading } = useCategories();
 	const [loadingProduct, setLoadingProduct] = useState(true);
 	const [error, setError] = useState('');
-	const [successMessage, setSuccessMessage] = useState('');
 
 	const {
 		register,
@@ -41,18 +46,26 @@ const ProductUpdateForm = () => {
 		resolver: zodResolver(updateProductSchema),
 	});
 
+	console.log('📛 Form errors:', errors); // ⬅️ IDE!
+
 	useEffect(() => {
 		const fetchProduct = async () => {
 			try {
 				const response = await apiClient.get(`/products/${id}`);
 				const product = response.data;
 
+				console.log('📦 Loaded product:', product);
+
 				reset({
+					productId: product.id,
 					productName: product.productName,
 					description: product.productDescription,
 					price: product.price,
 					categoryIds: product.categories.map((c: any) => c.id.toString()),
-					imageFileNames: product.images.map((img: any) => img.url),
+					images: product.images.map((img: any) => ({
+						id: img.id,
+						url: img.url,
+					})),
 				});
 			} catch (err) {
 				setError('Failed to load product.');
@@ -65,16 +78,19 @@ const ProductUpdateForm = () => {
 	}, [id, reset]);
 
 	const onSubmit = async (data: UpdateProductFormData) => {
+		console.log('✅ onSubmit triggered', data);
+
 		try {
 			const token = localStorage.getItem('token');
 			if (!token) return;
 
 			const payload = {
+				productId: data.productId,
 				productName: data.productName,
-				description: data.description,
+				productDescription: data.description,
 				price: data.price,
 				categoryIds: data.categoryIds.map(Number),
-				imageFileNames: data.imageFileNames,
+				imageFileNames: data.images.map((img) => img.url),
 			};
 
 			await apiClient.put(`/products/${id}`, payload, {
@@ -83,11 +99,11 @@ const ProductUpdateForm = () => {
 				},
 			});
 
-			setSuccessMessage('✔ Product updated successfully!');
-			setTimeout(() => navigate('/admin/products'), 2000);
+			toast.success('✔ Product updated successfully!');
+			navigate('/admin/products');
 		} catch (err) {
-			setError('Failed to update product.');
-		}
+			console.error('❌ Update failed:', err);
+			toast.error('❌ Failed to update product.');		}
 	};
 
 	if (loadingProduct) return <p className="p-6">Loading product...</p>;
@@ -138,7 +154,7 @@ const ProductUpdateForm = () => {
 
 				{isLoading && <p>Loading categories...</p>}
 				{categories && (
-					<CategorySelector
+					<CategorySelectorUpdate
 						categories={categories}
 						register={register}
 						errors={errors}
@@ -150,9 +166,6 @@ const ProductUpdateForm = () => {
 					errors={errors}
 					watch={watch}
 				/>
-				{successMessage && (
-					<p className="text-green-600 font-medium text-sm">{successMessage}</p>
-				)}
 
 				<button
 					type="submit"
