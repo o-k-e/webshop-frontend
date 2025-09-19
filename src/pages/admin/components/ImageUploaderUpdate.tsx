@@ -9,7 +9,7 @@ import type { UpdateProductFormData } from '../ProductUpdateForm';
 import { toast } from 'react-hot-toast';
 
 type UploadedImage = {
-	id: number;
+	id: number; // local id, only used on frontend for rendering / delete logic
 	url: string;
 };
 
