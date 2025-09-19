@@ -2,11 +2,13 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DescriptionEditor from './components/DescriptionEditor';
 import useCategories from '../../hooks/useCategories';
 import CategorySelector from './components/CategorySelector';
 import ImageUploader from './components/ImageUploader';
 import apiClient from '../../services/api-client';
+import { toast } from 'react-hot-toast';
 
 const newProductSchema = z.object({
 	productName: z.string().min(1, 'Product name is required'),
@@ -21,6 +23,7 @@ const newProductSchema = z.object({
 export type NewProductFormData = z.infer<typeof newProductSchema>;
 
 const ProductForm = () => {
+	const navigate = useNavigate();
 	const { data: categories, isLoading } = useCategories();
 	const [productSaved, setProductSaved] = useState(false);
 
@@ -67,10 +70,16 @@ const ProductForm = () => {
 			reset();
 			setProductSaved(true);
 
-			// Automatikusan eltünteti az üzenetet 3 mp múlva
-			setTimeout(() => setProductSaved(false), 3000);
-		} catch (error) {
-			console.error('Error saving product:', error);
+		// 	// Automatikusan eltünteti az üzenetet 3 mp múlva
+		// 	setTimeout(() => setProductSaved(false), 3000);
+		// } catch (error) {
+		// 	console.error('Error saving product:', error);
+		// }
+		toast.success('✔ New product added successfully!');
+			navigate('/admin/products');
+		} catch (err) {
+			console.error('❌ Failed to add product:', err);
+			toast.error('❌ Failed to add product.');		
 		}
 	};
 
