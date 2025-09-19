@@ -3,19 +3,20 @@ import {
 	type UseFormSetValue,
 	type UseFormWatch,
 } from 'react-hook-form';
-import type { NewProductFormData } from '../ProductForm';
 import { useRef, useState, type ChangeEvent, type DragEvent } from 'react';
 import fileUploaderClient from '../../../services/file-uploader-client';
+import type { UpdateProductFormData } from '../ProductUpdateForm';
+import { toast } from 'react-hot-toast';
 
 type UploadedImage = {
 	id: number;
-	filename: string;
+	url: string;
 };
 
 interface ImageUploaderProps {
-	setValue: UseFormSetValue<NewProductFormData>;
-	errors: FieldErrors<NewProductFormData>;
-	watch: UseFormWatch<NewProductFormData>;
+	setValue: UseFormSetValue<UpdateProductFormData>;
+	errors: FieldErrors<UpdateProductFormData>;
+	watch: UseFormWatch<UpdateProductFormData>;
 }
 
 const ImageUploaderUpdate = ({
@@ -28,7 +29,8 @@ const ImageUploaderUpdate = ({
 	const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 	const [isUploading, setIsUploading] = useState(false);
 
-	const uploadedImages = watch('imageFileNames') || [];
+	const watchedImages = watch('images') ?? [];
+	const uploadedImages: UploadedImage[] = [...watchedImages];
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +57,7 @@ const ImageUploaderUpdate = ({
 		setIsUploading(true);
 
 		const uploadedFilenames: string[] = [];
+		const failedFilenames: string[] = [];
 
 		for (const file of selectedFiles) {
 			const reader = new FileReader();
@@ -67,7 +70,10 @@ const ImageUploaderUpdate = ({
 				reader.readAsDataURL(file);
 			});
 
-			if (!fileBase64) continue;
+			if (!fileBase64) {
+				failedFilenames.push(file.name);
+				continue;
+			}
 
 			try {
 				const response = await fileUploaderClient.post('/upload-image', {
@@ -77,14 +83,48 @@ const ImageUploaderUpdate = ({
 				uploadedFilenames.push(response.data.filename);
 			} catch (error) {
 				console.error('Upload failed for', file.name, error);
+				failedFilenames.push(file.name);
 			}
 		}
 
 		if (uploadedFilenames.length > 0) {
-			setValue('imageFileNames', [...uploadedImages, ...uploadedFilenames]);
+			const newImages: UploadedImage[] = uploadedFilenames.map(
+				(url, index) => ({
+					id: Date.now() + index,
+					url,
+				})
+			);
+
+			setValue('images', [...uploadedImages, ...newImages], {
+				shouldValidate: true,
+				shouldDirty: true,
+			});
+			toast.success(`${uploadedFilenames.length} images uploaded successfully`);
+		}
+
+		if (failedFilenames.length > 0) {
+			toast.error(`${failedFilenames.length} images failed`);
 		}
 
 		setIsUploading(false);
+		setSelectedFiles([]);
+		setPreviewUrls([]);
+	};
+
+	const handleDelete = async (imageId: number) => {
+		console.log('Trying to delete image with ID:', imageId);
+		try {
+			await fileUploaderClient.delete(`/images/${imageId}`);
+			const updatedImages = uploadedImages.filter((img) => img.id !== imageId);
+			setValue('images', updatedImages, {
+				shouldValidate: true,
+				shouldDirty: true,
+			});
+			toast.success('Image deleted successfully!');
+		} catch (error) {
+			console.error('Failed to delete image:', error);
+			toast.error('Failed to delete image');
+		}
 	};
 
 	return (
@@ -122,24 +162,21 @@ const ImageUploaderUpdate = ({
 					))}
 				</div>
 			)}
+
 			<p className="block font-medium mb-2 mt-6">Already existing images</p>
+
 			{uploadedImages.length > 0 && (
 				<div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
-					{uploadedImages.map((filename, i) => (
-						<div key={i} className="relative">
+					{uploadedImages.map((img, i) => (
+						<div key={img.id} className="relative">
 							<img
-								src={`${api}${filename}`}
+								src={`${api}${img.url}`}
 								alt={`Uploaded product image ${i}`}
 								className="rounded shadow-md max-h-40 object-cover w-full"
 							/>
 							<button
 								type="button"
-								onClick={() => {
-									const updatedImages = uploadedImages.filter(
-										(name) => name !== filename
-									);
-									setValue('imageFileNames', updatedImages);
-								}}
+								onClick={() => handleDelete(img.id)}
 								className="absolute top-1 right-1 bg-white text-black text-xl rounded-full w-7 h-7 flex items-center justify-center shadow border-2 hover:bg-gray-300 hover:font-semibold"
 							>
 								X
@@ -149,19 +186,18 @@ const ImageUploaderUpdate = ({
 				</div>
 			)}
 
-			<button
-				type="button"
-				onClick={handleUpload}
-				disabled={selectedFiles.length === 0 || isUploading}
-				className="mt-4 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90 disabled:opacity-50"
-			>
-				{isUploading ? 'Uploading...' : 'Upload'}
-			</button>
+			{selectedFiles.length > 0 && !isUploading && (
+				<button
+					type="button"
+					onClick={handleUpload}
+					className="mt-4 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90"
+				>
+					Upload
+				</button>
+			)}
 
-			{errors.imageFileNames && (
-				<p className="text-red-500 text-sm mt-1">
-					{errors.imageFileNames.message}
-				</p>
+			{errors.images && (
+				<p className="text-red-500 text-sm mt-1">{errors.images.message}</p>
 			)}
 		</div>
 	);
