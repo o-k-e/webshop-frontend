@@ -1,3 +1,4 @@
+import { BsTrash } from 'react-icons/bs';
 import {
 	type FieldErrors,
 	type UseFormSetValue,
@@ -177,10 +178,9 @@ const ImageUploaderUpdate = ({
 							<button
 								type="button"
 								onClick={() => handleDelete(img.id)}
-								className="absolute top-1 right-1 bg-white text-gray-700
-								 text-xl font-semibold rounded-full w-7 h-7 flex items-center justify-center shadow border-3 hover:bg-red-700 hover:text-white hover:border-red-700"
+								className="absolute top-1 right-1 bg-white rounded-full w-9 h-9 border-2 border-gray-600 flex items-center justify-center shadow hover:font-bold hover:bg-red-600 hover:border-red-600 hover:text-white"
 							>
-								X
+								<BsTrash size={20} />
 							</button>
 						</div>
 					))}
