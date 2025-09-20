@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import type { Product } from '../../../types/product';
+import type { Product } from '../../../../types/product';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 
 interface AdminTableProps {

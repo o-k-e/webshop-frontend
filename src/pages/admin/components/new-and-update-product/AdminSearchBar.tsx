@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiClient from '../../../services/api-client';
-import { useAdminProductQueryStore } from '../../../stores/useAdminProductQueryStore';
+import apiClient from '../../../../services/api-client';
+import { useAdminProductQueryStore } from '../../../../stores/useAdminProductQueryStore';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const AdminSearchBar = () => {

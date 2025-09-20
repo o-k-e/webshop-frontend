@@ -1,5 +1,5 @@
-import type { Category } from '../../../types/product';
-import type { NewProductFormData } from '../ProductForm';
+import type { Category } from '../../../../types/product';
+import type { NewProductFormData } from '../../ProductForm';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import {
 	Checkbox,

@@ -4,11 +4,11 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import DescriptionEditor from './components/DescriptionEditor';
-import CategorySelectorUpdate from './components/CategorySelectorUpdate';
+import DescriptionEditor from './components/new-and-update-product/DescriptionEditor';
+import CategorySelectorUpdate from './components/new-and-update-product/CategorySelectorUpdate';
 import useCategories from '../../hooks/useCategories';
 import apiClient from '../../services/api-client';
-import ImageUploaderUpdate from './components/ImageUploaderUpdate';
+import ImageUploaderUpdate from './components/new-and-update-product/ImageUploaderUpdate';
 
 const updateProductSchema = z.object({
 	productId: z.number(),

@@ -1,5 +1,5 @@
-import type { Category } from '../../../types/product';
-import type { UpdateProductFormData } from '../ProductUpdateForm';
+import type { Category } from '../../../../types/product';
+import type { UpdateProductFormData } from '../../ProductUpdateForm';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import {
 	Checkbox,
@@ -53,9 +53,7 @@ const CategorySelectorUpdate = ({
 			</Card>
 
 			{errors.categoryIds && (
-				<p className="text-red-500 text-sm">
-					{errors.categoryIds.message}
-				</p>
+				<p className="text-red-500 text-sm">{errors.categoryIds.message}</p>
 			)}
 		</div>
 	);

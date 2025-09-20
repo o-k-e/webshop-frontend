@@ -3,10 +3,10 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DescriptionEditor from './components/DescriptionEditor';
+import DescriptionEditor from './components/new-and-update-product/DescriptionEditor';
 import useCategories from '../../hooks/useCategories';
-import CategorySelector from './components/CategorySelector';
-import ImageUploader from './components/ImageUploader';
+import CategorySelector from './components/new-and-update-product/CategorySelector';
+import ImageUploader from './components/new-and-update-product/ImageUploader';
 import apiClient from '../../services/api-client';
 import { toast } from 'react-hot-toast';
 

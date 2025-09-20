@@ -3,28 +3,34 @@ import {
 	type UseFormSetValue,
 	type UseFormWatch,
 } from 'react-hook-form';
-import type { NewProductFormData } from '../ProductForm';
-import {
-	useRef,
-	useState,
-	type ChangeEvent,
-	type DragEvent,
-} from 'react';
-import fileUploaderClient from '../../../services/file-uploader-client';
+import { useRef, useState, type ChangeEvent, type DragEvent } from 'react';
+import fileUploaderClient from '../../../../services/file-uploader-client';
+import type { UpdateProductFormData } from '../../ProductUpdateForm';
 import { toast } from 'react-hot-toast';
 
+type UploadedImage = {
+	id: number; // local id, only used on frontend for rendering / delete logic
+	url: string;
+};
+
 interface ImageUploaderProps {
-	setValue: UseFormSetValue<NewProductFormData>;
-	errors: FieldErrors<NewProductFormData>;
-	watch: UseFormWatch<NewProductFormData>;
+	setValue: UseFormSetValue<UpdateProductFormData>;
+	errors: FieldErrors<UpdateProductFormData>;
+	watch: UseFormWatch<UpdateProductFormData>;
 }
 
-const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
+const ImageUploaderUpdate = ({
+	setValue,
+	errors,
+	watch,
+}: ImageUploaderProps) => {
+	const api = import.meta.env.VITE_IMAGEAPI_URL;
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 	const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 	const [isUploading, setIsUploading] = useState(false);
 
-	const uploadedImages = watch('imageFileNames') || [];
+	const watchedImages = watch('images') ?? [];
+	const uploadedImages: UploadedImage[] = [...watchedImages];
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
 	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -82,15 +88,43 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 		}
 
 		if (uploadedFilenames.length > 0) {
-			setValue('imageFileNames', [...uploadedImages, ...uploadedFilenames]);
-			toast.success(`${uploadedFilenames.length} images uploaded successfully`)
+			const newImages: UploadedImage[] = uploadedFilenames.map(
+				(url, index) => ({
+					id: Date.now() + index,
+					url,
+				})
+			);
+
+			setValue('images', [...uploadedImages, ...newImages], {
+				shouldValidate: true,
+				shouldDirty: true,
+			});
+			toast.success(`${uploadedFilenames.length} images uploaded successfully`);
 		}
 
 		if (failedFilenames.length > 0) {
-			toast.error(`Failed to upload ${failedFilenames.length} images`);
+			toast.error(`${failedFilenames.length} images failed`);
 		}
 
 		setIsUploading(false);
+		setSelectedFiles([]);
+		setPreviewUrls([]);
+	};
+
+	const handleDelete = async (imageId: number) => {
+		console.log('Trying to delete image with ID:', imageId);
+		try {
+			await fileUploaderClient.delete(`/images/${imageId}`);
+			const updatedImages = uploadedImages.filter((img) => img.id !== imageId);
+			setValue('images', updatedImages, {
+				shouldValidate: true,
+				shouldDirty: true,
+			});
+			toast.success('Image deleted successfully!');
+		} catch (error) {
+			console.error('Failed to delete image:', error);
+			toast.error('Failed to delete image');
+		}
 	};
 
 	return (
@@ -129,22 +163,45 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 				</div>
 			)}
 
-			<button
-				type="button"
-				onClick={handleUpload}
-				disabled={selectedFiles.length === 0 || isUploading}
-				className="mt-4 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90 disabled:opacity-50"
-			>
-				{isUploading ? 'Uploading...' : 'Upload'}
-			</button>
+			<p className="block font-medium mb-2 mt-6">Already existing images</p>
 
-			{errors.imageFileNames && (
-				<p className="text-red-500 text-sm mt-1">
-					{errors.imageFileNames.message}
-				</p>
+			{uploadedImages.length > 0 && (
+				<div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+					{uploadedImages.map((img, i) => (
+						<div key={img.id} className="relative">
+							<img
+								src={`${api}${img.url}`}
+								alt={`Uploaded product image ${i}`}
+								className="rounded shadow-md max-h-40 object-cover w-full"
+							/>
+							<button
+								type="button"
+								onClick={() => handleDelete(img.id)}
+								className="absolute top-1 right-1 bg-white text-gray-700
+								 text-xl font-semibold rounded-full w-7 h-7 flex items-center justify-center shadow border-3 hover:bg-red-700 hover:text-white hover:border-red-700"
+							>
+								X
+							</button>
+						</div>
+					))}
+				</div>
+			)}
+
+			{selectedFiles.length > 0 && !isUploading && (
+				<button
+					type="button"
+					onClick={handleUpload}
+					className="mt-4 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90"
+				>
+					Upload
+				</button>
+			)}
+
+			{errors.images && (
+				<p className="text-red-500 text-sm mt-1">{errors.images.message}</p>
 			)}
 		</div>
 	);
 };
 
-export default ImageUploader;
+export default ImageUploaderUpdate;
