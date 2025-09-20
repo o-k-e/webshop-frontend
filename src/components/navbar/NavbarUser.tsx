@@ -42,7 +42,7 @@ const NavbarUser = () => {
 				<span className="text-white font-semibold text-lg">Categories</span>
 				<button
 					onClick={() => setMenuOpen((prev) => !prev)}
-					className="text-white focus:outline-none"
+					className="text-white focus:outline-none cursor-pointer"
 				>
 					{menuOpen ? (
 						<XMarkIcon className="h-6 w-6" />
@@ -63,7 +63,7 @@ const NavbarUser = () => {
 							key={category.id}
 							onClick={() => handleCategoryClick(category.id)}
 							className={`
-                text-white px-3 py-1 rounded border text-left
+                text-white px-3 py-1 rounded border text-left cursor-pointer
                 ${
 									activeCategoryId === category.id
 										? 'border-white'
@@ -85,7 +85,7 @@ const NavbarUser = () => {
 						key={category.id}
 						onClick={() => handleCategoryClick(category.id)}
 						className={`
-              text-white px-3 py-1 rounded border
+              text-white px-3 py-1 rounded border cursor-pointer
               ${
 								activeCategoryId === category.id
 									? 'border-white'

@@ -36,7 +36,7 @@ const ConfirmModal = ({
 						<div className="flex justify-end gap-3">
 							<button
 								type="button"
-								className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+								className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition cursor-pointer"
 								onClick={(e) => {
 									e.preventDefault();
 									e.stopPropagation();
@@ -48,7 +48,7 @@ const ConfirmModal = ({
 
                             <button
 								type="button"
-								className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition"
+								className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition cursor-pointer"
 								onClick={(e) => {
 									e.preventDefault();
 									e.stopPropagation();

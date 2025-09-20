@@ -27,7 +27,7 @@ const BackToTopButton = () => {
 	return (
 		<div
 			onClick={scrollToTop}
-			className="fixed bottom-6 right-6 z-40 p-3 rounded-full bg-gray-200 text-gray-700 shadow hover:bg-gray-300 hover:shadow-md transition-all duration-300"
+			className="fixed bottom-6 right-6 z-40 p-3 rounded-full bg-gray-200 text-gray-700 shadow hover:bg-gray-300 hover:shadow-md cursor-pointer transition-all duration-300"
 			title="Back to Top"
 		>
 			<FiArrowUp size={20} />

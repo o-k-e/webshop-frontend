@@ -140,7 +140,7 @@ const ImageUploaderUpdate = ({
 				onDrop={handleDrop}
 				onDragOver={(e) => e.preventDefault()}
 				onClick={() => fileInputRef.current?.click()}
-				className="w-full border-2 border-dashed border-gray-300 bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-[#fff4eb] transition"
+				className="w-full border-2 border-dashed border-gray-300 bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-[#fff4eb] focus:outline-none focus:ring-2 hover:border-[#953733cc] transition"
 			>
 				<p className="text-gray-500">
 					Drag & drop images here, or click to select
@@ -182,7 +182,7 @@ const ImageUploaderUpdate = ({
 							<button
 								type="button"
 								onClick={() => setConfirmingImageId(img.id)}
-								className="absolute top-1 right-1 bg-white rounded-full w-9 h-9 border-2 border-gray-600 flex items-center justify-center shadow hover:font-bold hover:bg-red-700 hover:border-red-700 hover:text-white"
+								className="absolute top-1 right-1 bg-white rounded-full w-9 h-9 border-2 border-gray-600 flex items-center justify-center shadow cursor-pointer hover:font-bold hover:bg-red-700 hover:border-red-700 hover:text-white"
 							>
 								<BsTrash size={20} />
 							</button>
@@ -195,7 +195,7 @@ const ImageUploaderUpdate = ({
 				<button
 					type="button"
 					onClick={handleUpload}
-					className="mt-4 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90"
+					className="mt-4 bg-[#953733] text-white px-4 py-2 cursor-pointer rounded hover:opacity-90"
 				>
 					Upload
 				</button>

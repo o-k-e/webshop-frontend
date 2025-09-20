@@ -173,14 +173,14 @@ const ProductUpdateForm = () => {
 					<button
 						type="submit"
 						disabled={isSubmitting}
-						className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90 disabled:opacity-50"
+						className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90 disabled:opacity-50 cursor-pointer"
 					>
 						Update Product
 					</button>
 					<button
 						type="button"
 						onClick={() => navigate('/admin/products')}
-						className="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400 transition"
+						className="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400 transition cursor-pointer"
 					>
 						Cancel
 					</button>

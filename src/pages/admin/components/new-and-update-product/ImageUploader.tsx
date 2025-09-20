@@ -96,7 +96,7 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 				onDrop={handleDrop}
 				onDragOver={(e) => e.preventDefault()}
 				onClick={() => fileInputRef.current?.click()}
-				className="w-full border-2 border-dashed border-gray-300 bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-[#fff4eb] transition"
+				className="w-full border-2 border-dashed border-gray-300 bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-[#fff4eb] hover:border-[#953733cc] transition"
 			>
 				<p className="text-gray-500">
 					Drag & drop images here, or click to select
@@ -128,7 +128,7 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 				type="button"
 				onClick={handleUpload}
 				disabled={selectedFiles.length === 0 || isUploading}
-				className="mt-4 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90 disabled:opacity-50"
+				className="mt-4 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90 disabled:opacity-50 cursor-pointer"
 			>
 				{isUploading ? 'Uploading...' : 'Upload'}
 			</button>

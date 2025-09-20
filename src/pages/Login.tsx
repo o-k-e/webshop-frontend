@@ -138,7 +138,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={submitting}
-                className={`w-full bg-[#953733] text-white font-medium py-3 rounded-md transition-colors duration-200 shadow focus:outline-none flex items-center justify-center
+                className={`w-full bg-[#953733] text-white font-medium py-3 rounded-md transition-colors duration-200 shadow focus:outline-none flex items-center justify-center cursor-pointer
                   ${submitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#953733]/90'}`}
               >
                 {submitting ? (
