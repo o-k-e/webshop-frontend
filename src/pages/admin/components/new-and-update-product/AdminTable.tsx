@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import type { Product } from '../../../../types/product';
-import { XCircleIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
+// import { XCircleIcon } from '@heroicons/react/24/outline';
+
 
 interface AdminTableProps {
 	products: Product[];
@@ -56,8 +58,8 @@ const AdminTable = ({ products }: AdminTableProps) => {
 									</Link>
 
 									<div className="flex items-center gap-1 text-gray-400 italic text-sm">
-										<XCircleIcon className="h-4 w-4" />
-										Not available
+										<CheckCircleIcon className="h-4 w-4" />
+										Available
 									</div>
 								</div>
 							</td>
