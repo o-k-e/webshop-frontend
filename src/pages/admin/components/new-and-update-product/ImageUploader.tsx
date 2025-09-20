@@ -96,7 +96,7 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 				onDrop={handleDrop}
 				onDragOver={(e) => e.preventDefault()}
 				onClick={() => fileInputRef.current?.click()}
-				className="w-full border-2 border-dashed border-[#fdc57b] bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-yellow-50 transition"
+				className="w-full border-2 border-dashed border-gray-300 bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-[#fff4eb] transition"
 			>
 				<p className="text-gray-500">
 					Drag & drop images here, or click to select

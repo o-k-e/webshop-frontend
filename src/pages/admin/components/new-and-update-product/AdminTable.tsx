@@ -15,20 +15,20 @@ const AdminTable = ({ products }: AdminTableProps) => {
 
 	return (
 		<div className="overflow-x-auto">
-			<table className="min-w-full border border-gray-200 text-sm">
+			<table className="min-w-full border border-gray-300 text-sm">
 				<thead className="bg-[#fff6f6]">
 					<tr>
-						<th className="p-2 border">Image</th>
-						<th className="p-2 border text-left">Product Name</th>
-						<th className="p-2 border text-right">Price</th>
-						<th className="p-2 border text-left">Categories</th>
-						<th className="p-2 border">Actions</th>
+						<th className="p-4 border border-gray-300">Image</th>
+						<th className="p-4 border border-gray-300 text-left">Product Name</th>
+						<th className="p-4 border border-gray-300 text-right">Price</th>
+						<th className="p-4 border border-gray-300 text-left">Categories</th>
+						<th className="p-4 border border-gray-300">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					{products.map((product) => (
 						<tr key={product.id} className="hover:bg-[#fff6f6]">
-							<td className="p-2 border text-center">
+							<td className="p-2 border border-gray-200 text-center">
 								<img
 									alt={product.productName}
 									className="h-12 w-12 object-cover mx-auto rounded"
@@ -39,18 +39,18 @@ const AdminTable = ({ products }: AdminTableProps) => {
 									}
 								/>
 							</td>
-							<td className="p-2 border">{product.productName}</td>
-							<td className="p-2 border text-right">
+							<td className="p-2 border border-gray-200">{product.productName}</td>
+							<td className="p-2 border border-gray-200 text-right">
 								{product.price.toFixed(0)} Ft
 							</td>
-							<td className="p-2 border">
+							<td className="p-2 border border-gray-200">
 								{product.categories.map((cat) => cat.categoryName).join(', ')}
 							</td>
-							<td className="p-2 border text-center">
+							<td className="p-2 border border-gray-200 text-center">
 								<div className="flex items-center justify-center gap-4">
 									<Link
 										to={`/admin/products/edit/${product.id}`}
-										className="text-amber-800 hover:underline"
+										className="text-amber-800 border border-transparent hover:border-amber-800 px-2 py-1 rounded transition-colors duration-200"
 									>
 										Edit
 									</Link>

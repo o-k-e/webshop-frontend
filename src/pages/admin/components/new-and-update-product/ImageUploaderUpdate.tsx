@@ -8,6 +8,7 @@ import { useRef, useState, type ChangeEvent, type DragEvent } from 'react';
 import fileUploaderClient from '../../../../services/file-uploader-client';
 import type { UpdateProductFormData } from '../../ProductUpdateForm';
 import { toast } from 'react-hot-toast';
+import ConfirmModal from './ConfirmModal';
 
 type UploadedImage = {
 	id: number; // local id, only used on frontend for rendering / delete logic
@@ -29,6 +30,9 @@ const ImageUploaderUpdate = ({
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 	const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 	const [isUploading, setIsUploading] = useState(false);
+	const [confirmingImageId, setConfirmingImageId] = useState<number | null>(
+		null
+	);
 
 	const watchedImages = watch('images') ?? [];
 	const uploadedImages: UploadedImage[] = [...watchedImages];
@@ -136,7 +140,7 @@ const ImageUploaderUpdate = ({
 				onDrop={handleDrop}
 				onDragOver={(e) => e.preventDefault()}
 				onClick={() => fileInputRef.current?.click()}
-				className="w-full border-2 border-dashed border-[#fdc57b] bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-yellow-50 transition"
+				className="w-full border-2 border-dashed border-gray-300 bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-[#fff4eb] transition"
 			>
 				<p className="text-gray-500">
 					Drag & drop images here, or click to select
@@ -177,8 +181,8 @@ const ImageUploaderUpdate = ({
 							/>
 							<button
 								type="button"
-								onClick={() => handleDelete(img.id)}
-								className="absolute top-1 right-1 bg-white rounded-full w-9 h-9 border-2 border-gray-600 flex items-center justify-center shadow hover:font-bold hover:bg-red-600 hover:border-red-600 hover:text-white"
+								onClick={() => setConfirmingImageId(img.id)}
+								className="absolute top-1 right-1 bg-white rounded-full w-9 h-9 border-2 border-gray-600 flex items-center justify-center shadow hover:font-bold hover:bg-red-700 hover:border-red-700 hover:text-white"
 							>
 								<BsTrash size={20} />
 							</button>
@@ -200,6 +204,17 @@ const ImageUploaderUpdate = ({
 			{errors.images && (
 				<p className="text-red-500 text-sm mt-1">{errors.images.message}</p>
 			)}
+
+			<ConfirmModal
+				isOpen={confirmingImageId !== null}
+				title="Delete Image"
+				message="Are you sure you want to delete this image? This action cannot be undone."
+				onConfirm={() => {
+					if (confirmingImageId !== null) handleDelete(confirmingImageId);
+					setConfirmingImageId(null);
+				}}
+				onCancel={() => setConfirmingImageId(null)}
+			/>
 		</div>
 	);
 };

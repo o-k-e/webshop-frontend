@@ -121,7 +121,7 @@ const ProductUpdateForm = () => {
 					<input
 						type="text"
 						{...register('productName')}
-						className="w-full border border-[#fdc57b] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
+						className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
 					/>
 					{errors.productName && (
 						<p className="text-red-500 text-sm mt-1">
@@ -146,7 +146,7 @@ const ProductUpdateForm = () => {
 						type="number"
 						step="0.01"
 						{...register('price', { valueAsNumber: true })}
-						className="w-full border border-[#fdc57b] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
+						className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
 					/>
 					{errors.price && (
 						<p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
