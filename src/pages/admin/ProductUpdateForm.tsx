@@ -103,7 +103,8 @@ const ProductUpdateForm = () => {
 			navigate('/admin/products');
 		} catch (err) {
 			console.error('❌ Update failed:', err);
-			toast.error('❌ Failed to update product.');		}
+			toast.error('❌ Failed to update product.');
+		}
 	};
 
 	if (loadingProduct) return <p className="p-6">Loading product...</p>;
@@ -167,13 +168,23 @@ const ProductUpdateForm = () => {
 					watch={watch}
 				/>
 
-				<button
-					type="submit"
-					disabled={isSubmitting}
-					className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90 disabled:opacity-50"
-				>
-					Update Product
-				</button>
+				{/* Buttons */}
+				<div className="flex gap-4">
+					<button
+						type="submit"
+						disabled={isSubmitting}
+						className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90 disabled:opacity-50"
+					>
+						Update Product
+					</button>
+					<button
+						type="button"
+						onClick={() => navigate('/admin/products')}
+						className="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400 transition"
+					>
+						Cancel
+					</button>
+				</div>
 			</form>
 		</div>
 	);

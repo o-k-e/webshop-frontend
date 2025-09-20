@@ -70,16 +70,16 @@ const ProductForm = () => {
 			reset();
 			setProductSaved(true);
 
-		// 	// Automatikusan eltünteti az üzenetet 3 mp múlva
-		// 	setTimeout(() => setProductSaved(false), 3000);
-		// } catch (error) {
-		// 	console.error('Error saving product:', error);
-		// }
-		toast.success('✔ New product added successfully!');
+			// 	// Automatikusan eltünteti az üzenetet 3 mp múlva
+			// 	setTimeout(() => setProductSaved(false), 3000);
+			// } catch (error) {
+			// 	console.error('Error saving product:', error);
+			// }
+			toast.success('✔ New product added successfully!');
 			navigate('/admin/products');
 		} catch (err) {
 			console.error('❌ Failed to add product:', err);
-			toast.error('❌ Failed to add product.');		
+			toast.error('❌ Failed to add product.');
 		}
 	};
 
@@ -143,20 +143,29 @@ const ProductForm = () => {
 				<ImageUploader setValue={setValue} errors={errors} watch={watch} />
 
 				{/* Save confirmation */}
-				{productSaved && (
+				{/* {productSaved && (
 					<p className="text-green-600 font-medium text-sm">
 						✔ Product saved successfully!
 					</p>
-				)}
+				)} */}
 
-				{/* Submit */}
-				<button
-					type="submit"
-					className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90 disabled:opacity-50"
-					disabled={isSubmitting}
-				>
-					Save Product
-				</button>
+				{/* Buttons */}
+				<div className="flex gap-4">
+					<button
+						type="submit"
+						disabled={isSubmitting}
+						className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90 disabled:opacity-50"
+					>
+						Save Product
+					</button>
+					<button
+						type="button"
+						onClick={() => navigate('/admin/products')}
+						className="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400 transition"
+					>
+						Cancel
+					</button>
+				</div>
 			</form>
 		</div>
 	);
