@@ -3,6 +3,7 @@ import type { Product } from '../../../../types/product';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 // import { XCircleIcon } from '@heroicons/react/24/outline';
 import PriceSortDropdown from '../filter-table-header/PriceSortDropdown';
+import CategoryFilterDropdown from '../filter-table-header/CategoryFilterDropdown';
 
 interface AdminTableProps {
 	products: Product[];
@@ -25,10 +26,12 @@ const AdminTable = ({ products }: AdminTableProps) => {
 							Product Name
 						</th>
 						<th className="p-4 border border-gray-300 text-left bg-[#f0dadacc]">
-							<span className='pr-2'>Price</span>
+							<span className="pr-2">Price</span>
 							<PriceSortDropdown />
 						</th>
-						<th className="p-4 border border-gray-300 text-left">Categories</th>
+						<th className="p-4 border border-gray-300 text-left">
+							<CategoryFilterDropdown />
+						</th>
 						<th className="p-4 border border-gray-300">Actions</th>
 					</tr>
 				</thead>
