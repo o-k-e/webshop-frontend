@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import type { Product } from '../../../../types/product';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 // import { XCircleIcon } from '@heroicons/react/24/outline';
-
+import PriceSortDropdown from '../filter-table-header/PriceSortDropdown';
 
 interface AdminTableProps {
 	products: Product[];
@@ -21,8 +21,13 @@ const AdminTable = ({ products }: AdminTableProps) => {
 				<thead className="bg-[#f0dadacc]">
 					<tr>
 						<th className="p-4 border border-gray-300">Image</th>
-						<th className="p-4 border border-gray-300 text-left">Product Name</th>
-						<th className="p-4 border border-gray-300 text-right">Price</th>
+						<th className="p-4 border border-gray-300 text-left">
+							Product Name
+						</th>
+						<th className="p-4 border border-gray-300 text-left bg-[#f0dadacc]">
+							<span className='pr-2'>Price</span>
+							<PriceSortDropdown />
+						</th>
 						<th className="p-4 border border-gray-300 text-left">Categories</th>
 						<th className="p-4 border border-gray-300">Actions</th>
 					</tr>
@@ -41,7 +46,9 @@ const AdminTable = ({ products }: AdminTableProps) => {
 									}
 								/>
 							</td>
-							<td className="p-2 border border-gray-200">{product.productName}</td>
+							<td className="p-2 border border-gray-200">
+								{product.productName}
+							</td>
 							<td className="p-2 border border-gray-200 text-right">
 								{product.price.toFixed(0)} Ft
 							</td>
