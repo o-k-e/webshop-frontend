@@ -4,6 +4,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/outline';
 // import { XCircleIcon } from '@heroicons/react/24/outline';
 import PriceSortDropdown from '../filter-table-header/PriceSortDropdown';
 import CategoryFilterDropdown from '../filter-table-header/CategoryFilterDropdown';
+import NameSortDropdown from '../filter-table-header/NameSortDropdown';
 
 interface AdminTableProps {
 	products: Product[];
@@ -23,7 +24,7 @@ const AdminTable = ({ products }: AdminTableProps) => {
 					<tr>
 						<th className="p-4 border border-gray-300">Image</th>
 						<th className="p-4 border border-gray-300 text-left">
-							Product Name
+							<NameSortDropdown />
 						</th>
 						<th className="p-4 border border-gray-300 text-left bg-[#f0dadacc]">
 							<PriceSortDropdown />
