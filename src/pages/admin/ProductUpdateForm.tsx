@@ -12,10 +12,10 @@ import ImageUploaderUpdate from './components/new-and-update-product/ImageUpload
 
 const updateProductSchema = z.object({
 	productId: z.number(),
-	productName: z.string().min(1, 'Product name is required'),
-	description: z.string().min(1, 'Description is required'),
-	price: z.number().positive('Price must be greater than 0'),
-	categoryIds: z.array(z.string()).nonempty('Select at least one category'),
+	productName: z.string().min(1, '* Product name is required'),
+	description: z.string().min(1, '* Description is required'),
+	price: z.number().positive('* Price must be greater than 0'),
+	categoryIds: z.array(z.string()).nonempty('* Select at least one category'),
 	images: z
 		.array(
 			z.object({
@@ -23,7 +23,7 @@ const updateProductSchema = z.object({
 				url: z.string(),
 			})
 		)
-		.min(1, 'Please upload at least one image'),
+		.min(1, '* Please upload at least one image'),
 });
 
 export type UpdateProductFormData = z.infer<typeof updateProductSchema>;
