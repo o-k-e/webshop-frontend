@@ -45,18 +45,18 @@ const ProductCard = ({ product }: ProductCardProps) => {
 				<div className="mt-auto w-full rounded-xl border border-gray-300 overflow-hidden grid grid-cols-2">
 					<Link
 						to={`/products/${product.id}`}
-						className="px-3 py-2 bg-gray-100 hover:bg-gray-200 transition
+						className="px-3 py-2 bg-gray-100 hover:bg-[#953633f1] hover:text-white transition
                flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
-						aria-label={`View ${product.productName}`}
+						aria-label={`Details ${product.productName}`}
 					>
 						<MdOutlinePageview className="h-5 w-5" aria-hidden="true" />
-						<span>View</span>
+						<span>Details</span>
 					</Link>
 
 					<button
 						type="button"
-						className="px-3 py-2 bg-gray-100 hover:bg-[#c0ebc0] transition cursor-pointer
-               flex items-center justify-center gap-2 border-l border-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600"
+						className="px-3 py-2 bg-gray-100 hover:bg-[#953633f1] hover:text-white transition cursor-pointer
+               flex items-center justify-center gap-2 border-l border-gray-300 focus:outline-none focus-visible:ring-2"
 						onClick={() => {
 							/* addToCart(product) */
 						}}

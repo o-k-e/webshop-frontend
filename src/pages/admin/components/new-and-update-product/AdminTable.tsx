@@ -18,7 +18,7 @@ const AdminTable = ({ products }: AdminTableProps) => {
 	return (
 		<div className="overflow-x-auto">
 			<table className="min-w-full border border-gray-300 border-collapse text-sm">
-				<thead className="bg-[#fff6f6]">
+				<thead className="bg-[#f0dadacc]">
 					<tr>
 						<th className="p-4 border border-gray-300">Image</th>
 						<th className="p-4 border border-gray-300 text-left">Product Name</th>
