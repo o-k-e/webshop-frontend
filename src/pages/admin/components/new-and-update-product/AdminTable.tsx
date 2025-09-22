@@ -26,7 +26,6 @@ const AdminTable = ({ products }: AdminTableProps) => {
 							Product Name
 						</th>
 						<th className="p-4 border border-gray-300 text-left bg-[#f0dadacc]">
-							<span className="pr-2">Price</span>
 							<PriceSortDropdown />
 						</th>
 						<th className="p-4 border border-gray-300 text-left">

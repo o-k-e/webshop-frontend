@@ -15,6 +15,8 @@ const CategoryFilterDropdown = () => {
     setIsOpen(false);
   };
 
+  const isSelected = (id: number | null) => selectedCategoryId === id;
+
   return (
     <div className="relative inline-block text-left">
       <button
@@ -26,23 +28,30 @@ const CategoryFilterDropdown = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 mt-2 w-40 bg-white border border-gray-200 rounded shadow">
-          <ul className="text-sm font-medium">
+        <div className="absolute z-10 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow">
+          <ul className="text-sm font-medium py-1">
             <li
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between"
               onClick={() => handleSelect(null)}
+              className={`flex justify-between items-center w-full px-4 py-2 text-sm rounded-md cursor-pointer transition 
+                ${isSelected(null) ? 'font-semibold' : 'text-black'}
+                hover:bg-gray-100
+              `}
             >
               All Categories
-              {selectedCategoryId === null && <Check size={16} />}
+              {isSelected(null) && <Check className="w-4 h-4 ml-2" />}
             </li>
+
             {categories?.map((category) => (
               <li
                 key={category.id}
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between"
                 onClick={() => handleSelect(category.id)}
+                className={`flex justify-between items-center w-full px-4 py-2 text-sm rounded-md cursor-pointer transition 
+                  ${isSelected(category.id) ? 'font-semibold' : 'text-black'}
+                  hover:bg-gray-100
+                `}
               >
                 {category.categoryName}
-                {selectedCategoryId === category.id && <Check size={16} />}
+                {isSelected(category.id) && <Check className="w-4 h-4 ml-2" />}
               </li>
             ))}
           </ul>
