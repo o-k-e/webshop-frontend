@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DescriptionEditor from './components/new-and-update-product/DescriptionEditor';
 import useCategories from '../../hooks/useCategories';
@@ -25,7 +24,6 @@ export type NewProductFormData = z.infer<typeof newProductSchema>;
 const ProductForm = () => {
 	const navigate = useNavigate();
 	const { data: categories, isLoading } = useCategories();
-	const [productSaved, setProductSaved] = useState(false);
 
 	const {
 		register,
@@ -68,13 +66,7 @@ const ProductForm = () => {
 			});
 
 			reset();
-			setProductSaved(true);
-
-			// 	// Automatikusan eltünteti az üzenetet 3 mp múlva
-			// 	setTimeout(() => setProductSaved(false), 3000);
-			// } catch (error) {
-			// 	console.error('Error saving product:', error);
-			// }
+			
 			toast.success('✔ New product added successfully!');
 			navigate('/admin/products');
 		} catch (err) {
@@ -141,13 +133,6 @@ const ProductForm = () => {
 
 				{/* Image uploader */}
 				<ImageUploader setValue={setValue} errors={errors} watch={watch} />
-
-				{/* Save confirmation */}
-				{/* {productSaved && (
-					<p className="text-green-600 font-medium text-sm">
-						✔ Product saved successfully!
-					</p>
-				)} */}
 
 				{/* Buttons */}
 				<div className="flex gap-4">
