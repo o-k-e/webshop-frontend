@@ -119,7 +119,7 @@ const SearchBar = () => {
 							setSearchInput('');
 							setSearch('');
 						}}
-						className="absolute right-2 top-1/2 -translate-y-1/2 text-[#953733] hover:text-[#953733]"
+						className="absolute right-2 top-1/2 -translate-y-1/2 text-[#953733] hover:text-[#953733] cursor-pointer"
 					>
 						<XMarkIcon className="h-5 w-5" />
 					</button>

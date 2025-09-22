@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import apiClient from '../../services/api-client';
 import { useAdminProductQueryStore } from '../../stores/useAdminProductQueryStore';
-import AdminSearchBar from './components/AdminSearchBar';
-import AdminTable from './components/AdminTable';
+import AdminSearchBar from './components/new-and-update-product/AdminSearchBar';
+import AdminTable from './components/new-and-update-product/AdminTable';
 import handleAxiosError from '../../utils/handle-axios-error';
 import { Link } from 'react-router-dom';
 import type { Product } from '../../types/product';
@@ -120,11 +120,11 @@ const AdminProducts = () => {
 					{/* ↙︎ kis fejlécrész: balra infó, jobbra sort*/}
 					<div className="mb-4 flex items-center justify-between">
 						<p className="text-sm text-gray-500">
-							Page {currentPage + 1} of {totalPages} — Total {' '}
+							Page {currentPage + 1} of {totalPages} — Total{' '}
 							{(search.length > 0
 								? (searchData as any)?.totalElements
-								: allProductsData?.totalElements) ?? 0}
-                {' '}products
+								: allProductsData?.totalElements) ?? 0}{' '}
+							products
 						</p>
 						<AdminSortSelect />
 					</div>

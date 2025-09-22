@@ -3,14 +3,9 @@ import {
 	type UseFormSetValue,
 	type UseFormWatch,
 } from 'react-hook-form';
-import type { NewProductFormData } from '../ProductForm';
-import {
-	useRef,
-	useState,
-	type ChangeEvent,
-	type DragEvent,
-} from 'react';
-import fileUploaderClient from '../../../services/file-uploader-client';
+import type { NewProductFormData } from '../../ProductForm';
+import { useRef, useState, type ChangeEvent, type DragEvent } from 'react';
+import fileUploaderClient from '../../../../services/file-uploader-client';
 import { toast } from 'react-hot-toast';
 
 interface ImageUploaderProps {
@@ -83,7 +78,7 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 
 		if (uploadedFilenames.length > 0) {
 			setValue('imageFileNames', [...uploadedImages, ...uploadedFilenames]);
-			toast.success(`${uploadedFilenames.length} images uploaded successfully`)
+			toast.success(`${uploadedFilenames.length} images uploaded successfully`);
 		}
 
 		if (failedFilenames.length > 0) {
@@ -101,7 +96,7 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 				onDrop={handleDrop}
 				onDragOver={(e) => e.preventDefault()}
 				onClick={() => fileInputRef.current?.click()}
-				className="w-full border-2 border-dashed border-[#fdc57b] bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-yellow-50 transition"
+				className="w-full border-2 border-dashed border-gray-300 bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-[#fff6f6] hover:border-[#953733cc] transition"
 			>
 				<p className="text-gray-500">
 					Drag & drop images here, or click to select
@@ -133,7 +128,7 @@ const ImageUploader = ({ setValue, errors, watch }: ImageUploaderProps) => {
 				type="button"
 				onClick={handleUpload}
 				disabled={selectedFiles.length === 0 || isUploading}
-				className="mt-4 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90 disabled:opacity-50"
+				className="mt-4 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90 disabled:opacity-50 cursor-pointer"
 			>
 				{isUploading ? 'Uploading...' : 'Upload'}
 			</button>

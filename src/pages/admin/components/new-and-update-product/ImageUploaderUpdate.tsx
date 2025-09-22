@@ -1,12 +1,14 @@
+import { BsTrash } from 'react-icons/bs';
 import {
 	type FieldErrors,
 	type UseFormSetValue,
 	type UseFormWatch,
 } from 'react-hook-form';
 import { useRef, useState, type ChangeEvent, type DragEvent } from 'react';
-import fileUploaderClient from '../../../services/file-uploader-client';
-import type { UpdateProductFormData } from '../ProductUpdateForm';
+import fileUploaderClient from '../../../../services/file-uploader-client';
+import type { UpdateProductFormData } from '../../ProductUpdateForm';
 import { toast } from 'react-hot-toast';
+import ConfirmModal from './ConfirmModal';
 
 type UploadedImage = {
 	id: number; // local id, only used on frontend for rendering / delete logic
@@ -28,6 +30,9 @@ const ImageUploaderUpdate = ({
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 	const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 	const [isUploading, setIsUploading] = useState(false);
+	const [confirmingImageId, setConfirmingImageId] = useState<number | null>(
+		null
+	);
 
 	const watchedImages = watch('images') ?? [];
 	const uploadedImages: UploadedImage[] = [...watchedImages];
@@ -135,7 +140,7 @@ const ImageUploaderUpdate = ({
 				onDrop={handleDrop}
 				onDragOver={(e) => e.preventDefault()}
 				onClick={() => fileInputRef.current?.click()}
-				className="w-full border-2 border-dashed border-[#fdc57b] bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-yellow-50 transition"
+				className="w-full border-2 border-dashed border-gray-300 bg-white p-6 rounded-xl text-center cursor-pointer hover:bg-[#fff6f6] focus:outline-none focus:ring-2 hover:border-[#953733cc] transition"
 			>
 				<p className="text-gray-500">
 					Drag & drop images here, or click to select
@@ -176,10 +181,10 @@ const ImageUploaderUpdate = ({
 							/>
 							<button
 								type="button"
-								onClick={() => handleDelete(img.id)}
-								className="absolute top-1 right-1 bg-white text-black text-xl rounded-full w-7 h-7 flex items-center justify-center shadow border-2 hover:bg-gray-300 hover:font-semibold"
+								onClick={() => setConfirmingImageId(img.id)}
+								className="absolute top-1 right-1 bg-white rounded-full w-9 h-9 border-2 border-gray-600 flex items-center justify-center shadow cursor-pointer hover:font-bold hover:bg-red-700 hover:border-red-700 hover:text-white"
 							>
-								X
+								<BsTrash size={20} />
 							</button>
 						</div>
 					))}
@@ -190,7 +195,7 @@ const ImageUploaderUpdate = ({
 				<button
 					type="button"
 					onClick={handleUpload}
-					className="mt-4 bg-[#953733] text-white px-4 py-2 rounded hover:opacity-90"
+					className="mt-4 bg-[#953733] text-white px-4 py-2 cursor-pointer rounded hover:opacity-90"
 				>
 					Upload
 				</button>
@@ -199,6 +204,17 @@ const ImageUploaderUpdate = ({
 			{errors.images && (
 				<p className="text-red-500 text-sm mt-1">{errors.images.message}</p>
 			)}
+
+			<ConfirmModal
+				isOpen={confirmingImageId !== null}
+				title="Delete Image"
+				message="Are you sure you want to delete this image? This action cannot be undone."
+				onConfirm={() => {
+					if (confirmingImageId !== null) handleDelete(confirmingImageId);
+					setConfirmingImageId(null);
+				}}
+				onCancel={() => setConfirmingImageId(null)}
+			/>
 		</div>
 	);
 };

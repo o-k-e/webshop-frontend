@@ -4,11 +4,11 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import DescriptionEditor from './components/DescriptionEditor';
-import CategorySelectorUpdate from './components/CategorySelectorUpdate';
+import DescriptionEditor from './components/new-and-update-product/DescriptionEditor';
+import CategorySelectorUpdate from './components/new-and-update-product/CategorySelectorUpdate';
 import useCategories from '../../hooks/useCategories';
 import apiClient from '../../services/api-client';
-import ImageUploaderUpdate from './components/ImageUploaderUpdate';
+import ImageUploaderUpdate from './components/new-and-update-product/ImageUploaderUpdate';
 
 const updateProductSchema = z.object({
 	productId: z.number(),
@@ -103,14 +103,15 @@ const ProductUpdateForm = () => {
 			navigate('/admin/products');
 		} catch (err) {
 			console.error('❌ Update failed:', err);
-			toast.error('❌ Failed to update product.');		}
+			toast.error('❌ Failed to update product.');
+		}
 	};
 
 	if (loadingProduct) return <p className="p-6">Loading product...</p>;
 	if (error) return <p className="p-6 text-red-500">{error}</p>;
 
 	return (
-		<div className="bg-[#fff4eb] min-h-screen py-10 overflow-hidden">
+		<div className="bg-[#fff6f6] min-h-screen py-10 overflow-hidden">
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8 space-y-6"
@@ -120,7 +121,7 @@ const ProductUpdateForm = () => {
 					<input
 						type="text"
 						{...register('productName')}
-						className="w-full border border-[#fdc57b] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
+						className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 hover:bg-[#fff6f6]"
 					/>
 					{errors.productName && (
 						<p className="text-red-500 text-sm mt-1">
@@ -145,7 +146,7 @@ const ProductUpdateForm = () => {
 						type="number"
 						step="0.01"
 						{...register('price', { valueAsNumber: true })}
-						className="w-full border border-[#fdc57b] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b]"
+						className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b] hover:bg-[#fff6f6]"
 					/>
 					{errors.price && (
 						<p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
@@ -167,13 +168,23 @@ const ProductUpdateForm = () => {
 					watch={watch}
 				/>
 
-				<button
-					type="submit"
-					disabled={isSubmitting}
-					className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90 disabled:opacity-50"
-				>
-					Update Product
-				</button>
+				{/* Buttons */}
+				<div className="flex gap-4">
+					<button
+						type="submit"
+						disabled={isSubmitting}
+						className="bg-[#953733] text-white px-6 py-2 rounded hover:opacity-90 disabled:opacity-50 cursor-pointer"
+					>
+						Update Product
+					</button>
+					<button
+						type="button"
+						onClick={() => navigate('/admin/products')}
+						className="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400 transition cursor-pointer"
+					>
+						Cancel
+					</button>
+				</div>
 			</form>
 		</div>
 	);

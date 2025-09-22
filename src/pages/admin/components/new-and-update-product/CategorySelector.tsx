@@ -1,5 +1,5 @@
-import type { Category } from '../../../types/product';
-import type { NewProductFormData } from '../ProductForm';
+import type { Category } from '../../../../types/product';
+import type { NewProductFormData } from '../../ProductForm';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import {
 	Checkbox,
@@ -25,7 +25,7 @@ const CategorySelector = ({
 		<>
 			<div className="space-y-2">
 				<label className="text-base font-semibold mb-2 block">Categories</label>
-				<Card className="border border-[#fdc57b] rounded-xl max-h-64 overflow-y-auto">
+				<Card className="border border-gray-300 rounded-xl max-h-64 overflow-y-auto hover:bg-[#fff6f6]">
 					<List>
 						{categories.map((category) => (
 							<ListItem key={category.id} className="p-0">
