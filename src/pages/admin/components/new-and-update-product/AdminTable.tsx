@@ -37,7 +37,7 @@ const AdminTable = ({ products }: AdminTableProps) => {
 				</thead>
 				<tbody>
 					{products.map((product) => (
-						<tr key={product.id} className="hover:bg-[#fff6f6]">
+						<tr key={product.id} className="hover:bg-[#fafafacc]">
 							<td className="p-2 border border-gray-200 text-center">
 								<img
 									alt={product.productName}
