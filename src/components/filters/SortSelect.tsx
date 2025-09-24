@@ -2,7 +2,6 @@ import type { ChangeEvent } from 'react';
 import { useProductQueryStore } from '../../stores/useProductQueryStore';
 import type { SortField, SortDir } from '../../types/sort';
 
-// helpers a biztonságos parse-hoz
 const isField = (v: string): v is SortField =>
 	v === 'id' || v === 'price' || v === 'productName';
 
@@ -17,7 +16,9 @@ export default function SortSelect() {
 	const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		const [rawField, rawDir] = e.target.value.split(',');
 		const field = isField(rawField) ? rawField : 'id';
-		const direction = isDir(rawDir) ? rawDir : 'asc';
+		const direction = isDir(rawDir) ? rawDir : 'desc';
+
+		console.log(field, direction);
 
 		if (field === sort.field && direction === sort.direction) return;
 
@@ -32,7 +33,7 @@ export default function SortSelect() {
 				onChange={handleChange}
 				className="border rounded px-2 py-1"
 			>
-				<option value="id,asc">Newest</option>
+				<option value="id,desc">Newest</option>
 				<option value="price,asc">Price: Low → High</option>
 				<option value="price,desc">Price: High → Low</option>
 				<option value="productName,asc">Name: A → Z</option>

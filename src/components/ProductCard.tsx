@@ -12,6 +12,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 	const shortDescription = product.productDescription
 		? product.productDescription.split('</p>')[0] + '</p>'
 		: '';
+	const firstImage = product.images[0]?.url;
 
 	// TODO: ha lesz cart store:
 	// const addToCart = useCartStore((s) => s.add);
@@ -21,11 +22,18 @@ const ProductCard = ({ product }: ProductCardProps) => {
 			<div className="border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition flex flex-col">
 				<Link to={`/products/${product.id}`}>
 					<div className="w-full aspect-[4/3] overflow-hidden rounded-lg mb-4">
-						<img
-							src={imageAPI + product.images[0]?.url}
-							alt={product.productName}
-							className="w-full h-full object-contain object-center"
-						/>
+						{firstImage ? (
+							 <img
+							 src={imageAPI + firstImage}
+							 alt={product.productName}
+							 loading="lazy"
+							 decoding="async"
+							 className="w-full h-full object-contain object-center"
+						   />
+						) : (
+							 // Minimal placeholder arra az esetre, ha egyszer mégis hiányozna a kép
+							 <div className="w-full h-full bg-gray-100 animate-pulse" />
+						)}
 					</div>
 				</Link>
 				<Link to={`/products/${product.id}`}>
@@ -33,7 +41,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 				</Link>
 				<p className="text-lg font-bold mb-2">{product.price.toFixed(0)} Ft</p>
 
-				{/* Leírás + térkitöltés */}
+				{/* Description */}
 				<div className="flex-grow">
 					<div
 						className="prose prose-base text-gray-700 max-w-none mb-4"
@@ -41,7 +49,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 					/>
 				</div>
 
-				{/* Gombok a kártya alján */}
+				{/* b\Buttons a kártya alján */}
 				<div className="mt-auto w-full rounded-xl border border-gray-300 overflow-hidden grid grid-cols-2">
 					<Link
 						to={`/products/${product.id}`}
