@@ -19,7 +19,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
 	return (
 		<>
-			<div className="border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition flex flex-col">
+			<div className="border border-gray-200 rounded-xl p-4 shadow-sm bg-white hover:shadow-md transition flex flex-col">
 				<Link to={`/products/${product.id}`}>
 					<div className="w-full aspect-[4/3] overflow-hidden rounded-lg mb-4">
 						{firstImage ? (
@@ -41,7 +41,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 				</Link>
 				<p className="text-lg font-bold mb-2">{product.price.toFixed(0)} Ft</p>
 
-				{/* Description */}
+				{/* description */}
 				<div className="flex-grow">
 					<div
 						className="prose prose-base text-gray-700 max-w-none mb-4"
@@ -49,11 +49,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
 					/>
 				</div>
 
-				{/* b\Buttons a kártya alján */}
+				{/* buttons a kártya alján */}
 				<div className="mt-auto w-full rounded-xl border border-gray-300 overflow-hidden grid grid-cols-2">
 					<Link
 						to={`/products/${product.id}`}
-						className="px-3 py-2 bg-gray-100 hover:bg-[#953633f1] hover:text-white transition
+						className="px-3 py-2 bg-[#f0dadacc] hover:bg-[#b03939cc] hover:text-white transition
                flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
 						aria-label={`Details ${product.productName}`}
 					>
@@ -63,7 +63,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
 					<button
 						type="button"
-						className="px-3 py-2 bg-gray-100 hover:bg-[#953633f1] hover:text-white transition cursor-pointer
+						className="px-3 py-2 bg-[#f0dadacc] hover:bg-[#b03939cc] hover:text-white transition cursor-pointer
                flex items-center justify-center gap-2 border-l border-gray-300 focus:outline-none focus-visible:ring-2"
 						onClick={() => {
 							/* addToCart(product) */
