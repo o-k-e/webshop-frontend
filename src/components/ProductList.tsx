@@ -20,7 +20,7 @@ const ProductList = () => {
   const total = data?.totalElements ?? 0;
 
   return (
-    <div className="p-6 mt-5">
+    <div className="p-6 pt-10">
       {/* ↙ kis fejlécrész: balra infó, jobbra Sort */}
       <div className="mb-4 flex items-center justify-between">
         <p className="text-sm text-gray-500">
