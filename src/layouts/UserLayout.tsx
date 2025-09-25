@@ -14,7 +14,7 @@ const UserLayout = () => {
 			<Topbar />
 			<header>{isHome && <HeroCarousel />}</header>
 			<NavbarUser />
-			<main>
+			<main className='bg-[#fbf8f8cc]'>
 				<Outlet />
 			</main>
 			<BackToTopButton />

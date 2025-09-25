@@ -37,7 +37,7 @@ const AdminTable = ({ products }: AdminTableProps) => {
 				</thead>
 				<tbody>
 					{products.map((product) => (
-						<tr key={product.id} className="hover:bg-[#fff6f6]">
+						<tr key={product.id} className="hover:bg-[#fafafacc]">
 							<td className="p-2 border border-gray-200 text-center">
 								<img
 									alt={product.productName}
@@ -62,7 +62,7 @@ const AdminTable = ({ products }: AdminTableProps) => {
 								<div className="flex items-center justify-center gap-4">
 									<Link
 										to={`/admin/products/edit/${product.id}`}
-										className="text-amber-800 border border-transparent hover:border-amber-800 px-2 py-1 rounded transition-colors duration-200"
+										className="text-[#953633f1] border border-transparent hover:border-[#953633f1] px-2 py-1 rounded transition-colors duration-200"
 									>
 										Edit
 									</Link>

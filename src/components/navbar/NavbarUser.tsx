@@ -21,6 +21,12 @@ const NavbarUser = () => {
 		setMenuOpen(false);
 	};
 
+	const handleAllProductsClick = () => {
+		reset();
+		navigate("/search");
+		setMenuOpen(false);
+	};
+
 	// Bezárás, ha máshová kattintunk
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -36,7 +42,7 @@ const NavbarUser = () => {
 	}, []);
 
 	return (
-		<nav className="bg-ganesha w-full px-4 py-2 relative">
+		<nav className="bg-[#b03939cc] w-full px-4 py-4 relative">
 			{/* Mobil hamburger */}
 			<div className="flex justify-between items-center md:hidden">
 				<span className="text-white font-semibold text-lg">Categories</span>
@@ -56,14 +62,21 @@ const NavbarUser = () => {
 			{menuOpen && (
 				<div
 					ref={dropdownRef}
-					className="absolute top-full left-0 w-full bg-ganesha flex flex-col gap-2 px-4 py-2 z-50 md:hidden"
+					className="absolute top-full left-0 w-full bg-[#b03939] flex flex-col gap-2 px-4 py-2 z-50 md:hidden"
 				>
+					{/* All Products button mobile */}
+					<button
+						onClick={handleAllProductsClick}
+						className="text-white font-bold px-3 py-1 rounded border border-transparent text-left hover:border-white transition-colors duration-200"
+					>
+						All Products
+					</button>
 					{categories.map((category) => (
 						<button
 							key={category.id}
 							onClick={() => handleCategoryClick(category.id)}
 							className={`
-                text-white px-3 py-1 rounded border text-left cursor-pointer
+                text-white font-extralight px-3 py-1 rounded border text-left cursor-pointer
                 ${
 									activeCategoryId === category.id
 										? 'border-white'
@@ -80,12 +93,19 @@ const NavbarUser = () => {
 
 			{/* Asztali nézet: fix, középre igazított gombok */}
 			<div className="hidden md:flex justify-center flex-wrap gap-6 items-center mt-2 md:mt-0 font-semibold">
+				{/* All Products button desktop */}
+				<button
+					onClick={handleAllProductsClick}
+					className="text-white font-bold px-3 py-1 rounded border border-transparent cursor-pointer hover:border-white transition-colors duration-200"
+				>
+					All Products
+				</button>
 				{categories.map((category) => (
 					<button
 						key={category.id}
 						onClick={() => handleCategoryClick(category.id)}
 						className={`
-              text-white px-3 py-1 rounded border cursor-pointer
+              text-white font-extralight px-3 py-1 rounded border cursor-pointer
               ${
 								activeCategoryId === category.id
 									? 'border-white'

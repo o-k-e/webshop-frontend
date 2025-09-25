@@ -22,7 +22,7 @@ const NameSortDropdown = () => {
         field: 'id' | 'productName';
         direction: 'asc' | 'desc';
       }[] = [
-        { label: 'Default', field: 'id', direction: 'asc' },
+        { label: 'Default', field: 'id', direction: 'desc' },
         { label: 'A → Z', field: 'productName', direction: 'asc' },
         { label: 'Z → A', field: 'productName', direction: 'desc' },
       ];
