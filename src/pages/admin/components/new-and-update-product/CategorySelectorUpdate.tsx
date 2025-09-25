@@ -24,7 +24,7 @@ const CategorySelectorUpdate = ({
 	return (
 		<div className="space-y-2">
 			<label className="text-base font-semibold mb-2 block">Categories</label>
-			<Card className="border border-gray-300 rounded-xl max-h-64 overflow-y-auto hover:bg-[#fafafacc]">
+			<Card className="border border-gray-300 rounded-xl max-h-64 overflow-y-auto hover:bg-[#fbf8f8cc]">
 				<List>
 					{categories.map((category) => (
 						<ListItem key={category.id} className="p-0">

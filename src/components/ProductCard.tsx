@@ -54,7 +54,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 					<Link
 						to={`/products/${product.id}`}
 						className="px-3 py-2 bg-[#f0dadacc] hover:bg-[#b03939cc] hover:text-white transition
-               flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
+               flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#953633f1]"
 						aria-label={`Details ${product.productName}`}
 					>
 						<MdOutlinePageview className="h-5 w-5" aria-hidden="true" />

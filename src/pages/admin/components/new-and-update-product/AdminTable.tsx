@@ -62,7 +62,7 @@ const AdminTable = ({ products }: AdminTableProps) => {
 								<div className="flex items-center justify-center gap-4">
 									<Link
 										to={`/admin/products/edit/${product.id}`}
-										className="text-amber-800 border border-transparent hover:border-amber-800 px-2 py-1 rounded transition-colors duration-200"
+										className="text-[#953633f1] border border-transparent hover:border-[#953633f1] px-2 py-1 rounded transition-colors duration-200"
 									>
 										Edit
 									</Link>
