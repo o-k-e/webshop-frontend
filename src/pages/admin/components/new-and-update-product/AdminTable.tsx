@@ -67,7 +67,7 @@ const AdminTable = ({ products }: AdminTableProps) => {
 										Edit
 									</Link>
 
-									<div className="flex items-center gap-1 text-gray-400 italic text-sm">
+									<div className="flex items-center gap-1 text-[#d58683f1] italic text-sm">
 										<CheckCircleIcon className="h-4 w-4" />
 										Available
 									</div>
