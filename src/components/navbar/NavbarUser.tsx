@@ -42,7 +42,7 @@ const NavbarUser = () => {
 	}, []);
 
 	return (
-		<nav className="bg-[#b03939cc] w-full px-4 py-4 relative">
+		<nav className="bg-[#a95c5c] w-full px-4 py-4 relative">
 			{/* Mobil hamburger */}
 			<div className="flex justify-between items-center md:hidden">
 				<span className="text-white font-semibold text-lg">Categories</span>
