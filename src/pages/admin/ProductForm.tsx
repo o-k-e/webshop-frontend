@@ -8,6 +8,7 @@ import CategorySelector from './components/new-and-update-product/CategorySelect
 import ImageUploader from './components/new-and-update-product/ImageUploader';
 import apiClient from '../../services/api-client';
 import { toast } from 'react-hot-toast';
+import formPageBg from '../../assets/form-page-bg.jpeg';
 
 const newProductSchema = z.object({
 	productName: z.string().min(1, '* Product name is required'),
@@ -76,7 +77,10 @@ const ProductForm = () => {
 	};
 
 	return (
-		<div className="bg-[#ede3e3cc] min-h-screen py-10 overflow-hidden">
+		<div className="bg-[#ede3e3cc] min-h-screen py-10 overflow-hidden bg-fixed"
+		style={{ backgroundImage: `url(${formPageBg})` }}
+
+		>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8 space-y-6"
