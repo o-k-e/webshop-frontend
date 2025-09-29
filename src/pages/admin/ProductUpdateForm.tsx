@@ -9,6 +9,7 @@ import CategorySelectorUpdate from './components/new-and-update-product/Category
 import useCategories from '../../hooks/useCategories';
 import apiClient from '../../services/api-client';
 import ImageUploaderUpdate from './components/new-and-update-product/ImageUploaderUpdate';
+import formPageBg from '../../assets/form-page-bg.jpeg';
 
 const updateProductSchema = z.object({
 	productId: z.number(),
@@ -111,7 +112,10 @@ const ProductUpdateForm = () => {
 	if (error) return <p className="p-6 text-red-500">{error}</p>;
 
 	return (
-		<div className="bg-[#ede3e3cc] min-h-screen py-10 overflow-hidden">
+		<div className="bg-[#ede3e3cc] min-h-screen py-10 overflow-hidden bg-fixed"
+		style={{ backgroundImage: `url(${formPageBg})` }}
+
+		>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-8 space-y-6"

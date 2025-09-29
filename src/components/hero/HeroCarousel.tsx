@@ -60,7 +60,6 @@ const HeroCarousel = () => {
 				</Link>
 				<h2 className="text-base sm:text-lg md:text-xl lg:text-3xl text-gold max-w-xs sm:max-w-sm drop-shadow-lg">
 					{/* Ganesha Shop */}
-					<br />
 					Yoga Essentials
 					<br />&
 					<br />

@@ -5,13 +5,7 @@ import BackToTopButton from '../components/BackToTopButton';
 const AdminLayout = () => {
 	return (
 		<>
-			{/* <header
-                    className="h-40 p-4 text-[#f6dbc3] shadow-md bg-cover bg-center"
-                    style={{ backgroundImage: `url(${NavbarAdminBgImage})` }}
-                >
-                <NavbarAdmin />
-            </header>; */}
-			<header className="h-40 p-4 text-[#f6dbc3] shadow-md bg-[#953733cc]">
+			<header className="sticky top-0 z-40 h-40 p-4 text-[#f6dbc3] shadow-md bg-[#a95c5c]">
 				<NavbarAdmin />
 			</header>
 			<main>
