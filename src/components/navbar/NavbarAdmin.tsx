@@ -3,7 +3,6 @@ import NavLinks from './NavLinks';
 import ganeshaLogo from '../../assets/ganesha-logo-beige.png';
 import { ADMIN_NAV_LINKS } from '../../constants/navLinks.config';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { NavLink } from 'react-router-dom';
 
 const NavbarAdmin = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
