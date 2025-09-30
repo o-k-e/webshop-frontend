@@ -23,7 +23,7 @@ const NavbarUser = () => {
 
 	const handleAllProductsClick = () => {
 		reset();
-		navigate("/search");
+		navigate('/search');
 		setMenuOpen(false);
 	};
 
@@ -62,7 +62,7 @@ const NavbarUser = () => {
 			{menuOpen && (
 				<div
 					ref={dropdownRef}
-					className="absolute top-full left-0 w-full bg-[#b03939] flex flex-col gap-2 px-4 py-2 z-50 md:hidden"
+					className="absolute top-full left-0 w-full bg-[#af5151] flex flex-col gap-2 px-4 py-2 z-50 md:hidden"
 				>
 					{/* All Products button mobile */}
 					<button
@@ -91,7 +91,7 @@ const NavbarUser = () => {
 				</div>
 			)}
 
-			{/* Asztali nézet: fix, középre igazított gombok */}
+			{/* Desktop nézet */}
 			<div className="hidden md:flex justify-center flex-wrap gap-6 items-center mt-2 md:mt-0 font-semibold">
 				{/* All Products button desktop */}
 				<button
