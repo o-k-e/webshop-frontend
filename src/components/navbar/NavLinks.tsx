@@ -6,6 +6,7 @@ type Props = {
 	isLoggedIn?: boolean;
 	userRole?: 'user' | 'admin' | null;
 	className?: string;
+	onLinkClick?: () => void;
 };
 
 const NavLinks = ({
@@ -13,6 +14,7 @@ const NavLinks = ({
 	isLoggedIn = false,
 	userRole,
 	className = '',
+	onLinkClick,
 }: Props) => {
 	const filteredLinks = links.filter((link) => {
 		if (link.requireAuth && !isLoggedIn) return false;
@@ -28,6 +30,7 @@ const NavLinks = ({
 					<NavLink
 						to={link.to}
 						end={true}
+						onClick={onLinkClick}   // ha van onLinkClick, itt lefut
 						className={({ isActive }) =>
 							`text-[#f6dbc3] px-2 py-1 transition duration-300 ease-in-out
 						${
