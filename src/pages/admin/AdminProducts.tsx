@@ -90,7 +90,7 @@ const AdminProducts = () => {
 			: allProductsData?.totalPages || 1;
 
 	return (
-		<div className="p-6">
+		<div className="p-6 pb-50">
 			{/* Felső sáv: kereső + új termék */}
 			<div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-4">
 				<AdminSearchBar />

@@ -6,7 +6,7 @@ interface Props {
   
   const Pagination = ({ currentPage, totalPages, setPage }: Props) => {
     return (
-      <div className="flex justify-center items-center gap-4 mt-6">
+      <div className="flex justify-center items-center gap-4 pt-20">
         <button
           onClick={() => setPage(currentPage - 1)}
           disabled={currentPage === 0}

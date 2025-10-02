@@ -4,6 +4,7 @@ import NavbarUser from '../components/navbar/NavbarUser';
 import HeroCarousel from '../components/hero/HeroCarousel';
 import Topbar from '../components/navbar/Topbar';
 import BackToTopButton from '../components/BackToTopButton';
+import Footer from '../components/footer/Footer';
 
 const UserLayout = () => {
 	const location = useLocation();
@@ -18,6 +19,7 @@ const UserLayout = () => {
 				<Outlet />
 			</main>
 			<BackToTopButton />
+			<Footer />
 		</>
 	);
 };

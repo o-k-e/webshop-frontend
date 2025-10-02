@@ -112,7 +112,7 @@ const ProductUpdateForm = () => {
 	if (error) return <p className="p-6 text-red-500">{error}</p>;
 
 	return (
-		<div className="bg-[#ede3e3cc] min-h-screen py-10 overflow-hidden bg-fixed"
+		<div className="bg-[#ede3e3cc] min-h-screen py-30 overflow-hidden bg-fixed"
 		style={{ backgroundImage: `url(${formPageBg})` }}
 
 		>

@@ -28,7 +28,7 @@ const ProductDetails = () => {
 	if (!product) return <p className="p-6">Product not found.</p>;
 
 	return (
-		<section className="max-w-6xl mx-auto px-4 py-10">
+		<section className="max-w-6xl mx-auto px-4 pt-10 pb-70">
 			<div className="flex flex-col md:grid md:grid-cols-2 gap-10">
 				{/* Bal oszlop: fő kép + thumbnail képek */}
 				<div className="flex flex-col items-center md:items-start">

@@ -2,7 +2,7 @@ import ProductList from '../components/ProductList';
 
 const Home = () => {
 	return (
-		<div>
+		<div className="pb-50">
 			<ProductList />
 		</div>
 	);
