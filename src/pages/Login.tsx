@@ -40,7 +40,7 @@ const Login = () => {
     setError('');
     try {
       const role = await login(data.username, data.password);
-	  navigate(role === 'admin' ? '/admin' : '/');
+	  navigate(role === 'admin' ? '/admin/products' : '/');
     } catch {
       setError('Login failed');
     } finally {
