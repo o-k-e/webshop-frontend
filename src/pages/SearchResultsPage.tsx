@@ -36,7 +36,7 @@ const SearchResultsPage = () => {
   const items = ensureArray(data);
 
   return (
-    <div className="p-6 mt-20">
+    <div className="p-20 pb-50">
       <div className="mb-4">
         <h1 className="text-xl font-semibold">
           Results for <span className='italic font-medium'>“{queryText}”</span> 
