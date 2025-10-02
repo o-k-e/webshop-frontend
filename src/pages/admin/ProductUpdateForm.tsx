@@ -16,6 +16,7 @@ const updateProductSchema = z.object({
 	productName: z.string().min(1, '* Product name is required'),
 	description: z.string().min(1, '* Description is required'),
 	price: z.number().positive('* Price must be greater than 0'),
+	quantity: z.number().min(0, '* Quantity must be 0 or more'),
 	categoryIds: z.array(z.string()).nonempty('* Select at least one category'),
 	images: z
 		.array(
@@ -62,6 +63,7 @@ const ProductUpdateForm = () => {
 					productName: product.productName,
 					description: product.productDescription,
 					price: product.price,
+					quantity: product.quantity,
 					categoryIds: product.categories.map((c: any) => c.id.toString()),
 					images: product.images.map((img: any) => ({
 						id: img.id,
@@ -90,6 +92,7 @@ const ProductUpdateForm = () => {
 				productName: data.productName,
 				productDescription: data.description,
 				price: data.price,
+				quantity: data.quantity,
 				categoryIds: data.categoryIds.map(Number),
 				imageFileNames: data.images.map((img) => img.url),
 			};
@@ -112,9 +115,9 @@ const ProductUpdateForm = () => {
 	if (error) return <p className="p-6 text-red-500">{error}</p>;
 
 	return (
-		<div className="bg-[#ede3e3cc] min-h-screen py-30 overflow-hidden bg-fixed"
-		style={{ backgroundImage: `url(${formPageBg})` }}
-
+		<div
+			className="bg-[#ede3e3cc] min-h-screen py-30 overflow-hidden bg-fixed"
+			style={{ backgroundImage: `url(${formPageBg})` }}
 		>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
@@ -154,6 +157,20 @@ const ProductUpdateForm = () => {
 					/>
 					{errors.price && (
 						<p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
+					)}
+				</div>
+
+				<div>
+					<label className="block font-medium mb-2">Quantity</label>
+					<input
+						type="number"
+						{...register('quantity', { valueAsNumber: true })}
+						className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b] hover:bg-[#fbf8f8cc]"
+					/>
+					{errors.quantity && (
+						<p className="text-red-500 text-sm mt-1">
+							{errors.quantity.message}
+						</p>
 					)}
 				</div>
 
