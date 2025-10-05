@@ -2,6 +2,7 @@ import { MdOutlinePageview } from 'react-icons/md';
 import type { Product } from '../types/product';
 import { Link } from 'react-router-dom';
 import { LuShoppingCart } from 'react-icons/lu';
+import { formatPrice } from '../utils/formatPrice';
 
 interface ProductCardProps {
 	product: Product;
@@ -39,7 +40,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 				<Link to={`/products/${product.id}`}>
 					<h2 className="text-xl font-semibold mb-2">{product.productName}</h2>
 				</Link>
-				<p className="text-lg font-bold mb-2">{product.price.toFixed(0)} Ft</p>
+				<p className="text-lg font-bold mb-2">{formatPrice(product.price)}</p>
 
 				{/* description */}
 				<div className="flex-grow">

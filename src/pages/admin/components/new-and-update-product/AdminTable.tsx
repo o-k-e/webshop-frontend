@@ -5,6 +5,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import PriceSortDropdown from '../filter-table-header/PriceSortDropdown';
 import CategoryFilterDropdown from '../filter-table-header/CategoryFilterDropdown';
 import NameSortDropdown from '../filter-table-header/NameSortDropdown';
+import { formatPrice } from '../../../../utils/formatPrice';
 
 interface AdminTableProps {
 	products: Product[];
@@ -53,7 +54,7 @@ const AdminTable = ({ products }: AdminTableProps) => {
 								{product.productName}
 							</td>
 							<td className="p-2 border border-gray-200 text-right">
-								{product.price.toFixed(0)} Ft
+								{formatPrice(product.price)}
 							</td>
 							<td className="p-2 border border-gray-200">
 								{product.categories.map((cat) => cat.categoryName).join(', ')}

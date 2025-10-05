@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useProduct from '../hooks/useProduct';
+import { formatPrice } from '../utils/formatPrice';
 
 const ProductDetails = () => {
 	const imageAPI = import.meta.env.VITE_IMAGEAPI_URL;
@@ -61,7 +62,7 @@ const ProductDetails = () => {
 				<div>
 					<h1 className="text-2xl font-bold mb-2">{product.productName}</h1>
 					<p className="text-xl font-semibold text-[#230e5f] mb-4">
-						{product.price} Ft
+						{formatPrice(product.price)}
 					</p>
 
 					<div
