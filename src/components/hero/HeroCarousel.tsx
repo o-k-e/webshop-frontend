@@ -51,7 +51,7 @@ const HeroCarousel = () => {
 					<img
 						src={ganeshaLogo}
 						alt="Ganesha logo"
-						className="w-[80%] sm:w-[20rem] h-auto object-contain cursor-pointer"
+						className="w-[90%] sm:w-[20rem] h-auto object-contain cursor-pointer"
             onClick={() => {
               resetFilters();
               navigate("/");

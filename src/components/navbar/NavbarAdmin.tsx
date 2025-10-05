@@ -73,7 +73,7 @@ const NavbarAdmin = () => {
 					<img
 						src={ganeshaLogo}
 						alt="Ganesha logo"
-						className="w-40 h-40 object-contain"
+						className="w-35 h-35 object-contain"
 					/>
 				</div>
 				<NavLinks links={ADMIN_NAV_LINKS} isLoggedIn={true} userRole="admin" />
@@ -88,7 +88,7 @@ const NavbarAdmin = () => {
 				<img
 					src={ganeshaLogo}
 					alt="Ganesha logo"
-					className="w-48 h-48 object-contain"
+					className="w-40 h-40 object-contain"
 				/>
 
 				{/* Jobb oldal: navlinkek */}
