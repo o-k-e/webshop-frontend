@@ -2,21 +2,26 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useProduct from '../hooks/useProduct';
 import { formatPrice } from '../utils/formatPrice';
+import { LuShoppingCart } from 'react-icons/lu';
+import { useAddProductToCart } from '../hooks/useAddProductToCart';
 
 const ProductDetails = () => {
 	const imageAPI = import.meta.env.VITE_IMAGEAPI_URL;
 
 	const { id } = useParams();
 
-	const {
-		data: product,
-		isLoading,
-		error,
-	} = useProduct(id);
+	const addToCart = useAddProductToCart();
+
+	const { data: product, isLoading, error } = useProduct(id);
 
 	const [selectedImageUrl, setSelectedImageUrl] = useState(
 		imageAPI + product?.images[0]?.url
 	);
+
+	const handleAddToCart = () => {
+		if (!product) return;
+		addToCart(product);
+	};
 
 	useEffect(() => {
 		if (product && product.images?.[0]) {
@@ -59,16 +64,28 @@ const ProductDetails = () => {
 				</div>
 
 				{/* Jobb oszlop: szöveg */}
-				<div>
+				<div className="pl-5">
 					<h1 className="text-2xl font-bold mb-2">{product.productName}</h1>
 					<p className="text-xl font-semibold text-[#230e5f] mb-4">
 						{formatPrice(product.price)}
 					</p>
 
 					<div
-						className="text-gray-800 text-sm leading-relaxed [&_h4]:text-lg [&_h4]:font-semibold [&_ul]:list-disc [&_ul]:ml-5 [&_li]:mb-1 [&_br]:block [&_br]:mt-2"
+						className="prose prose-sm md:prose-base lg:prose-lg mt-4 text-gray-800"
 						dangerouslySetInnerHTML={{ __html: product.productDescription }}
 					/>
+
+					{/* <hr className="my-6 border-gray-300" /> */}
+
+					<button
+						type="button"
+						className="mt-20 px-6 py-3 bg-[#b03939cc] hover:bg-[#9c0e0ecc] text-white font-semibold cursor-pointer
+  						flex items-center justify-center gap-2 rounded-xl transition focus:outline-none focus-visible:ring-2"
+						onClick={handleAddToCart}
+					>
+						<LuShoppingCart size={20} aria-hidden="true" />
+						<span>Add to Cart</span>
+					</button>
 				</div>
 			</div>
 		</section>
