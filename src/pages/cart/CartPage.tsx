@@ -100,7 +100,7 @@ export const CartPage = () => {
 			</div>
 
 			{/* Summary */}
-			<div className="mt-10 border-t border-gray-300 pt-6 text-right">
+			<div className="mt-10 border-t border-gray-300 pt-6 text-right pb-30">
 				<p className="text-lg font-semibold mb-4">
 					Total: {formatPrice(totalPrice)}
 				</p>
