@@ -48,7 +48,7 @@ const ProductUpdateForm = () => {
 		resolver: zodResolver(updateProductSchema),
 	});
 
-	console.log('📛 Form errors:', errors); // ⬅️ IDE!
+	console.log('📛 Form errors:', errors);
 
 	useEffect(() => {
 		const fetchProduct = async () => {
@@ -81,7 +81,7 @@ const ProductUpdateForm = () => {
 	}, [id, reset]);
 
 	const onSubmit = async (data: UpdateProductFormData) => {
-		console.log('✅ onSubmit triggered', data);
+		console.log('onSubmit triggered', data);
 
 		try {
 			const token = localStorage.getItem('token');
