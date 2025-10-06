@@ -14,8 +14,8 @@ import Logout from '../pages/Logout';
 import SearchResultsPage from '../pages/SearchResultsPage';
 import ProductUpdateForm from '../pages/admin/ProductUpdateForm';
 import Users from '../pages/Users';
-import { Cart } from '../pages/cart/Cart';
 import { MyProfile } from '../pages/user/MyProfile';
+import { CartPage } from '../pages/cart/CartPage';
 
 const router = createBrowserRouter([
 	{
@@ -25,8 +25,8 @@ const router = createBrowserRouter([
 			{ index: true, element: <Home /> },
 			{ path: 'search', element: <SearchResultsPage /> },
 			{ path: 'products/:id', element: <ProductDetails /> },
-			{ path: '/cart', element: <Cart /> },
-      { path: '/profile', element: <MyProfile />}
+      		{ path: '/profile', element: <MyProfile />},
+			{ path: '/cart', element: <CartPage />},
 		],
 	},
 	{
