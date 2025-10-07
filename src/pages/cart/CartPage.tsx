@@ -26,6 +26,7 @@ export const CartPage = () => {
 	}
 
 	return (
+    <div className="min-h-screen bg-[#f5ececcc]">
 		<section className="max-w-6xl mx-auto pt-10 pb-20">
 			<h1 className="text-3xl font-bold mb-6">Your Cart ({totalItems})</h1>
 
@@ -124,5 +125,6 @@ export const CartPage = () => {
 				</div>
 			</div>
 		</section>
+    </div>
 	);
 };
