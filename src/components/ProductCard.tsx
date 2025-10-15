@@ -2,6 +2,8 @@ import { MdOutlinePageview } from 'react-icons/md';
 import type { Product } from '../types/product';
 import { Link } from 'react-router-dom';
 import { LuShoppingCart } from 'react-icons/lu';
+import { formatPrice } from '../utils/formatPrice';
+import { useAddProductToCart } from '../hooks/useAddProductToCart';
 
 interface ProductCardProps {
 	product: Product;
@@ -14,8 +16,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 		: '';
 	const firstImage = product.images[0]?.url;
 
-	// TODO: ha lesz cart store:
-	// const addToCart = useCartStore((s) => s.add);
+	const addToCart = useAddProductToCart();
 
 	return (
 		<>
@@ -23,23 +24,23 @@ const ProductCard = ({ product }: ProductCardProps) => {
 				<Link to={`/products/${product.id}`}>
 					<div className="w-full aspect-[4/3] overflow-hidden rounded-lg mb-4">
 						{firstImage ? (
-							 <img
-							 src={imageAPI + firstImage}
-							 alt={product.productName}
-							 loading="lazy"
-							 decoding="async"
-							 className="w-full h-full object-contain object-center"
-						   />
+							<img
+								src={imageAPI + firstImage}
+								alt={product.productName}
+								loading="lazy"
+								decoding="async"
+								className="w-full h-full object-contain object-center"
+							/>
 						) : (
-							 // Minimal placeholder arra az esetre, ha egyszer mégis hiányozna a kép
-							 <div className="w-full h-full bg-gray-100 animate-pulse" />
+							// Minimal placeholder arra az esetre, ha egyszer mégis hiányozna a kép
+							<div className="w-full h-full bg-gray-100 animate-pulse" />
 						)}
 					</div>
 				</Link>
 				<Link to={`/products/${product.id}`}>
 					<h2 className="text-xl font-semibold mb-2">{product.productName}</h2>
 				</Link>
-				<p className="text-lg font-bold mb-2">{product.price.toFixed(0)} Ft</p>
+				<p className="text-lg font-bold mb-2">{formatPrice(product.price)}</p>
 
 				{/* description */}
 				<div className="flex-grow">
@@ -65,9 +66,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 						type="button"
 						className="px-3 py-2 bg-[#f0dadacc] hover:bg-[#b03939cc] hover:text-white transition cursor-pointer
                flex items-center justify-center gap-2 border-l border-gray-300 focus:outline-none focus-visible:ring-2"
-						onClick={() => {
-							/* addToCart(product) */
-						}}
+						onClick={() => addToCart(product)}
 					>
 						<LuShoppingCart size={20} aria-hidden="true" />
 						<span>Add to Cart</span>

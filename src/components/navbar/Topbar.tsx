@@ -5,16 +5,16 @@ import {
 	FiLogIn,
 	FiLogOut,
 	FiHome,
-	FiShoppingCart,
 } from 'react-icons/fi';
 import { USER_NAV_LINKS } from '../../constants/navLinks.config';
 import type { JSX } from 'react';
 import SearchBar from './SearchBar';
 import { useProductQueryStore } from '../../stores/useProductQueryStore';
+import CartLinkWithBadge from '../../pages/cart/CartLinkWithBadge';
 
 const iconMap: Record<string, JSX.Element> = {
 	Home: <FiHome size={18} />,
-	Cart: <FiShoppingCart size={18} />,
+	Cart: <CartLinkWithBadge />,
 	'My Profile': <FiUser size={18} />,
 	Login: <FiLogIn size={18} />,
 	Logout: <FiLogOut size={18} />,

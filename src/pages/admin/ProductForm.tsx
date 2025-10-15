@@ -14,6 +14,7 @@ const newProductSchema = z.object({
 	productName: z.string().min(1, '* Product name is required'),
 	description: z.string().min(1, '* Description is required'),
 	price: z.number().positive('* Price must be greater than 0'),
+	quantity: z.number().min(0, '* Quantity must be 0 or more'),
 	categoryIds: z.array(z.string()).nonempty('* Select at least one category'),
 	imageFileNames: z
 		.array(z.string())
@@ -39,6 +40,7 @@ const ProductForm = () => {
 			productName: '',
 			description: '',
 			price: 0,
+			quantity: 0,
 			categoryIds: [],
 			imageFileNames: [],
 		},
@@ -56,6 +58,7 @@ const ProductForm = () => {
 				productName: data.productName,
 				description: data.description,
 				price: data.price,
+				quantity: data.quantity,
 				categoryIds: data.categoryIds.map(Number),
 				imageFileNames: data.imageFileNames,
 			};
@@ -67,7 +70,7 @@ const ProductForm = () => {
 			});
 
 			reset();
-			
+
 			toast.success('✔ New product added successfully!');
 			navigate('/admin/products');
 		} catch (err) {
@@ -77,9 +80,9 @@ const ProductForm = () => {
 	};
 
 	return (
-		<div className="bg-[#ede3e3cc] min-h-screen py-30 overflow-hidden bg-fixed"
-		style={{ backgroundImage: `url(${formPageBg})` }}
-
+		<div
+			className="bg-[#ede3e3cc] min-h-screen py-30 overflow-hidden bg-fixed"
+			style={{ backgroundImage: `url(${formPageBg})` }}
 		>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
@@ -122,6 +125,20 @@ const ProductForm = () => {
 					/>
 					{errors.price && (
 						<p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
+					)}
+				</div>
+
+				<div>
+					<label className="block font-medium mb-2">Quantity</label>
+					<input
+						type="number"
+						{...register('quantity', { valueAsNumber: true })}
+						className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#fdc57b] hover:bg-[#fbf8f8cc]"
+					/>
+					{errors.quantity && (
+						<p className="text-red-500 text-sm mt-1">
+							{errors.quantity.message}
+						</p>
 					)}
 				</div>
 

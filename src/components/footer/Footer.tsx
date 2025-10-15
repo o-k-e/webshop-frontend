@@ -32,7 +32,7 @@ const Footer = () => {
 
 			{/* Copyright Section */}
 			<div className="w-full max-w-4xl text-center pt-4 text-xs md:text-sm">
-				<p>Copyright © {new Date().getFullYear()} - Ganesha hop</p>
+				<p>Copyright © {new Date().getFullYear()} - Ganesha Shop</p>
 			</div>
 
 			{/* Back to Top Button */}

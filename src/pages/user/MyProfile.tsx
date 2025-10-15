@@ -1,6 +1,6 @@
 
 export const MyProfile = () => {
   return (
-    <div className="pb-60">MyProfile</div>
+    <div className="pb-180">MyProfile</div>
   )
 }
